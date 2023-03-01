@@ -70,6 +70,7 @@ export default {
           })
           .then((response) => {
             if (response.data.code === 200) {
+              this.$cookies.set("Auth", "clerk")
               window.location.href = "/account";
               this.$emit("isLoading", false);
             } else if (response.data.code === -1) {

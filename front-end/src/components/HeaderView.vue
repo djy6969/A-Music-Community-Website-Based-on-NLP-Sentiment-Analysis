@@ -1,31 +1,5 @@
 <template>
   <header class="main-header header-one menu-white">
-    <div class="header-top-wrap bgc-gray">
-      <div class="container">
-        <div class="header-top">
-          <ul>
-            <li>
-              <i class="far fa-envelope"></i>
-              <a href="mailto:support@gmail.com">support@gmail.com</a>
-            </li>
-            <li><i class="far fa-phone"></i> <a>+000 (123) 456 88</a></li>
-            <li class="for-none">
-              <i class="far fa-clock"></i> Working Hours : Monday- Friday, 10 am
-              to 5pm
-            </li>
-            <li>
-              <div class="social-style-one">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
     <!--Header-Upper-->
     <div class="header-upper bgc-black">
       <div class="container clearfix">
@@ -46,7 +20,7 @@
             <nav class="main-menu navbar-expand-lg">
               <div class="navbar-header">
                 <div class="mobile-logo">
-                  <a href="index.html">
+                  <a href="/">
                     <img
                       src="@/assets/images/logos/logo-one.png"
                       alt="Logo"
@@ -152,9 +126,11 @@
 
           <!-- Menu Button -->
           <div class="menu-btns">
-            <a href="/" class="theme-btn"
-              >Get a Quote <i class="fas fa-long-arrow-right"></i
-            ></a>
+            <a v-show="checkAuth" href="/userLogin" class="theme-btn"
+              >Log In <i class="fas fa-long-arrow-right"></i></a>
+            <a v-show="!checkAuth" href="/personalPage" class="theme-btn"
+              >Go to the Personal Page <i class="fas fa-long-arrow-right"></i></a>
+
           </div>
         </div>
       </div>
@@ -166,6 +142,11 @@
 <script>
 export default {
   name: "HeaderView",
+  computed:{
+    checkAuth() {
+      return this.$cookies.get("Auth") == null
+    },
+  },
 };
 </script>
 

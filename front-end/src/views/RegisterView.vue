@@ -1,31 +1,81 @@
 <template>
-  <el-container>
-    <el-header></el-header>
-    <el-main>
-      <el-form>
-        <el-form-item label="User Name">
-          <el-input v-model="registerForm.username" />
-        </el-form-item>
-        <el-form-item label="Password">
-          <el-input v-model="registerForm.password1" />
-        </el-form-item>
-        <el-form-item label="Check Password">
-          <el-input v-model="registerForm.password2" />
-        </el-form-item>
-        <el-form-item label="email">
-          <el-input v-model="registerForm.email" />
-        </el-form-item>
-        <el-button @click="userRegisterRequest()">Register</el-button>
-      </el-form>
-    </el-main>
-  </el-container>
+  <div class="page-wrapper">
+    <HeaderView />
+    <div class="checkout-form-area py-130">
+      <div class="container">
+        <div class="checkout-faqs" id="checkout-faqs">
+          <div class="alert bgc-lighter wow fadeInUp delay-0-4s">
+            <div id="collapse4" class="collapse content show">
+              <form
+                id="checkout-form"
+                class="checkout-form"
+                name="checkout-form"
+                action="#"
+                method="post"
+              >
+                <div class="row">
+                  <div class="col-lg-12 pt-15">
+                    <h5>Register to get a new account</h5>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        v-model="registerForm.username"
+                        placeholder="User Name"
+                        required=""
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <input
+                        type="email"
+                        v-model="registerForm.email"
+                        placeholder="Email Address"
+                        required=""
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        v-model="registerForm.password1"
+                        placeholder="Password"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        v-model="registerForm.password2"
+                        placeholder="Check Password"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <button type="button" class="theme-btn w-100" @click="userRegisterRequest()">
+            Register
+          </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import { ElMessage } from "element-plus";
+import HeaderView from "@/components/HeaderView.vue";
 
 export default {
   name: "RegisterView",
+  components: { HeaderView },
   data() {
     return {
       registerForm: {

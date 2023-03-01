@@ -67,8 +67,8 @@ export default {
           })
           .then((response) => {
             if (response.data.code === 200) {
+              this.$cookies.set("Auth", "user")
               window.location.href = "/";
-              this.$emit("isLoading", false);
             } else if (response.data.code === -1) {
               ElMessage({
                 message: response.data.message,

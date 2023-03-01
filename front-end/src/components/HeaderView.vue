@@ -1,0 +1,172 @@
+<template>
+  <header class="main-header header-one menu-white">
+    <div class="header-top-wrap bgc-gray">
+      <div class="container">
+        <div class="header-top">
+          <ul>
+            <li>
+              <i class="far fa-envelope"></i>
+              <a href="mailto:support@gmail.com">support@gmail.com</a>
+            </li>
+            <li><i class="far fa-phone"></i> <a>+000 (123) 456 88</a></li>
+            <li class="for-none">
+              <i class="far fa-clock"></i> Working Hours : Monday- Friday, 10 am
+              to 5pm
+            </li>
+            <li>
+              <div class="social-style-one">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!--Header-Upper-->
+    <div class="header-upper bgc-black">
+      <div class="container clearfix">
+        <div class="header-inner rel d-flex align-items-center">
+          <div class="logo-outer">
+            <div class="logo">
+              <a href="index.html"
+                ><img
+                  src="@/assets/images/logos/logo-one.png"
+                  alt="Logo"
+                  title="Logo"
+              /></a>
+            </div>
+          </div>
+
+          <div class="nav-outer mx-auto clearfix">
+            <!-- Main Menu -->
+            <nav class="main-menu navbar-expand-lg">
+              <div class="navbar-header">
+                <div class="mobile-logo">
+                  <a href="index.html">
+                    <img
+                      src="@/assets/images/logos/logo-one.png"
+                      alt="Logo"
+                      title="Logo"
+                    />
+                  </a>
+                </div>
+
+                <!-- Toggle Button -->
+                <button
+                  type="button"
+                  class="navbar-toggle"
+                  data-bs-toggle="collapse"
+                  data-bs-target=".navbar-collapse"
+                >
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+              </div>
+
+              <div class="navbar-collapse collapse clearfix">
+                <ul class="navigation clearfix">
+                  <li class="dropdown">
+                    <a href="#">Home</a>
+                    <ul>
+                      <li><a href="/">IT Company</a></li>
+                      <li><a href="/">IT Solutions</a></li>
+                      <li><a href="/">IT Services</a></li>
+                      <li><a href="/">IT Agency</a></li>
+                    </ul>
+                  </li>
+                  <li class="dropdown">
+                    <a href="#">services</a>
+                    <ul>
+                      <li><a href="/">Services One</a></li>
+                      <li><a href="/">Services Two</a></li>
+                      <li>
+                        <a href="/">service details</a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="dropdown">
+                    <a href="#">Project</a>
+                    <ul>
+                      <li><a href="/">Project Grid</a></li>
+                      <li>
+                        <a href="/">Project Masonry.</a>
+                      </li>
+                      <li>
+                        <a href="/">Project Details</a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="dropdown">
+                    <a href="#">shop</a>
+                    <ul>
+                      <li><a href="/">shop grid</a></li>
+                      <li>
+                        <a href="/">product details</a>
+                      </li>
+                      <li><a href="/">cart page</a></li>
+                      <li><a href="/">checkout</a></li>
+                    </ul>
+                  </li>
+                  <li class="dropdown">
+                    <a href="#">blog</a>
+                    <ul>
+                      <li><a href="/">blog standard</a></li>
+                      <li><a href="/">blog details</a></li>
+                    </ul>
+                  </li>
+                  <li class="dropdown">
+                    <a href="#">pages</a>
+                    <ul>
+                      <li><a href="/">About us</a></li>
+                      <li><a href="/">Contact us</a></li>
+                      <li><a href="/">Team</a></li>
+                      <li><a href="/">faqs</a></li>
+                      <li><a href="/">Pricing Plan</a></li>
+                      <li><a href="/">404 error</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+            <!-- Main Menu End-->
+          </div>
+
+          <!-- Nav Search -->
+          <div class="nav-search py-10">
+            <button class="far fa-search"></button>
+            <form action="#" class="hide">
+              <input
+                type="text"
+                placeholder="Search"
+                class="searchbox"
+                required=""
+              />
+              <button type="submit" class="searchbutton far fa-search"></button>
+            </form>
+          </div>
+
+          <!-- Menu Button -->
+          <div class="menu-btns">
+            <a href="/" class="theme-btn"
+              >Get a Quote <i class="fas fa-long-arrow-right"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--End Header Upper-->
+  </header>
+</template>
+
+<script>
+export default {
+  name: "HeaderView",
+};
+</script>
+
+<style scoped></style>

@@ -30,7 +30,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import UserLoginSection from "@/views/LoginView/UserLoginSection.vue";
 import ClerkLoginSection from "@/views/LoginView/ClerkLoginSection.vue";
 

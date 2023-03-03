@@ -69,7 +69,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ElMessage } from "element-plus";
 import HeaderView from "@/components/HeaderView.vue";
 

@@ -27,10 +27,9 @@ import "./assets/js/script.js";
 // @ts-ignore
 import cookies from "vue-cookies";
 
-
 const app = createApp(App);
 
-app.config.globalProperties.$cookies = cookies
+app.config.globalProperties.$cookies = cookies;
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://127.0.0.1:5000/";
 

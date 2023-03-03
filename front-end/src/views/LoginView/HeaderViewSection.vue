@@ -126,11 +126,8 @@
 
           <!-- Menu Button -->
           <div class="menu-btns">
-            <a v-show="checkAuth" href="/login" class="theme-btn"
-              >Log In <i class="fas fa-long-arrow-right"></i
-            ></a>
-            <a v-show="!checkAuth" href="/personalPage" class="theme-btn"
-              >Go to the Personal Page <i class="fas fa-long-arrow-right"></i
+            <a href="/userRegister" class="theme-btn"
+              >Register <i class="fas fa-long-arrow-right"></i
             ></a>
           </div>
         </div>
@@ -142,12 +139,7 @@
 
 <script>
 export default {
-  name: "HeaderView",
-  computed: {
-    checkAuth() {
-      return this.$cookies.get("Auth") == null;
-    },
-  },
+  name: "HeaderViewSection",
 };
 </script>
 

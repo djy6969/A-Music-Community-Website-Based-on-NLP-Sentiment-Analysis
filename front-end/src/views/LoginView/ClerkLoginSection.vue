@@ -1,15 +1,48 @@
 <template>
-  <el-main>
-    <el-form>
-      <el-form-item label="User Name">
-        <el-input v-model="this.clerkLoginForm.username" />
-      </el-form-item>
-      <el-form-item label="Password">
-        <el-input v-model="this.clerkLoginForm.password" />
-      </el-form-item>
-      <el-button @click="clerkLoginRequest()" />
-    </el-form>
-  </el-main>
+  <div class="container">
+    <div class="checkout-faqs" id="checkout-faqs">
+      <div class="alert bgc-lighter wow fadeInUp delay-0-4s">
+        <div id="collapse4" class="collapse content show">
+          <form
+            id="checkout-form"
+            class="checkout-form"
+            name="checkout-form"
+            action="#"
+            method="post"
+          >
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    v-model="this.clerkLoginForm.username"
+                    placeholder="Clerk Name"
+                    required=""
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    v-model="this.clerkLoginForm.password"
+                    placeholder="Password"
+                  />
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <button
+          type="button"
+          class="theme-btn w-100"
+          @click="clerkLoginRequest()"
+        >
+          Login
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -51,9 +84,8 @@ export default {
         i += 1;
       }
       if (
-        this.loginForm.username === "" ||
-        this.loginForm.email === "" ||
-        this.loginForm.password === ""
+        this.clerkLoginForm.username === "" ||
+        this.clerkLoginForm.password === ""
       ) {
         ElMessage({
           message: "The username and password cannot be null!",
@@ -63,14 +95,14 @@ export default {
         i += 1;
       }
       if (i === 0) {
-        this.$axios
+        this.axios
           .post("account/login", {
             username: this.clerkLoginForm.username,
             password: this.clerkLoginForm.password,
           })
           .then((response) => {
             if (response.data.code === 200) {
-              this.$cookies.set("Auth", "clerk")
+              this.$cookies.set("Auth", "clerk");
               window.location.href = "/account";
               this.$emit("isLoading", false);
             } else if (response.data.code === -1) {

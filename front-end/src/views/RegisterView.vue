@@ -59,9 +59,13 @@
                 </div>
               </form>
             </div>
-            <button type="button" class="theme-btn w-100" @click="userRegisterRequest()">
-            Register
-          </button>
+            <button
+              type="button"
+              class="theme-btn w-100"
+              @click="userRegisterRequest()"
+            >
+              Register
+            </button>
           </div>
         </div>
       </div>

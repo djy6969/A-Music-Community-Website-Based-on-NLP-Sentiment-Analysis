@@ -1,5 +1,6 @@
 import 'normalize.css';
 import { createPinia } from 'pinia';
+// @ts-ignore
 import VueVirtualScroller from 'vue-virtual-scroller';
 import { createApp } from 'vue';
 import App from './App.vue';

@@ -1,61 +1,3 @@
-<script setup lang="ts">
-import { useMemoryScrollTop } from '@/hook/useMemoryScrollTop';
-import {
-  getBanner,
-  getNewSong,
-  getPersonalized,
-  getRecommendMv
-} from '@/service';
-import { formateSongsAuthor } from '@/utils';
-import { useAsyncState, useElementHover } from '@vueuse/core';
-import { computed, ref } from 'vue';
-import { ArrowBackIosSharp, ArrowForwardIosRound } from '@vicons/material';
-import { useDbClickPlay } from '@/hook/useDbClickPlay';
-import { nanoid } from 'nanoid';
-import { mapSongs } from '@/utils/arr-map';
-import { useMainStore } from '@/stores/main';
-const hoverRef = ref();
-const currentIndex = ref(0);
-const {
-  state: banners,
-  isLoading 
-} = useAsyncState(getBanner().then(res => res.data.banners), []);
-const {
-  state: SongsList,
-  isLoading: SongsListIsLoading 
-} = useAsyncState(getPersonalized().then(res => res.data.result), []);
-const {
-  state: newSongList,
-  isLoading: newSongListIsLoading 
-} = useAsyncState(getNewSong().then(res => {
-  return mainStore.mapSongListAddLike(mapSongs(res.data.result));
-}), []);
-const { state: MVList, isLoading: MVIsLoading }
-  = useAsyncState(getRecommendMv().then(res => res.data.result), []);
-const onlyId = nanoid();
-const isHovered = useElementHover(hoverRef);
-const mainStore = useMainStore();
-const showArrowClass = computed(() => isHovered.value
-  ? 'opacity-50'
-  : 'opacity-0');
-useMemoryScrollTop('.rightMain>.n-layout-scroll-container');
-const handleDBClick = useDbClickPlay();
-const handleArrowClick = (type: 'next' | 'prev') => {
-  let index = currentIndex.value;
-
-  if (type === 'next') {
-    currentIndex.value = index === banners.value.length - 1
-      ? 0
-      : ++index;
-  } else {
-    currentIndex.value = index === 0
-      ? banners.value.length - 1
-      : --index;
-  }
-};
-
-</script>
-
 <template>
   <div class="p-6">
     <div
@@ -215,7 +157,69 @@ const handleArrowClick = (type: 'next' | 'prev') => {
     />
   </div>
 </template>
+<script setup lang="ts">
+import { useMemoryScrollTop } from '@/hook/useMemoryScrollTop';
+import {
+  getBanner,
+  getNewSong,
+  getPersonalized,
+  getRecommendMv
+} from '@/service';
+import { formateSongsAuthor } from '@/utils';
+import { useAsyncState, useElementHover } from '@vueuse/core';
+import { computed, ref } from 'vue';
+import { ArrowBackIosSharp, ArrowForwardIosRound } from '@vicons/material';
+import { useDbClickPlay } from '@/hook/useDbClickPlay';
+import { nanoid } from 'nanoid';
+import { mapSongs } from '@/utils/arr-map';
+import { useMainStore } from '@/stores/main';
+import LoadImg from "@/components/Base/LoadImg.vue";
+import SongListSkeleton from "@/components/SongsList/SongListSkeleton.vue";
+import SongList from "@/components/SongsList/SongList.vue";
+import PlayIcon from "@/components/Base/PlayIcon.vue";
+import MvListSkeleton from "@/components/MvList/MvListSkeleton.vue";
+import MvList from "@/components/MvList/MvList.vue";
+const hoverRef = ref();
+const currentIndex = ref(0);
+const {
+  state: banners,
+  isLoading
+} = useAsyncState(getBanner().then(res => res.data.banners), []);
+const {
+  state: SongsList,
+  isLoading: SongsListIsLoading
+} = useAsyncState(getPersonalized().then(res => res.data.result), []);
+const {
+  state: newSongList,
+  isLoading: newSongListIsLoading
+} = useAsyncState(getNewSong().then(res => {
+  return mainStore.mapSongListAddLike(mapSongs(res.data.result));
+}), []);
+const { state: MVList, isLoading: MVIsLoading }
+  = useAsyncState(getRecommendMv().then(res => res.data.result), []);
+const onlyId = nanoid();
+const isHovered = useElementHover(hoverRef);
+const mainStore = useMainStore();
+const showArrowClass = computed(() => isHovered.value
+  ? 'opacity-50'
+  : 'opacity-0');
+useMemoryScrollTop('.rightMain>.n-layout-scroll-container');
+const handleDBClick = useDbClickPlay();
+const handleArrowClick = (type: 'next' | 'prev') => {
+  let index = currentIndex.value;
 
+  if (type === 'next') {
+    currentIndex.value = index === banners.value.length - 1
+      ? 0
+      : ++index;
+  } else {
+    currentIndex.value = index === 0
+      ? banners.value.length - 1
+      : --index;
+  }
+};
+
+</script>
 <style lang="scss" scoped>
 .toggle-arrow {
   position: absolute;
@@ -227,7 +231,7 @@ const handleArrowClick = (type: 'next' | 'prev') => {
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  box-shadow: 0 2px 4px 0px rgb(0 0 0 / 6%);
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 6%);
   z-index: 1;
   user-select: none;
   top: calc(250px * 0.83 / 2);

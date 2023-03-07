@@ -14,11 +14,6 @@ import { useDbClickPlay } from '@/hook/useDbClickPlay';
 import { nanoid } from 'nanoid';
 import { mapSongs } from '@/utils/arr-map';
 import { useMainStore } from '@/stores/main';
-import MvListSkeleton from '@/components/MvList/MvListSkeleton.vue';
-import MvList from '@/components/MvList/MvList.vue';
-import LoadImg from '@/components/Base/LoadImg.vue';
-import SongListSkeleton from '@/components/SongsList/SongListSkeleton.vue';
-import SongList from '@/components/SongsList/SongList.vue';
 const hoverRef = ref();
 const currentIndex = ref(0);
 const {
@@ -232,7 +227,7 @@ const handleArrowClick = (type: 'next' | 'prev') => {
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 6%);
+  box-shadow: 0 2px 4px 0px rgb(0 0 0 / 6%);
   z-index: 1;
   user-select: none;
   top: calc(250px * 0.83 / 2);

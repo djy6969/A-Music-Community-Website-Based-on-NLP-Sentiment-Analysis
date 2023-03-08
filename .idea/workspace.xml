@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="66966be0-3f00-4252-b969-c5c61771dcf5" name="变更" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/comp3032j-group11.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/___.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/在变基之前未提交的更改_[变更]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/babel.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/release.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/App.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/api/album.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/api/artist.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/api/comment.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/api/discovery.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/api/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/api/mv.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/api/playlist.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/api/search.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/api/song-list.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/api/song.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/api/user.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/assets/image/play-bar-support.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/assets/image/play-bar.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/button.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/card.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/confirm.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/empty.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/highlight-text.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/icon.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/loading.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/pagination.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/play-icon.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/progress-bar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/scroller.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/striped-list.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/tabs.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/title.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/toggle.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/video-player.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/base/volume.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/comment.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/comments.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/mini-player.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/mv-card.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/player.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/playlist-card.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/playlist.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/routes-history.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/search.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/share-reader.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/share.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/song-card.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/song-table.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/theme.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/top-playlist-card.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/user.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/components/with-pagination.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/layout/header.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/layout/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/layout/menu.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/page/discovery/banner.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/page/discovery/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/page/discovery/new-mvs.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/page/discovery/new-playlists.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/page/discovery/new-songs.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/page/mv/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/page/mvs/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/page/playlist-detail/header.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/page/playlist-detail/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/page/playlists/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/page/search/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/page/search/mvs.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/page/search/playlists.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/page/search/songs.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/page/songs/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/router.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/store/helper/global.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/store/helper/music.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/store/helper/user.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/store/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/store/modules/global/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/store/modules/global/mutations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/store/modules/global/state.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/store/modules/user/actions.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/store/modules/user/getters.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/store/modules/user/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/store/modules/user/mutations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/store/modules/user/state.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/style/app.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/style/element-overwrite.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/style/index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/style/mixin.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/style/reset.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/style/themes/variables-red.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/style/themes/variables-white.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/style/themes/variables.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/style/variables.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/utils/axios.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/utils/business.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/utils/common.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/utils/config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/utils/dom.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/utils/global.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/utils/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/utils/lrcparse.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/utils/mixin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/src/utils/rem.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue-netease/vue.config.js" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2Mi3fxwCz9RW1C8GOf8Kd6AgUwQ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="66966be0-3f00-4252-b969-c5c61771dcf5" name="变更" comment="" />
+      <created>1678236684337</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1678236684337</updated>
+      <workItem from="1678236688387" duration="45000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

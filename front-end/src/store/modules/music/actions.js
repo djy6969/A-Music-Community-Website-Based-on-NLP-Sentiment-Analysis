@@ -18,10 +18,10 @@ export default {
     // 历史记录
     const { playHistory } = state
     const playHistoryCopy = playHistory.slice()
-    const findedIndex = playHistoryCopy.findIndex(({ id }) => song.id === id)
-    if (findedIndex !== -1) {
+    const foundIndex = playHistoryCopy.findIndex(({ id }) => song.id === id)
+    if (foundIndex !== -1) {
       // 删除旧那一项, 插入到最前面
-      playHistoryCopy.splice(findedIndex, 1)
+      playHistoryCopy.splice(foundIndex, 1)
     }
     playHistoryCopy.unshift(song)
     commit('setPlayHistory', playHistoryCopy)

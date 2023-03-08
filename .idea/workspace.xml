@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66966be0-3f00-4252-b969-c5c61771dcf5" name="变更" comment="fix some bugs for music player">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/store/modules/music/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/store/modules/music/actions.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +79,7 @@
       <updated>1678236684337</updated>
       <workItem from="1678236688387" duration="45000" />
       <workItem from="1678236972131" duration="11512000" />
-      <workItem from="1678263759856" duration="3961000" />
+      <workItem from="1678263759856" duration="6449000" />
     </task>
     <task id="LOCAL-00001" summary="ui update">
       <created>1678242003396</created>
@@ -100,7 +102,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678267221314</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="fix some bugs for music player">
+      <created>1678267776485</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1678267776485</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -162,11 +162,13 @@ export default {
     },
     next() {
       if (this.songReady) {
-        this.startSong(this.nextSong)
+        this.startSong(this.nextSongButton)
       }
     },
     end() {
-      this.next()
+      if (this.songReady) {
+        this.startSong(this.nextSong)
+      }
     },
     onProgressChange(percent) {
       this.audio.currentTime = this.currentSong.durationSecond * percent
@@ -270,7 +272,7 @@ export default {
       "isPlaylistPromptShow",
       "isPlayerShow"
     ]),
-    ...mapGetters(["prevSong", "nextSong"])
+    ...mapGetters(["prevSong", "nextSong", "nextSongButton"])
   },
   components: { Share }
 }

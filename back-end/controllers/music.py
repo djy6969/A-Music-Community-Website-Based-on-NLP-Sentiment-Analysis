@@ -28,13 +28,14 @@ def getMusicResource():
     return MessageHelper.ops_renderErrJSON(msg="music doesn't exists.")
 
 
-# get all music resources
+
+# get musics from database and judge whether have their file in static
 @music.route("/getAllMusicResources", methods=['GET'])
 def getAllMusicResources():
     path = os.path.dirname(os.path.abspath(__file__))
     path = path + '/../static/music/'
     # relative path of music in project
-    print(path)
+    # print(path)
     all_files = os.listdir(path)
     music_list = []
     for i in all_files:

@@ -30,7 +30,7 @@ export const userMenus = (state) => {
   if (userCreateList.length) {
     retMenus.push({
       type: "playlist",
-      title: "创建的歌单",
+      title: "my music lists",
       children: genPlaylistChildren(userCreateList)
     })
   }
@@ -38,7 +38,7 @@ export const userMenus = (state) => {
   if (userCollectList.length) {
     retMenus.push({
       type: "playlist",
-      title: "收藏的歌单",
+      title: "favorite lists",
       children: genPlaylistChildren(userCollectList)
     })
   }

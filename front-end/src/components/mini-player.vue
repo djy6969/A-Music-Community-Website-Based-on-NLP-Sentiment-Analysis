@@ -1,4 +1,4 @@
-// 底部播放栏组件
+// bottom music player
 <template>
   <div class="mini-player" id="mini-player">
     <!-- 歌曲内容 -->
@@ -38,7 +38,7 @@
         trigger="manual"
         width="160"
       >
-        <p>请点击开始播放。</p>
+        <p>click to play</p>
         <div @click="togglePlaying" class="play-icon" slot="reference">
           <Icon :size="24" :type="playIcon" />
         </div>
@@ -68,7 +68,7 @@
         trigger="manual"
         width="160"
       >
-        <p>已更新歌单</p>
+        <p>music list is updated</p>
         <Icon
           :size="20"
           @click="togglePlaylistShow"
@@ -82,7 +82,7 @@
         <Volume :volume="volume" @volumeChange="onVolumeChange" />
       </div>
       <!-- github -->
-      <Icon :size="20" @click="goGitHub" class="mode-item" type="github" />
+      <Icon :size="20" class="mode-item" type="github" />
     </div>
     <div class="progress-bar-wrap">
       <ProgressBar
@@ -191,9 +191,6 @@ export default {
     },
     togglePlayerShow() {
       this.setPlayerShow(!this.isPlayerShow)
-    },
-    goGitHub() {
-      window.open("https://github.com/sl1673495/vue-netease-music")
     },
 
     ...mapMutations([

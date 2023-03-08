@@ -22,7 +22,7 @@ function createBaseInstance() {
 }
 
 function handleError(e) {
-  confirm(e.message, '出错啦~')
+  confirm(e.message, 'Something went wrong')
   throw e
 }
 
@@ -45,7 +45,7 @@ function mixinLoading(interceptors) {
       loading = Loading.service({
         target: 'body',
         background: 'transparent',
-        text: '载入中',
+        text: 'Loading',
       })
       store.commit(SET_AXIOS_LOADING, true)
     }

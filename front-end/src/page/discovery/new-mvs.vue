@@ -3,7 +3,7 @@
     class="new-mvs"
     v-if="mvs.length"
   >
-    <Title>推荐MV</Title>
+    <Title>Recommended MV</Title>
     <ul class="list-wrap">
       <li
         :key="mv.id"

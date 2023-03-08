@@ -3,7 +3,7 @@
     class="new-songs"
     v-if="list.length"
   >
-    <Title>最新音乐</Title>
+    <Title>The Newest Music</Title>
     <div class="list-wrap">
       <div
         :key="listIndex"

@@ -3,7 +3,7 @@
     class="loading"
     element-loading-background="transparent"
     element-loading-spinner="el-icon-loading"
-    element-loading-text="载入中"
+    element-loading-text="Loading"
     v-loading="loading"
     v-show="loading"
   ></div>

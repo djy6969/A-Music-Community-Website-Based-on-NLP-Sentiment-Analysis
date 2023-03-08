@@ -4,16 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="66966be0-3f00-4252-b969-c5c61771dcf5" name="变更" comment="">
+    <list default="true" id="66966be0-3f00-4252-b969-c5c61771dcf5" name="变更" comment="ui update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/mini-player.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/mini-player.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/search.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/components/theme.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/theme.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/layout/header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/layout/header.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/layout/menu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/layout/menu.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/store/modules/user/getters.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/store/modules/user/getters.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/base/loading.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/base/loading.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/share.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/share.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/components/song-table.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/components/song-table.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/page/discovery/new-mvs.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/page/discovery/new-mvs.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/page/discovery/new-playlists.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/page/discovery/new-playlists.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/page/discovery/new-songs.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/page/discovery/new-songs.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/page/search/playlists.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/page/search/playlists.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/page/search/songs.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/page/search/songs.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/utils/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/utils/axios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/utils/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/utils/config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +61,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "ts.external.directory.path": "D:\\PyCharm 2022.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -83,8 +86,16 @@
       <option name="presentableId" value="Default" />
       <updated>1678236684337</updated>
       <workItem from="1678236688387" duration="45000" />
-      <workItem from="1678236972131" duration="4928000" />
+      <workItem from="1678236972131" duration="11450000" />
     </task>
+    <task id="LOCAL-00001" summary="ui update">
+      <created>1678242003396</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1678242003396</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -112,5 +123,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="ui update" />
+    <option name="LAST_COMMIT_MESSAGE" value="ui update" />
   </component>
 </project>

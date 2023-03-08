@@ -10,7 +10,7 @@
     >
       <div class="list-wrap">
         <PlaylistCard
-          :desc="`播放量：${$utils.formatNumber(item.playCount)}`"
+          :desc="`view counts：${$utils.formatNumber(item.playCount)}`"
           :id="item.id"
           :img="item.coverImgUrl"
           :key="item.id"

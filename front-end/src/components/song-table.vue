@@ -73,7 +73,7 @@ export default {
         },
         {
           prop: "name",
-          label: "音乐标题",
+          label: "Title",
           className: "title-td",
           scopedSlots: {
             default: scope => {
@@ -110,17 +110,17 @@ export default {
         },
         {
           prop: "artistsText",
-          label: "歌手",
+          label: "Artist",
           scopedSlots: commonHighLightSlotScopes,
         },
         {
           prop: "albumName",
-          label: "专辑",
+          label: "Album",
           scopedSlots: commonHighLightSlotScopes,
         },
         {
           prop: "durationSecond",
-          label: "时长",
+          label: "Duration",
           width: "100",
           scopedSlots: {
             default: scope => {

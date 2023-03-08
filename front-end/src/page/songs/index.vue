@@ -1,4 +1,4 @@
-// 最新音乐页面
+// The newest music page
 <template>
   <div class="songs">
     <div class="tabs">
@@ -21,17 +21,19 @@
 import { getTopSongs } from "@/api"
 import { createSong } from "@/utils"
 import SongTable from "@/components/song-table"
+import { newRequest } from "@/utils";
 
 export default {
   async created() {
     this.tabs = [
-      { title: "全部", type: 0 },
-      { title: "华语", type: 7 },
-      { title: "欧美", type: 96 },
-      { title: "日本", type: 8 },
-      { title: "韩国", type: 16 }
+      { title: "All", type: 0 },
+      { title: "China", type: 7 },
+      { title: "Europe and America", type: 96 },
+      { title: "Japan", type: 8 },
+      { title: "South Korea", type: 16 }
     ]
     this.getSongs()
+    this.getTest()
   },
   data() {
     return {
@@ -61,6 +63,11 @@ export default {
           mvId: mvid
         })
       })
+    },
+    async getTest() {
+      const res = await newRequest.get('/getAllMusicResources')
+      // eslint-disable-next-line no-console
+      console.log(res)
     }
   },
   components: {

@@ -1,4 +1,4 @@
-// 发现音乐页面
+// Home page: find music
 <template>
   <div class="discovery">
     <div class="discovery-content">

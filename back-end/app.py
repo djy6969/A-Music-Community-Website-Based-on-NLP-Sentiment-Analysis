@@ -2,7 +2,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
 
-
 app = Flask(__name__, instance_relative_config=True)
 
 # 默认silent = False，即当配置文件不存在时，抛出异常

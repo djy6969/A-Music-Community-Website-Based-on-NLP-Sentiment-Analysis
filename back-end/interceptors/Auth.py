@@ -19,13 +19,14 @@ def before_request():
 @app.after_request
 def after_request(response):
     # 允许跨域请求的地址 (*代表所有地址)
-    response.headers['Access-Control-Allow-Origin'] = 'http://127.0.0.1:8888'
+    response.headers['Access-Control-Allow-Origin'] = '*'
     # 允许跨域请求的类型
     response.headers['Access-Control-Allow-Headers'] = "X-Requested-With, Content-Type, XMLHttpRequest"
     # 允许跨域请求的方式
     response.headers['Access-Control-Allow-Methods'] = "PUT,POST,GET,DELETE,OPTIONS"
     # 允许跨域请求携带cookie
     response.headers['Access-Control-Allow-Credentials'] = "true"
+    response.headers['Access-Control-Max-Age'] = '1800'
     app.logger.info("after_request")
     return response
 

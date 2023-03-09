@@ -12,42 +12,7 @@
     </div>
 
     <!-- 登录框 -->
-    <el-dialog
-      :modal="false"
-      :visible.sync="visible"
-      :width="$utils.toRem(320)"
-    >
-      <p slot="title">登录</p>
-      <div class="login-body">
-        <el-input
-          class="input"
-          placeholder="请输入您的网易云uid"
-          v-model="uid"
-        />
-        <div class="login-help">
-          <p class="help">
-            1、请
-            <a href="http://music.163.com" target="_blank"
-              >点我(http://music.163.com)</a
-            >打开网易云音乐官网
-          </p>
-          <p class="help">2、点击页面右上角的“登录”</p>
-          <p class="help">3、点击您的头像，进入我的主页</p>
-          <p class="help">
-            4、复制浏览器地址栏 /user/home?id= 后面的数字（网易云 UID）
-          </p>
-        </div>
-      </div>
-      <span class="dialog-footer" slot="footer">
-        <el-button
-          :loading="loading"
-          @click="onLogin(uid)"
-          class="login-btn"
-          type="primary"
-          >登 录</el-button
-        >
-      </span>
-    </el-dialog>
+     <user-login style="z-index: 999;position: absolute;right: 35%" v-show="visible"></user-login>
   </div>
 </template>
 
@@ -60,6 +25,8 @@ import {
   mapState as mapUserState,
   mapGetters as mapUserGetters
 } from "@/store/helper/user"
+import UserLogin from "@/components/auth/login.vue";
+import axios from "axios";
 
 export default {
   // 自动登录
@@ -72,8 +39,9 @@ export default {
   data() {
     return {
       visible: false,
+      loginVisible: false,
       loading: false,
-      uid: ""
+      uid: "",
     }
   },
   methods: {
@@ -94,8 +62,14 @@ export default {
     },
     onLogout() {
       confirm("确定要注销吗？", () => {
-        this.logout()
+        axios({
+          method: 'GET',
+          url: '/account/logout',
+        })
       })
+    },
+    openLoginSection(){
+      this.loginVisible = true
     },
     ...mapUserActions(["login", "logout"])
   },
@@ -103,7 +77,7 @@ export default {
     ...mapUserState(["user"]),
     ...mapUserGetters(["isLogin"])
   },
-  components: {}
+  components: {UserLogin}
 }
 </script>
 

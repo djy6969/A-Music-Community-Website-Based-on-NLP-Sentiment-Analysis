@@ -25,5 +25,5 @@ server = sshtunnel.SSHTunnelForwarder(
 server.start()
 local_port = str(server.local_bind_port)
 
-SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'\
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8mb4'\
     .format(mysql_user, mysql_password, '127.0.0.1', local_port, mysql_db)

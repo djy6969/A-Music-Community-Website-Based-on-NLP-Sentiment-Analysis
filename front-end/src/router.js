@@ -9,7 +9,7 @@ const Search = () => import(/* webpackChunkName: "Search" */ '@/page/search')
 const SearchSongs = () => import(/* webpackChunkName: "SearchSongs" */ '@/page/search/songs')
 const SearchPlaylists = () => import(/* webpackChunkName: "SearchPlaylists" */ '@/page/search/playlists')
 const SearchMvs = () => import(/* webpackChunkName: "SearchMvs" */ '@/page/search/mvs')
-
+const Staff = () => import('@/page/staff/staff')
 const Mvs = () => import(/* webpackChunkName: "Mvs" */ '@/page/mvs')
 const Mv = () => import(/* webpackChunkName: "Mv" */ '@/page/mv')
 
@@ -59,7 +59,7 @@ export const menuRoutes = [
 Vue.use(Router)
 
 export default new Router({
-  mode: 'hash',
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -104,5 +104,10 @@ export default new Router({
       props: (route) =>  ({id: +route.params.id}),
     },
     ...menuRoutes,
+    {
+      path: '/staff',
+      name: 'staff',
+      component: Staff
+    }
   ],
 })

@@ -15,14 +15,23 @@ account = Blueprint('account', __name__)
 '''
 
 # 注册账号
-@account.route("/register", methods=['POST'])
+@account.route("/register", methods=['POST', 'GET'])
 def register():
+    print('dfafbiad')
     username = request.json.get('username')
     password = request.json.get('password')
     password2 = request.json.get('password2')
     email = request.json.get('email')
     tel = request.json.get('tel')
     nickname = request.json.get('nickname')
+
+    # test data
+    # username = '111111'
+    # password = "111111"
+    # password2 = "111111"
+    # tel = '11111111111'
+    # email = ''
+    # nickname = "111111"
 
 
     # username = request.values['username']
@@ -49,31 +58,38 @@ def register():
     if user_info:
         return MessageHelper.ops_renderErrJSON(msg="您输入的用户名已存在，请换一个")
 
-    try:
+    # try:
         # system generated password encryption string
-        pwd_salt = UserHelper.geneSalt(32)
-        info = {
-            'username': username,
-            'password_salt': pwd_salt,
-            'password': UserHelper.genePwd(password, pwd_salt),
-            'email': email,
-            'tel': tel,
-            'nickname': nickname
-        }
-        db.session.add(TUser(info))
-        db.session.commit()
-    except Exception as e:
-        db.session.rollback()
-        return MessageHelper.ops_renderErrJSON(msg="注册信息储存出现问题，请联系管理员解决。")
+    pwd_salt = UserHelper.geneSalt(32)
+    user = TUser()
+    user.username = username
+    user.password = UserHelper.genePwd(password, pwd_salt)
+    user.password_salt = pwd_salt
+    user.email = email
+    user.tel = tel
+    user.nickname = nickname
+    # info = {
+    #     'username': username,
+    #     'password_salt': pwd_salt,
+    #     'password': UserHelper.genePwd(password, pwd_salt),
+    #     'email': email,
+    #     'tel': tel,
+    #     'nickname': nickname
+    # }
+    db.session.add(user)
+    db.session.commit()
+    # except Exception as e:
+    #     db.session.rollback()
+    #     return MessageHelper.ops_renderErrJSON(msg="注册信息储存出现问题，请联系管理员解决。")
 
     return MessageHelper.ops_renderJSON(msg='注册成功')
 
 
 # 用户登录
-@account.route("/login", methods=['get','post'])
+@account.route("/login", methods=['get', 'post'])
 def login():
-    username = request.values['username']
-    password = request.values['password']
+    username = request.json.get('username')
+    password = request.json.get('password')
 
     if username is None or len(username) < 3:
         return MessageHelper.ops_renderErrJSON(msg="请输入正确格式的用户名")

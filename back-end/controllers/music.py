@@ -10,6 +10,7 @@ music = Blueprint('music', __name__)
 
 # get music id from the front end, and 'id.mp3' is the music name
 # the role of this file is judging whether the file is existed
+# 歌手，专辑，时长随便设一下
 @music.route("/getMusicResource", methods=['POST'])
 def getMusicResource():
     # get music_id from the request
@@ -28,13 +29,14 @@ def getMusicResource():
     return MessageHelper.ops_renderErrJSON(msg="music doesn't exists.")
 
 
-# get all music resources
+
+# get musics from database and judge whether have their file in static
 @music.route("/getAllMusicResources", methods=['GET'])
 def getAllMusicResources():
     path = os.path.dirname(os.path.abspath(__file__))
     path = path + '/../static/music/'
     # relative path of music in project
-    print(path)
+    # print(path)
     all_files = os.listdir(path)
     music_list = []
     for i in all_files:

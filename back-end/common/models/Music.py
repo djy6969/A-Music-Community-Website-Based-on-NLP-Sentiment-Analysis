@@ -2,10 +2,11 @@
 
 from app import db
 
+
 class TMusic(db.Model):
     __tablename__ = 't_music'
 
-    video_Id = db.Column(db.String(32, 'utf8mb4_unicode_ci'), primary_key=True, unique=True)
+    video_Id = db.Column(db.String(32, 'utf8mb4_unicode_ci'), primary_key=True, unique=True, default='')
     publish_time = db.Column(db.DateTime, nullable=False)
     title = db.Column(db.String(255, 'utf8mb4_unicode_ci'), nullable=False)
     description = db.Column(db.Text(collation='utf8mb4_unicode_ci'))

@@ -18,10 +18,9 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { getTopSongs } from "@/api"
-import { createSong } from "@/utils"
+import {getTopSongs} from "@/api"
+import {createSong, newRequest} from "@/utils"
 import SongTable from "@/components/song-table"
-import { newRequest } from "@/utils";
 
 export default {
   async created() {
@@ -38,7 +37,8 @@ export default {
   data() {
     return {
       activeTabIndex: 0,
-      songs: []
+      songs: [],
+      newSongs: []
     }
   },
   methods: {
@@ -63,13 +63,16 @@ export default {
           mvId: mvid
         })
       })
-      // eslint-disable-next-line no-console
-      console.log(this.songs)
     },
     async getTest() {
       const res = await newRequest.get('/music/getAllMusicResources')
-      // eslint-disable-next-line no-console
-      console.log(res.data)
+      for(let i = 0;i < res.data.length;i++){
+        this.getMusic(res.data[i][0])
+      }
+    },
+    async getMusic(data) {
+      console.log(data)
+      return await newRequest.post('/music/getMusicResource', data)
     }
   },
   components: {

@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66966be0-3f00-4252-b969-c5c61771dcf5" name="变更" comment="fix some bugs for music player">
+      <change afterPath="$PROJECT_DIR$/back-end/static/music/04cHqPMD4So.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/static/music/_B8RaLCNUZw.mp3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/interceptors/Auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/interceptors/Auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/controllers/music.py" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/controllers/music.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/page/songs/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/page/songs/index.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,28 +40,32 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2Mi3fxwCz9RW1C8GOf8Kd6AgUwQ" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/杨德正/文件/大四/大四下/毕设/comp3032j-group11/back-end/interceptors",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "ts.external.directory.path": "D:\\PyCharm 2022.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/杨德正/文件/大四/大四下/毕设/comp3032j-group11/back-end/static/music&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\PyCharm 2022.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\杨德正\文件\大四\大四下\毕设\comp3032j-group11\back-end\static\music" />
       <recent name="D:\杨德正\文件\大四\大四下\毕设\comp3032j-group11\back-end\interceptors" />
     </key>
   </component>
@@ -112,7 +119,8 @@
       <workItem from="1678236688387" duration="45000" />
       <workItem from="1678236972131" duration="11512000" />
       <workItem from="1678263759856" duration="12687000" />
-      <workItem from="1678324131938" duration="2067000" />
+      <workItem from="1678324131938" duration="7012000" />
+      <workItem from="1678333679415" duration="594000" />
     </task>
     <task id="LOCAL-00001" summary="ui update">
       <created>1678242003396</created>
@@ -163,7 +171,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678324390318</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="fix some bugs for music player">
+      <created>1678326219867</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1678326219867</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -198,6 +213,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="fix some bugs for music player" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/comp3032j_group11$start.coverage" NAME="start 覆盖结果" MODIFIED="1678324929943" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/back-end" />
+    <SUITE FILE_PATH="coverage/comp3032j_group11$start.coverage" NAME="start 覆盖结果" MODIFIED="1678329852437" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/back-end" />
   </component>
 </project>

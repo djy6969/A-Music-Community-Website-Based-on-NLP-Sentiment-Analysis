@@ -144,6 +144,13 @@ export default {
             type:'warning'
           })
         }
+        else {
+          this.$message({
+            showClose:true,
+            message:'Register Success',
+            type: "success"
+          })
+        }
       })
     }
   }

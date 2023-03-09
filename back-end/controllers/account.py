@@ -119,6 +119,7 @@ def login():
                             value="%s#%s#1" % (UserHelper.geneAuthCode(user_info), user_info.get("id")),
                             max_age = 60 * 60 * 24 * 7)
     except Exception as e:
+        print(e)
         return MessageHelper.ops_renderErrJSON(msg="flask 版本过低，请升级flask版本")
 
     return response
@@ -131,8 +132,10 @@ def logout():
     response.delete_cookie(app.config['AUTH_COOKIE_NAME'])
     return response
 
-
-
-
+@account.route('/analysis', methods=["POST"])
+def analysis():
+    input = request.json.get('input')
+    print(input)
+    return MessageHelper.ops_renderJSON(msg=input)
 
 

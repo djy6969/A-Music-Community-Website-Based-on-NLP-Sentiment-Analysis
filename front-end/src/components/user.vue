@@ -3,7 +3,7 @@
     <!-- 登录前 -->
     <div @click="onOpenModal" class="login-trigger" v-if="!isLogin">
       <i class="user-icon iconfont icon-yonghu" />
-      <p class="user-name">未登录</p>
+      <p class="user-name">Login</p>
     </div>
     <!-- 登录后 -->
     <div @click="onLogout" class="logined-user" v-else>
@@ -17,8 +17,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-import storage from "good-storage"
-import { UID_KEY, isDef } from "@/utils"
 import { confirm } from "@/base/confirm"
 import {
   mapActions as mapUserActions,
@@ -29,13 +27,7 @@ import UserLogin from "@/components/auth/login.vue";
 import axios from "axios";
 
 export default {
-  // 自动登录
-  created() {
-    const uid = storage.get(UID_KEY)
-    if (isDef(uid)) {
-      this.onLogin(uid)
-    }
-  },
+  components: {UserLogin},
   data() {
     return {
       visible: false,
@@ -68,6 +60,13 @@ export default {
         })
       })
     },
+    checkLogin(){
+      const user_cookie = this.$cookies.get("Fianna_music_communicity")
+      if (user_cookie !== null){
+        this.isLogin = true
+        this.visible = false
+      }
+    },
     openLoginSection(){
       this.loginVisible = true
     },
@@ -77,7 +76,9 @@ export default {
     ...mapUserState(["user"]),
     ...mapUserGetters(["isLogin"])
   },
-  components: {UserLogin}
+  mounted() {
+    this.checkLogin()
+  }
 }
 </script>
 

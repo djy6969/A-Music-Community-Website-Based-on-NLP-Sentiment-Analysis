@@ -13,6 +13,7 @@
       :reserveDoms="[$refs.input && $refs.input.$el]"
       :show.sync="searchPanelShow"
     >
+      <!--  search recommendation and history   -->
       <div
         class="search-panel"
         v-show="searchPanelShow"

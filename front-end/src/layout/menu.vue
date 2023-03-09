@@ -46,7 +46,7 @@ export default {
     }
   },
   computed: {
-    // 组合登录后的歌单
+    // music lists after the user logged in
     menusWithPlaylist() {
       return this.isLogin && this.userMenus.length
         ? this.menus.concat(this.userMenus)

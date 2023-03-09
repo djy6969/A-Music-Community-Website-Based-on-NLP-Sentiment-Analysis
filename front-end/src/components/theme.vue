@@ -44,14 +44,14 @@ export default {
   created() {
     this.themeMap = {
       [themes.dark]: {
-        title: "深色",
+        title: "Black",
         file: variables,
         style: {
           backgroundColor: "#202020"
         }
       },
       [themes.white]: {
-        title: "浅色",
+        title: "White",
         file: variablesWhite,
         style: {
           backgroundColor: "#F6F6F6",
@@ -59,14 +59,14 @@ export default {
         }
       },
       [themes.red]: {
-        title: "红色",
+        title: "Red",
         file: variablesRed,
         style: {
           backgroundColor: "#D33A31"
         }
       }
     }
-    // 默认浅色
+    // default is white
     this.changeTheme(storage.get(THEME_KEY, themes.white))
   },
   data() {

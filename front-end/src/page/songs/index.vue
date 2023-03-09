@@ -1,4 +1,4 @@
-// 最新音乐页面
+// The newest music page
 <template>
   <div class="songs">
     <div class="tabs">
@@ -18,25 +18,27 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { getTopSongs } from "@/api"
-import { createSong } from "@/utils"
+import {getTopSongs} from "@/api"
+import {createSong, newRequest} from "@/utils"
 import SongTable from "@/components/song-table"
 
 export default {
   async created() {
     this.tabs = [
-      { title: "全部", type: 0 },
-      { title: "华语", type: 7 },
-      { title: "欧美", type: 96 },
-      { title: "日本", type: 8 },
-      { title: "韩国", type: 16 }
+      { title: "All", type: 0 },
+      { title: "China", type: 7 },
+      { title: "Europe and America", type: 96 },
+      { title: "Japan", type: 8 },
+      { title: "South Korea", type: 16 }
     ]
     this.getSongs()
+    this.getTest()
   },
   data() {
     return {
       activeTabIndex: 0,
-      songs: []
+      songs: [],
+      newSongs: []
     }
   },
   methods: {
@@ -61,6 +63,16 @@ export default {
           mvId: mvid
         })
       })
+    },
+    async getTest() {
+      const res = await newRequest.get('/music/getAllMusicResources')
+      for(let i = 0;i < res.data.length;i++){
+        this.getMusic(res.data[i][0])
+      }
+    },
+    async getMusic(data) {
+      console.log(data)
+      return await newRequest.post('/music/getMusicResource', data)
     }
   },
   components: {

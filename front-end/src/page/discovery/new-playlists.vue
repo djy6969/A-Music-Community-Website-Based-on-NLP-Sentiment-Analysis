@@ -3,7 +3,7 @@
     class="recommend"
     v-if="list.length"
   >
-    <Title>推荐歌单</Title>
+    <Title>Recommended Playlists</Title>
     <div class="list-wrap">
       <PlaylistCard
         :desc="item.copywriter"

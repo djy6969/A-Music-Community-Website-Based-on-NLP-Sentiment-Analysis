@@ -25,7 +25,7 @@ export default {
       new Clipboard(this.$refs.shareIcon.$el)
     },
     onSharePromptClick() {
-      confirm("分享链接已经复制到剪贴板，快去和小伙伴一起听歌吧！")
+      confirm("The sharing link has been copied to the clipboard")
     }
   }
 }

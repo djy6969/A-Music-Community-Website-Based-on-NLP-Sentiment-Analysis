@@ -23,7 +23,7 @@ export const menuRoutes = [
     name: 'discovery',
     component: Discovery,
     meta: {
-      title: '发现音乐',
+      title: 'Find music',
       icon: 'music',
     },
   },
@@ -32,7 +32,7 @@ export const menuRoutes = [
     name: 'playlists',
     component: Playlists,
     meta: {
-      title: '推荐歌单',
+      title: 'Recommended music lists',
       icon: 'playlist-menu',
     },
   },
@@ -41,7 +41,7 @@ export const menuRoutes = [
     name: 'songs',
     component: Songs,
     meta: {
-      title: '最新音乐',
+      title: 'The newest music',
       icon: 'yinyue',
     },
   },
@@ -50,7 +50,7 @@ export const menuRoutes = [
     name: 'mvs',
     component: Mvs,
     meta: {
-      title: '最新MV',
+      title: 'The newest MV',
       icon: 'mv',
     },
   },

@@ -1,10 +1,15 @@
 <template>
-
+  <el-input v-model="input" placeholder="Please input something"></el-input>
 </template>
 
 <script>
 export default {
-  name: "staff"
+  name: "staff",
+  data() {
+    return {
+      input: ""
+    }
+  }
 }
 </script>
 

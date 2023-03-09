@@ -17,6 +17,7 @@ account = Blueprint('account', __name__)
 # 注册账号
 @account.route("/register", methods=['POST', 'GET'])
 def register():
+    print('dfafbiad')
     username = request.json.get('username')
     password = request.json.get('password')
     password2 = request.json.get('password2')

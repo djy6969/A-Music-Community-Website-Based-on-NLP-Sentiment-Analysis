@@ -20,7 +20,7 @@ def before_request():
 @app.after_request
 def after_request(response):
     # 允许跨域请求的地址 (*代表所有地址)
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8888'
     # 允许跨域请求的类型
     response.headers['Access-Control-Allow-Headers'] = "X-Requested-With, Content-Type, XMLHttpRequest"
     # 允许跨域请求的方式

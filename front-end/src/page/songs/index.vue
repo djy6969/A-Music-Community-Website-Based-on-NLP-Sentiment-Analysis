@@ -63,11 +63,13 @@ export default {
           mvId: mvid
         })
       })
+      // eslint-disable-next-line no-console
+      console.log(this.songs)
     },
     async getTest() {
-      const res = await newRequest.get('/getAllMusicResources')
+      const res = await newRequest.get('/music/getAllMusicResources')
       // eslint-disable-next-line no-console
-      console.log(res)
+      console.log(res.data)
     }
   },
   components: {

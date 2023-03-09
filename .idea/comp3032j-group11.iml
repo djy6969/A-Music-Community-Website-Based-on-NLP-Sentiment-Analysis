@@ -2,11 +2,14 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/back-end" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/flaskenv" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.9 (comp3032j-group11)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.10 (degreeproject)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
+<<<<<<< HEAD
+=======
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
     <option name="TEMPLATE_FOLDERS">
@@ -15,4 +18,5 @@
       </list>
     </option>
   </component>
+>>>>>>> f4954be9da769cec9cfc541026f8d822680827b5
 </module>

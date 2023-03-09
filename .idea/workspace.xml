@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66966be0-3f00-4252-b969-c5c61771dcf5" name="变更" comment="fix some bugs for music player">
-      <change afterPath="$PROJECT_DIR$/back-end/static/music/04cHqPMD4So.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/static/music/_B8RaLCNUZw.mp3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/controllers/music.py" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/controllers/music.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/page/songs/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/page/songs/index.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,7 +65,7 @@
       <recent name="D:\杨德正\文件\大四\大四下\毕设\comp3032j-group11\back-end\interceptors" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.start">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="start" type="PythonConfigurationType" factoryName="Python">
       <module name="comp3032j-group11" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -120,7 +116,7 @@
       <workItem from="1678236972131" duration="11512000" />
       <workItem from="1678263759856" duration="12687000" />
       <workItem from="1678324131938" duration="7012000" />
-      <workItem from="1678333679415" duration="594000" />
+      <workItem from="1678333679415" duration="2108000" />
     </task>
     <task id="LOCAL-00001" summary="ui update">
       <created>1678242003396</created>
@@ -178,7 +174,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678326219867</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="fix some bugs for music player">
+      <created>1678334281788</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1678334281788</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -213,6 +216,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="fix some bugs for music player" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/comp3032j_group11$start.coverage" NAME="start 覆盖结果" MODIFIED="1678329852437" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/back-end" />
+    <SUITE FILE_PATH="coverage/comp3032j_group11$start.coverage" NAME="start 覆盖结果" MODIFIED="1678349964124" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/back-end" />
   </component>
 </project>

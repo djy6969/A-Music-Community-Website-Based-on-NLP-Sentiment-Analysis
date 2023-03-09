@@ -71,8 +71,11 @@ export default {
       }
     },
     async getMusic(data) {
-      console.log(data)
-      return await newRequest.post('/music/getMusicResource', data)
+      return await newRequest.post('/music/getMusicResource',
+          {
+            music_id: data
+          }
+      )
     }
   },
   components: {

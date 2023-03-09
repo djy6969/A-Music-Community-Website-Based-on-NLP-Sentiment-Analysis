@@ -8,4 +8,15 @@
     <orderEntry type="jdk" jdkName="Python 3.10 (degreeproject)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
+<<<<<<< HEAD
+=======
+  <component name="TemplatesService">
+    <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
+    <option name="TEMPLATE_FOLDERS">
+      <list>
+        <option value="$MODULE_DIR$/front-end/node_modules/conventional-changelog-angular/templates" />
+      </list>
+    </option>
+  </component>
+>>>>>>> f4954be9da769cec9cfc541026f8d822680827b5
 </module>

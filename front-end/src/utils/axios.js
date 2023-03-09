@@ -21,8 +21,21 @@ function createBaseInstance() {
   return instance
 }
 
+// 封装 baseURL
+export const newRequest = createNewInstance()
+mixinLoading(newRequest.interceptors)
+// 通用的axios实例
+function createNewInstance() {
+  const instance = axios.create({
+    baseURL: 'http://127.0.0.1:5000/',
+  })
+
+  instance.interceptors.response.use(handleResponse, handleError)
+  return instance
+}
+
 function handleError(e) {
-  confirm(e.message, '出错啦~')
+  confirm(e.message, 'Something went wrong')
   throw e
 }
 
@@ -45,7 +58,7 @@ function mixinLoading(interceptors) {
       loading = Loading.service({
         target: 'body',
         background: 'transparent',
-        text: '载入中',
+        text: 'Loading',
       })
       store.commit(SET_AXIOS_LOADING, true)
     }

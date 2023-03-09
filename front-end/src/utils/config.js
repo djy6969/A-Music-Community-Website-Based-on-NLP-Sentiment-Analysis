@@ -2,17 +2,17 @@ export const playModeMap = {
   sequence: {
     code: 'sequence',
     icon: 'sequence',
-    name: '顺序播放'
+    name: ' sequential play'
   },
   loop: {
     code: 'loop',
     icon: 'loop',
-    name: '单曲循环'
+    name: 'single cycle'
   },
   random: {
     code: 'random',
     icon: 'random',
-    name: '随机播放'
+    name: 'random play'
   }
 }
 

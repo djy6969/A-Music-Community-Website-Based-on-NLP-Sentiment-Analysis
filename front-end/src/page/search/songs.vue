@@ -1,4 +1,4 @@
-// 搜索详情页面
+// search details
 <template>
   <div class="search-songs">
     <WithPagination

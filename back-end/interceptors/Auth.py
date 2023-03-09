@@ -4,8 +4,8 @@ from flask_httpauth import HTTPBasicAuth
 from common.models.User import TUser
 from common.service import UserHelper
 
-
 auth = HTTPBasicAuth()
+
 
 # 请求前验证
 @app.before_request
@@ -29,6 +29,20 @@ def after_request(response):
     app.logger.info("after_request")
     return response
 
+@app.after_request
+def after_request(response):
+    # 允许跨域请求的地址 (*代表所有地址)
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8888'
+    # 允许跨域请求的类型
+    response.headers['Access-Control-Allow-Headers'] = "X-Requested-With, Content-Type, XMLHttpRequest"
+    # 允许跨域请求的方式
+    response.headers['Access-Control-Allow-Methods'] = "PUT,POST,GET,DELETE,OPTIONS"
+    # 允许跨域请求携带cookie
+    response.headers['Access-Control-Allow-Credentials'] = "true"
+    app.logger.info("after_request")
+    return response
+
+
 @auth.verify_password
 def verify_password(account, password):
     user_info = check_login()
@@ -43,6 +57,7 @@ def verify_password(account, password):
 '''
 判断用户是否登录
 '''
+
 
 # 更改
 def check_login():

@@ -10,6 +10,7 @@ music = Blueprint('music', __name__)
 
 # get music id from the front end, and 'id.mp3' is the music name
 # the role of this file is judging whether the file is existed
+# 歌手，专辑，时长随便设一下
 @music.route("/getMusicResource", methods=['POST'])
 def getMusicResource():
     # get music_id from the request

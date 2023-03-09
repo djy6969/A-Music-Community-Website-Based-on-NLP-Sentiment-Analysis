@@ -38,6 +38,8 @@ def get_negative_top(data_df, rank):
     return js
 
 
+# input some text
+# output is the score of the text
 def sentient_analysis(txt):
     senta = Taskflow("sentiment_analysis")
     result = senta(txt)

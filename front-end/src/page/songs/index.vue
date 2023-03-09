@@ -21,6 +21,7 @@
 import {getTopSongs} from "@/api"
 import {createSong, newRequest} from "@/utils"
 import SongTable from "@/components/song-table"
+import {ref} from "vue";
 
 export default {
   async created() {
@@ -31,14 +32,13 @@ export default {
       { title: "Japan", type: 8 },
       { title: "South Korea", type: 16 }
     ]
-    this.getSongs()
-    this.getTest()
+    this.init()
   },
   data() {
     return {
       activeTabIndex: 0,
-      songs: [],
-      newSongs: []
+      songs: ref([]),
+      allSongs: []
     }
   },
   methods: {
@@ -64,11 +64,24 @@ export default {
         })
       })
     },
-    async getTest() {
+    async init() {
+      await this.getSongs()
+      console.log(this.songs)
+      this.getAllMusic()
+    },
+    async getAllMusic() {
       const res = await newRequest.get('/music/getAllMusicResources')
-      for(let i = 0;i < res.data.length;i++){
-        this.getMusic(res.data[i][0])
+      this.allSongs = res.data
+      for(let i = 0;i < this.allSongs.length;i++){
+        const re = await this.getMusic(this.allSongs[i][0])
+        this.allSongs[i] = re.data
+        console.log(re.data.music_filepath)
+        // this.songs[i].url = this.songs[99-i].url
+        // this.songs[i].img = this.songs[99-i].img
+        // this.songs[i].durationSecond = this.songs[99-i].durationSecond
+        // this.songs[i].duration = this.songs[99-i].duration
       }
+      console.log(this.songs)
     },
     async getMusic(data) {
       return await newRequest.post('/music/getMusicResource',

@@ -104,6 +104,7 @@ export default {
   },
   methods: {
     loginRequest() {
+      console.log('111')
       axios({
         method: 'POST',
         url: "account/login",

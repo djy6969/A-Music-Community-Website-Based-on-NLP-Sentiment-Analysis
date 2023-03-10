@@ -65,7 +65,7 @@
           <el-form-item>
             <el-input
                 v-model="registerForm.email"
-                placeholder="Emial Address"
+                placeholder="Email Address"
             />
           </el-form-item>
           <el-form-item>
@@ -112,12 +112,22 @@ export default {
           password: this.loginForm.password
         }
       }).then(res=>{
+        console.log(res.data)
         if (res.data.code===-1){
           this.$message({
             showClose:true,
             message:res.data.msg,
             type:'warning'
           })
+        }
+        if(res.data.code === 200) {
+          this.$message({
+            showClose:true,
+            message:'Login Success',
+            type: "success"
+          })
+          sessionStorage.setItem('Auth', this.loginForm.username)
+          location.reload()
         }
       })
     },
@@ -142,6 +152,13 @@ export default {
             showClose:true,
             message:res.data.msg,
             type:'warning'
+          })
+        }
+        else {
+          this.$message({
+            showClose:true,
+            message:'Register Success',
+            type: "success"
           })
         }
       })

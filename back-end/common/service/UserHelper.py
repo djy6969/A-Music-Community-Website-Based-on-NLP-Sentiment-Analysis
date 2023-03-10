@@ -22,8 +22,8 @@ def geneSalt(length=16):
 def geneAuthCode(user_info=None):
     m = hashlib.md5()
     infor = "%s-%s-%s-%s" % (
-        user_info.get('id'), user_info.get('username'), user_info.get('password'),
-        user_info.get('password_salt'))
+        user_info.id, user_info.username, user_info.password,
+        user_info.password_salt)
     m.update(infor.encode("utf-8"))
     return m.hexdigest()
 

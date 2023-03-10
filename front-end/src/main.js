@@ -9,13 +9,14 @@ import store from './store/index'
 import global from './utils/global'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import VueCookies from 'vue-cookies'
 
 import axios from "axios";
 axios.defaults.baseURL = 'http://localhost:5000/'
 Vue.use(ElementUI);
+Vue.use(VueCookies)
 Vue.config.productionTip = false
 Vue.use(global)
-
 new Vue({
   router,
   store,

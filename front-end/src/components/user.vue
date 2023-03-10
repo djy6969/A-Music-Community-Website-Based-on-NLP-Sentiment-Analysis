@@ -1,14 +1,14 @@
 <template>
   <div class="user">
     <!-- 登录前 -->
-    <div @click="onOpenModal" class="login-trigger" v-if="!isLogin">
+    <div @click="onOpenModal" class="login-trigger" v-show="!isLogin">
       <i class="user-icon iconfont icon-yonghu" />
-      <p class="user-name">未登录</p>
+      <p class="user-name">Login</p>
     </div>
     <!-- 登录后 -->
-    <div @click="onLogout" class="logined-user" v-else>
-      <img v-lazy="$utils.genImgUrl(user.avatarUrl, 80)" class="avatar" />
-      <p class="user-name">{{ user.nickname }}</p>
+    <div @click="onLogout" class="logined-user" v-show="isLogin">
+      <h1>User</h1>
+      <p class="user-name">{{ username }}</p>
     </div>
 
     <!-- 登录框 -->
@@ -17,31 +17,23 @@
 </template>
 
 <script type="text/ecmascript-6">
-import storage from "good-storage"
-import { UID_KEY, isDef } from "@/utils"
-import { confirm } from "@/base/confirm"
 import {
   mapActions as mapUserActions,
   mapState as mapUserState,
-  mapGetters as mapUserGetters
 } from "@/store/helper/user"
 import UserLogin from "@/components/auth/login.vue";
 import axios from "axios";
 
 export default {
-  // 自动登录
-  created() {
-    const uid = storage.get(UID_KEY)
-    if (isDef(uid)) {
-      this.onLogin(uid)
-    }
-  },
+  components: {UserLogin},
   data() {
     return {
       visible: false,
       loginVisible: false,
       loading: false,
       uid: "",
+      username: '',
+      isLogin: ''
     }
   },
   methods: {
@@ -61,12 +53,21 @@ export default {
       }
     },
     onLogout() {
-      confirm("确定要注销吗？", () => {
-        axios({
-          method: 'GET',
-          url: '/account/logout',
-        })
+      sessionStorage.removeItem('Auth')
+      axios({
+        method: 'GET',
+        url: 'account/logout'
       })
+      location.reload()
+    },
+    checkLogin(){
+      const user_cookie = sessionStorage.getItem('Auth')
+      console.log(user_cookie)
+      if (user_cookie !== null){
+        this.isLogin = true
+        this.visible = false
+        this.username = user_cookie
+      }
     },
     openLoginSection(){
       this.loginVisible = true
@@ -75,9 +76,11 @@ export default {
   },
   computed: {
     ...mapUserState(["user"]),
-    ...mapUserGetters(["isLogin"])
   },
-  components: {UserLogin}
+  mounted() {
+    this.checkLogin()
+    console.log(this.isLogin)
+  }
 }
 </script>
 

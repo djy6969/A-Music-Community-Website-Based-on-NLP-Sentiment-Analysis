@@ -27,15 +27,15 @@ export const menuRoutes = [
       icon: 'music',
     },
   },
-  {
-    path: '/playlists',
-    name: 'playlists',
-    component: Playlists,
-    meta: {
-      title: 'Recommended music lists',
-      icon: 'playlist-menu',
-    },
-  },
+  // {
+  //   path: '/playlists',
+  //   name: 'playlists',
+  //   component: Playlists,
+  //   meta: {
+  //     title: 'Recommended music lists',
+  //     icon: 'playlist-menu',
+  //   },
+  // },
   {
     path: '/songs',
     name: 'songs',
@@ -45,15 +45,15 @@ export const menuRoutes = [
       icon: 'yinyue',
     },
   },
-  {
-    path: '/mvs',
-    name: 'mvs',
-    component: Mvs,
-    meta: {
-      title: 'The newest MV',
-      icon: 'mv',
-    },
-  },
+  // {
+  //   path: '/mvs',
+  //   name: 'mvs',
+  //   component: Mvs,
+  //   meta: {
+  //     title: 'The newest MV',
+  //     icon: 'mv',
+  //   },
+  // },
 ]
 
 Vue.use(Router)

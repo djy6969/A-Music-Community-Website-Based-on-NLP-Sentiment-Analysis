@@ -17,7 +17,7 @@ function createBaseInstance() {
     baseURL: BASE_URL,
   })
 
-  instance.interceptors.response.use(handleResponse)
+  instance.interceptors.response.use(handleResponse, handleError)
   return instance
 }
 
@@ -30,14 +30,14 @@ function createNewInstance() {
     baseURL: 'http://127.0.0.1:5000/',
   })
 
-  instance.interceptors.response.use(handleResponse)
+  instance.interceptors.response.use(handleResponse, handleError)
   return instance
 }
 
-// function handleError(e) {
-//   confirm(e.message, 'Something went wrong')
-//   throw e
-// }
+function handleError(e) {
+  confirm(e.message, 'Something went wrong')
+  throw e
+}
 
 function handleResponse(response) {
   return response.data

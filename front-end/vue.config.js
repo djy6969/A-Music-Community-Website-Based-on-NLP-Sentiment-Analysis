@@ -15,7 +15,8 @@ module.exports = {
           changeOrigin: true,
           secure: false,
         },
-        "http://localhost:5000/":{
+        "/new-api":{
+          target: "http://localhost:5000/",
           changeOrigin: true
         }
       },

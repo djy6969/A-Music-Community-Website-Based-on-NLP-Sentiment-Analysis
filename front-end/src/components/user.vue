@@ -6,10 +6,18 @@
       <p class="user-name">Login</p>
     </div>
     <!-- 登录后 -->
-    <div @click="onLogout" class="logined-user" v-show="isLogin">
-      <h1>User</h1>
-      <p class="user-name">{{ username }}</p>
-    </div>
+    <el-dropdown>
+      <div class="logined-user" v-show="isLogin">
+        <h1>User</h1>
+        <p class="user-name">{{ username }}</p>
+      </div>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item @click.native="onPersonalPage">Personal Page</el-dropdown-item>
+        <el-dropdown-item @click.native="onLogout" >Log Out</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+
+
 
     <!-- 登录框 -->
      <user-login style="z-index: 999;position: absolute;right: 35%" v-show="visible"></user-login>
@@ -54,11 +62,15 @@ export default {
     },
     onLogout() {
       sessionStorage.removeItem('Auth')
+      console.log("Log Out")
       axios({
         method: 'GET',
         url: 'account/logout'
       })
       location.reload()
+    },
+    onPersonalPage(){
+      this.$router.push('/staff')
     },
     checkLogin(){
       const user_cookie = sessionStorage.getItem('Auth')

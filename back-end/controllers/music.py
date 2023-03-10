@@ -25,9 +25,8 @@ def getMusicResource():
     for i in all_files:
         if i == music_file:
             music_filepath = {"music_filepath": file_name}
-            return MessageHelper.ops_renderErrJSON(data=music_filepath)
+            return MessageHelper.ops_renderJSON(data=music_filepath)
     return MessageHelper.ops_renderErrJSON(msg="music doesn't exists.")
-
 
 
 # get musics from database and judge whether have their file in static

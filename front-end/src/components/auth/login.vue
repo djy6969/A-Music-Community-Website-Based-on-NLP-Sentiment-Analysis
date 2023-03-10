@@ -73,11 +73,11 @@
               v-model="registerForm.nickname"
               placeholder="Nickname"/>
           </el-form-item>
-          <el-button type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="registerRequest">Register
-          </el-button>
+          <el-button type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="registerRequest">Register</el-button>
         </el-form>
       </el-tab-pane>
     </el-tabs>
+    <el-button type="primary" style="width:20%;margin-bottom:30px;">Exit</el-button>
   </div>
 </template>
 <script>

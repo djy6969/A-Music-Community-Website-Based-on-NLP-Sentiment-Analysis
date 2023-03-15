@@ -1,7 +1,7 @@
 <template>
   <div class="user">
     <!-- 登录前 -->
-    <div @click="onOpenModal" class="login-trigger" v-show="!isLogin">
+    <div @click="visible = true" class="login-trigger" v-show="!isLogin">
       <i class="user-icon iconfont icon-yonghu" />
       <p class="user-name">Login</p>
     </div>
@@ -20,7 +20,89 @@
 
 
     <!-- 登录框 -->
-     <user-login style="z-index: 999;position: absolute;right: 35%" v-show="visible"></user-login>
+<!--    <user-login style="z-index: 999;position: absolute;right: 35%" v-show="visible"></user-login>-->
+    <el-dialog
+        :visible.sync="visible"
+        width="30%"
+    >
+      <el-tabs>
+      <el-tab-pane label="Log In">
+        <el-form ref="loginForm"
+                 :model="loginForm"
+                 class="login-form" autocomplete="on" label-position="left">
+          <el-form-item prop="username">
+            <el-input
+                ref="username"
+                v-model="loginForm.username"
+                placeholder="Username"
+                name="username"
+                type="text"
+                tabindex="1"
+                autocomplete="on"
+            />
+          </el-form-item>
+            <el-form-item prop="password">
+              <el-input
+                  ref="password"
+                  v-model="loginForm.password"
+                  placeholder="Password"
+                  name="password"
+                  tabindex="2"
+                  autocomplete="on"
+              />
+            </el-form-item>
+          <el-button type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="loginRequest">Login
+          </el-button>
+        </el-form>
+      </el-tab-pane>
+      <el-tab-pane label="Register">
+        <el-form
+            ref="loginForm"
+            :model="registerForm"
+            class="login-form" autocomplete="on" label-position="left">
+          <el-form-item>
+            <el-input
+                ref="username"
+                v-model="registerForm.username"
+                placeholder="Username"
+                name="username"
+                type="text"
+                tabindex="1"
+                autocomplete="on"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-input
+                ref="password"
+                v-model="registerForm.password"
+                placeholder="Password"
+                name="password"
+                tabindex="2"
+                autocomplete="on"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              v-model="registerForm.tel"
+              placeholder="Telephone Number"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-input
+                v-model="registerForm.email"
+                placeholder="Email Address"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              v-model="registerForm.nickname"
+              placeholder="Nickname"/>
+          </el-form-item>
+          <el-button type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="registerRequest">Register</el-button>
+        </el-form>
+      </el-tab-pane>
+    </el-tabs>
+    </el-dialog>
   </div>
 </template>
 
@@ -29,11 +111,10 @@ import {
   mapActions as mapUserActions,
   mapState as mapUserState,
 } from "@/store/helper/user"
-import UserLogin from "@/components/auth/login.vue";
 import axios from "axios";
 
 export default {
-  components: {UserLogin},
+  components: {},
   data() {
     return {
       visible: false,
@@ -41,13 +122,21 @@ export default {
       loading: false,
       uid: "",
       username: '',
-      isLogin: ''
+      isLogin: '',
+      loginForm: {
+        username: '',
+        password: ''
+      },
+      registerForm: {
+        username: '',
+        password: '',
+        email: '',
+        tel: '',
+        nickname: ''
+      }
     }
   },
   methods: {
-    onOpenModal() {
-      this.visible = true
-    },
     onCloseModal() {
       this.visible = false
     },

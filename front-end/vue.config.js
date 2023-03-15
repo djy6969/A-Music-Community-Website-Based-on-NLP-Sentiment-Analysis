@@ -15,10 +15,6 @@ module.exports = {
           changeOrigin: true,
           secure: false,
         },
-        "/new-api":{
-          target: "http://localhost:5000/",
-          changeOrigin: true
-        }
       },
       port: 8888,
     },

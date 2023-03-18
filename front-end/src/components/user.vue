@@ -11,8 +11,9 @@
         <h1>User</h1>
         <p class="user-name">{{ username }}</p>
       </div>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item @click.native="onPersonalPage">Personal Page</el-dropdown-item>
+      <el-dropdown-menu>
+        <el-dropdown-item @click.native="toPersonalPage">Personal Page</el-dropdown-item>
+        <el-dropdown-item @click.native="toAddBlogPage">Add a Blog</el-dropdown-item>
         <el-dropdown-item @click.native="onLogout" >Log Out</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -20,7 +21,6 @@
 
 
     <!-- 登录框 -->
-<!--    <user-login style="z-index: 999;position: absolute;right: 35%" v-show="visible"></user-login>-->
     <el-dialog
         :visible.sync="visible"
         width="30%"
@@ -149,6 +149,66 @@ export default {
         this.onCloseModal()
       }
     },
+    loginRequest() {
+      axios({
+        method: 'POST',
+        url: "account/login",
+        data:{
+          username: this.loginForm.username,
+          password: this.loginForm.password
+        }
+      }).then(res=>{
+        console.log(res.data)
+        if (res.data.code===-1){
+          this.$message({
+            showClose:true,
+            message:res.data.msg,
+            type:'warning'
+          })
+        }
+        if(res.data.code === 200) {
+          this.$message({
+            showClose:true,
+            message:'Login Success',
+            type: "success"
+          })
+          sessionStorage.setItem('Auth', this.loginForm.username)
+          location.reload()
+        }
+      })
+    },
+    registerRequest() {
+      axios({
+        method: 'POST',
+        url: "account/register",
+        data:{
+          username: this.registerForm.username,
+          password: this.registerForm.password,
+          password2: this.registerForm.password,
+          email: this.registerForm.email,
+          tel: this.registerForm.tel,
+          nickname: this.registerForm.nickname
+        }
+      }).then(res=>{
+        this.data = res.data
+        // eslint-disable-next-line no-console
+        console.log(res.data)
+        if (res.data.code===-1){
+          this.$message({
+            showClose:true,
+            message:res.data.msg,
+            type:'warning'
+          })
+        }
+        else {
+          this.$message({
+            showClose:true,
+            message:'Register Success',
+            type: "success"
+          })
+        }
+      })
+    },
     onLogout() {
       sessionStorage.removeItem('Auth')
       console.log("Log Out")
@@ -158,7 +218,10 @@ export default {
       })
       location.reload()
     },
-    onPersonalPage(){
+    toAddBlogPage(){
+      this.$router.push('/addBlog')
+    },
+    toPersonalPage(){
       this.$router.push('/staff')
     },
     checkLogin(){
@@ -169,9 +232,6 @@ export default {
         this.visible = false
         this.username = user_cookie
       }
-    },
-    openLoginSection(){
-      this.loginVisible = true
     },
     ...mapUserActions(["login", "logout"])
   },

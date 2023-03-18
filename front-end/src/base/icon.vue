@@ -24,11 +24,16 @@ export default {
   },
   methods: {
     getIconCls() {
-      let cls = `icon-${this.type}`
-      if (this.color) {
-        cls += ` icon-color-${this.color}`
+      if (this.type.split(' ')[0] === 'new'){
+        let cls = `${this.type.split(' ')[1]}`
+        return cls
+      } else {
+        let cls = `icon-${this.type}`
+        if (this.color) {
+          cls += ` icon-color-${this.color}`
+        }
+        return cls
       }
-      return cls
     },
     onClick(e) {
       this.$emit("click", e)

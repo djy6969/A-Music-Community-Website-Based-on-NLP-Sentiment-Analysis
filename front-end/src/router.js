@@ -5,6 +5,8 @@ const Discovery = () => import(/* webpackChunkName: "Discovery" */ '@/page/disco
 const PlaylistDetail = () => import(/* webpackChunkName: "PlaylistDetail" */ '@/page/playlist-detail')
 const Playlists = () => import(/* webpackChunkName: "Playlists" */ '@/page/playlists')
 const Songs = () => import(/* webpackChunkName: "Songs" */ '@/page/songs')
+
+const Blogs = () => import(/* webpackChunkName: "Blogs" */ '@/page/blogs')
 const Search = () => import(/* webpackChunkName: "Search" */ '@/page/search')
 const SearchSongs = () => import(/* webpackChunkName: "SearchSongs" */ '@/page/search/songs')
 const SearchPlaylists = () => import(/* webpackChunkName: "SearchPlaylists" */ '@/page/search/playlists')
@@ -54,6 +56,16 @@ export const menuRoutes = [
   //     icon: 'mv',
   //   },
   // },
+  {
+    path: '/community',
+    name: 'community',
+    component: Blogs,
+    meta: {
+      title: 'Community',
+      // element icon
+      icon: 'new el-icon-s-grid'
+    }
+  }
 ]
 
 Vue.use(Router)

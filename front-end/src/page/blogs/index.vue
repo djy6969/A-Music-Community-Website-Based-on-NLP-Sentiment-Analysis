@@ -14,28 +14,16 @@
     >
       <el-form>
         <el-form-item>
-          <el-input
+          <el-input v-model="addBlogForm.text"
               type="textarea"
               :rows="4"
               placeholder="input your feelings"
           />
         </el-form-item>
         <el-form-item>
-          <el-upload
-              action=""
-              :auto-upload="false"
-              :on-change="uploadFile"
-              list-type="picture-card"
-              :on-preview="handlePictureCardPreview"
-              :on-remove="handleRemove"
-          >
-            <i class="el-icon-plus"/>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt="">
-          </el-dialog>
+          <input type="file" id="file" @change="onUploadFile">
           <el-form-item>
-            <el-button>Submit</el-button>
+            <el-button @click="onSubmitBlog">Submit</el-button>
           </el-form-item>
         </el-form-item>
       </el-form>
@@ -55,7 +43,7 @@ export default {
       visible: false,
       dialogImageUrl: '',
       dialogVisible: false,
-      formData: '',
+      blogData: '',
       addBlogForm:{
         text: '',
         picFiles: []
@@ -68,24 +56,19 @@ export default {
       console.log('11111')
       console.log(this.visible)
     },
-    uploadFile(item){
-      this.addBlogForm.picFiles.push(item.raw)
-    },
-    handleRemove(file, fileList) {
-        console.log(file, fileList);
-    },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
+    onUploadFile(){
+      this.addBlogForm.picFiles.push(document.getElementById('file').files[0])
     },
     onSubmitBlog(){
       let blogData = new FormData()
-      blogData.append('Text', this.addBlogForm.text)
-      blogData.append('picFiles', this.addBlogForm.picFiles)
+      console.log( document.getElementById('file').files[0])
+      blogData.append('text', this.addBlogForm.text)
+      blogData.append('picList', this.addBlogForm.picFiles)
       axios({
         method: "POST",
-        url: '',
-        data: blogData
+        url: 'blog/post_blog',
+        headers: { "Content-Type": "multipart/form-data" },
+        data: blogData,
       }).then(res=>{
         console.log(res.data)
       })

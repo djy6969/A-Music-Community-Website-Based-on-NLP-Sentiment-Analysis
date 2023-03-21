@@ -1,7 +1,8 @@
 from app import app, db
 
-from flask import Blueprint, request, render_template
+from flask import Blueprint, request
 from common.service import MessageHelper
+from common.models import Music
 import os
 import re
 
@@ -14,6 +15,7 @@ music = Blueprint('music', __name__)
 @music.route("/getMusicResource", methods=['POST'])
 def getMusicResource():
     # get music_id from the request
+    global music_filepath
     music_id = request.json.get('music_id')
     # music_id = '_uRC-ZabKhY'
     music_file = music_id + '.mp3'
@@ -25,8 +27,18 @@ def getMusicResource():
     for i in all_files:
         if i == music_file:
             music_filepath = {"music_filepath": file_name}
-            return MessageHelper.ops_renderErrJSON(data=music_filepath)
-    return MessageHelper.ops_renderErrJSON(msg="music doesn't exists.")
+        else:
+            return MessageHelper.ops_renderErrJSON(msg="music doesn't exists.")
+
+
+    try:
+        music_info = Music.query.filter_by(video_Id=music_id).first()
+    except Exception as e:
+        return MessageHelper.ops_renderErrJSON(msg="")
+
+    music_info = {'id': music_id, 'img': music_info.image_url, "url": music_filepath, 'name': music_info.title,
+                  'albumId': '', 'albumName': '', 'artists': 'yang', 'duration': music_info.duration, 'durationSecond': '270', 'mvId': 1}
+    return MessageHelper.ops_renderJSON(data=music_info)
 
 
 

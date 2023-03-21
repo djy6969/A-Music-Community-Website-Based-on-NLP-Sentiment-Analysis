@@ -45,15 +45,15 @@ export const menuRoutes = [
       icon: 'yinyue',
     },
   },
-  // {
-  //   path: '/mvs',
-  //   name: 'mvs',
-  //   component: Mvs,
-  //   meta: {
-  //     title: 'The newest MV',
-  //     icon: 'mv',
-  //   },
-  // },
+  {
+    path: '/mvs',
+    name: 'mvs',
+    component: Mvs,
+    meta: {
+      title: 'The newest MV',
+      icon: 'mv',
+    },
+  },
 ]
 
 Vue.use(Router)

@@ -1,6 +1,7 @@
 // The newest music page
 <template>
   <div class="songs">
+<!--  the tags  -->
     <div class="tabs">
       <Tabs
         :tabs="tabs"
@@ -10,10 +11,15 @@
         v-model="activeTabIndex"
       />
     </div>
+<!--  displayed songs  -->
+    <Song></Song>
     <SongTable
       :songs="songs"
       header-row-class-name="header-row"
     />
+<!--    <audio controls>-->
+<!--      <source src="../../../../back-end/static/music/04cHqPMD4So.mp3"/>-->
+<!--    </audio>-->
   </div>
 </template>
 
@@ -21,6 +27,7 @@
 import {getTopSongs} from "@/api"
 import {createSong, newRequest} from "@/utils"
 import SongTable from "@/components/song-table"
+import Song from "@/components/song"
 import {ref} from "vue";
 
 export default {
@@ -43,6 +50,7 @@ export default {
   },
   methods: {
     async getSongs() {
+      console.log(this.activeTabIndex)
       const { data } = await getTopSongs(this.tabs[this.activeTabIndex].type)
       this.songs = data.map(song => {
         const {
@@ -70,12 +78,14 @@ export default {
       this.getAllMusic()
     },
     async getAllMusic() {
+
       const res = await newRequest.get('/music/getAllMusicResources')
       this.allSongs = res.data
       for(let i = 0;i < this.allSongs.length;i++){
         const re = await this.getMusic(this.allSongs[i][0])
         this.allSongs[i] = re.data
         console.log(re.data.music_filepath)
+        //this.songs[i].url = "/static/music/_uRC-ZabKhY.mp3"
         // this.songs[i].url = this.songs[99-i].url
         // this.songs[i].img = this.songs[99-i].img
         // this.songs[i].durationSecond = this.songs[99-i].durationSecond
@@ -92,7 +102,8 @@ export default {
     }
   },
   components: {
-    SongTable
+    SongTable,
+    Song
   }
 }
 </script>

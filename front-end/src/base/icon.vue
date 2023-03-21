@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     getIconCls() {
-      let cls = `icon-${this.type}`
+      let cls = `iconfont icon-component  icon-${this.type}`
       if (this.color) {
         cls += ` icon-color-${this.color}`
       }
@@ -48,7 +48,7 @@ export default {
     const Icon = (
       <i
         onClick={this.onClick}
-        class={`iconfont icon-component ${this.getIconCls()}`}
+        class={this.getIconCls()}
         style={this.getIconStyle()}
       />
     )

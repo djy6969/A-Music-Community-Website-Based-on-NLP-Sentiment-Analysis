@@ -8,7 +8,7 @@
     <!-- 登录后 -->
     <el-dropdown>
       <div class="logined-user" v-show="isLogin">
-        <h1>User</h1>
+        <el-avatar />
         <p class="user-name">{{ username }}</p>
       </div>
       <el-dropdown-menu>
@@ -222,7 +222,7 @@ export default {
       this.$router.push('/addBlog')
     },
     toPersonalPage(){
-      this.$router.push('/staff')
+      this.$router.push('/user')
     },
     checkLogin(){
       const user_cookie = sessionStorage.getItem('Auth')

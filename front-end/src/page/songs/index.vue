@@ -50,7 +50,6 @@ export default {
   },
   methods: {
     async getSongs() {
-      console.log(this.activeTabIndex)
       const { data } = await getTopSongs(this.tabs[this.activeTabIndex].type)
       this.songs = data.map(song => {
         const {
@@ -78,14 +77,18 @@ export default {
       this.getAllMusic()
     },
     async getAllMusic() {
-
+      const testFolder = '/static/music/newest'
+      const fs = require('fs')
+      fs.readdirSync(testFolder).forEach(file => {
+        console.log(file)
+      })
       const res = await newRequest.get('/music/getAllMusicResources')
       this.allSongs = res.data
       for(let i = 0;i < this.allSongs.length;i++){
         const re = await this.getMusic(this.allSongs[i][0])
         this.allSongs[i] = re.data
         console.log(re.data.music_filepath)
-        //this.songs[i].url = "/static/music/_uRC-ZabKhY.mp3"
+        //this.songs[i].url = re.data.music_filepath
         // this.songs[i].url = this.songs[99-i].url
         // this.songs[i].img = this.songs[99-i].img
         // this.songs[i].durationSecond = this.songs[99-i].durationSecond

@@ -54,7 +54,7 @@
           v-else
         >
           <div class="block">
-            <p class="title">热门搜索</p>
+            <p class="title">Top Searches</p>
             <div class="tags">
               <NButton
                 :key="index"
@@ -65,7 +65,10 @@
             </div>
           </div>
           <div class="block">
-            <p class="title">搜索历史</p>
+            <p class="title">
+              Search History
+              <el-button type="danger" icon="el-icon-delete" circle @click="clearHistory"></el-button>
+            </p>
             <div
               class="tags"
               v-if="searchHistorys.length"
@@ -80,7 +83,7 @@
             <div
               class="empty"
               v-else
-            >暂无搜索历史</div>
+            >No Search History</div>
           </div>
         </div>
       </div>
@@ -172,6 +175,11 @@ export default {
       const { id } = mv
       this.$router.push(`/mv/${id}`)
     },
+    clearHistory() {
+      storage.remove(SEARCH_HISTORY_KEY)
+      console.log(this.searchHistorys)
+      console.log(storage.get(SEARCH_HISTORY_KEY, []))
+    },
     ...mapMutations(["setPlaylist"]),
     ...mapActions(["startSong", "addToPlaylist"])
   },
@@ -187,7 +195,7 @@ export default {
     normalizedSuggests() {
       return [
         {
-          title: "单曲",
+          title: "Single",
           icon: "music",
           data: this.suggest.songs,
           renderName(song) {
@@ -196,7 +204,7 @@ export default {
           onClick: this.onClickSong.bind(this)
         },
         {
-          title: "歌单",
+          title: "Music List",
           icon: "playlist",
           data: this.suggest.playlists,
           onClick: this.onClickPlaylist.bind(this)

@@ -77,23 +77,23 @@ export default {
       this.getAllMusic()
     },
     async getAllMusic() {
-      const testFolder = '/static/music/newest'
-      const fs = require('fs')
-      fs.readdirSync(testFolder).forEach(file => {
-        console.log(file)
-      })
-      const res = await newRequest.get('/music/getAllMusicResources')
-      this.allSongs = res.data
-      for(let i = 0;i < this.allSongs.length;i++){
-        const re = await this.getMusic(this.allSongs[i][0])
-        this.allSongs[i] = re.data
-        console.log(re.data.music_filepath)
-        //this.songs[i].url = re.data.music_filepath
-        // this.songs[i].url = this.songs[99-i].url
-        // this.songs[i].img = this.songs[99-i].img
-        // this.songs[i].durationSecond = this.songs[99-i].durationSecond
-        // this.songs[i].duration = this.songs[99-i].duration
-      }
+      // const res = await newRequest.get('/music/getAllMusicResources')
+      // this.allSongs = res.data
+      // for(let i = 0;i < this.allSongs.length;i++){
+      //   const re = await this.getMusic(this.allSongs[i][0])
+      //   this.allSongs[i] = re.data
+      //   // this.songs[i].albumId = re.data.albumId
+      //   // this.songs[i].albumName = re.data.albumName
+      //   // this.songs[i].artists = re.data.artists
+      //   // this.songs[i].artistsText = re.data.artistsText
+      //   // this.songs[i].duration = re.data.duration
+      //   // this.songs[i].durationSecond = re.data.durationSecond
+      //   // this.songs[i].id = re.data.id
+      //   // this.songs[i].img = re.data.img
+      //   // this.songs[i].mvId = re.data.mvId
+      //   // this.songs[i].name = re.data.name
+      //   // this.songs[i].url = re.data.url
+      // }
       console.log(this.songs)
     },
     async getMusic(data) {

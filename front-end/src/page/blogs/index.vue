@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="blog-container">
-      <blog-card/>
+    <div class="blog-container" v-for="(item,index) in blogListData" :key="index">
+      <blog-card :blog-text="item.blogText" :username="item.username" />
     </div>
 <!--    css back to top button-->
     <div class="el-backtop" @click="showAddBlogDialog">
@@ -21,13 +21,23 @@
           />
         </el-form-item>
         <el-form-item>
-          <input type="file" id="file" @change="onUploadFile">
-          <el-form-item>
-            <el-button @click="onSubmitBlog">Submit</el-button>
-          </el-form-item>
+          <el-upload
+              action="#"
+              :on-change="uploadSuccess"
+              :auto-upload="false"
+          >
+            <el-button size="small" type="primary">Upload Pictures</el-button>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt="">
+          </el-dialog>
+        </el-form-item>
+        <el-form-item>
+          <el-button @click="onSubmitBlog">Submit</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
+
   </div>
 </template>
 
@@ -44,31 +54,59 @@ export default {
       dialogImageUrl: '',
       dialogVisible: false,
       blogData: '',
+      fileList: [{}],
       addBlogForm:{
         text: '',
-        picFiles: []
-      }
+        picFiles: [],
+        picFileNumber: ''
+      },
+      blogListData: [
+        {
+          'blogText': 'blogText1',
+          'username': 'username1'
+          },
+        {
+          'blogText': 'blogText2',
+          'username': 'username2'
+        }
+      ]
     }
   },
   methods:{
     showAddBlogDialog(){
       this.visible = true
-      console.log('11111')
-      console.log(this.visible)
     },
-    onUploadFile(){
-      this.addBlogForm.picFiles.push(document.getElementById('file').files[0])
+    uploadSuccess(file, fileList){
+      console.log("file "+ file)
+      console.log("fileList "+ fileList)
+      this.addBlogForm.picFiles.push(file.raw)
+      console.log(this.addBlogForm.picFiles)
     },
     onSubmitBlog(){
       let blogData = new FormData()
-      console.log( document.getElementById('file').files[0])
       blogData.append('text', this.addBlogForm.text)
-      blogData.append('picList', this.addBlogForm.picFiles)
+      for (let i=0; i< this.addBlogForm.picFiles.length; i++){
+        let name = `picList[${i}]`
+        blogData.append(name, this.addBlogForm.picFiles[i])
+        this.addBlogForm.picFileNumber = i
+      }
+      blogData.append('picNumber', this.addBlogForm.picFileNumber)
       axios({
         method: "POST",
         url: 'blog/post_blog',
         headers: { "Content-Type": "multipart/form-data" },
         data: blogData,
+      }).then(res=>{
+        console.log(res.data)
+      })
+    },
+    getBlogsData(){
+      axios({
+        method: 'GET',
+        url: 'blog/get_blogs',
+        params: {
+
+        }
       }).then(res=>{
         console.log(res.data)
       })

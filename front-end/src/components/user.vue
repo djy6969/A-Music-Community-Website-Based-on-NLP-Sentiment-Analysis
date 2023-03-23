@@ -226,7 +226,6 @@ export default {
     },
     checkLogin(){
       const user_cookie = sessionStorage.getItem('Auth')
-      console.log(user_cookie)
       if (user_cookie !== null){
         this.isLogin = true
         this.visible = false

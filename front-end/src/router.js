@@ -6,6 +6,7 @@ const PlaylistDetail = () => import(/* webpackChunkName: "PlaylistDetail" */ '@/
 const Playlists = () => import(/* webpackChunkName: "Playlists" */ '@/page/playlists')
 const Songs = () => import(/* webpackChunkName: "Songs" */ '@/page/songs')
 
+const User = () => import(/* webpackChunkName: "User" */ '@/page/user')
 const Blogs = () => import(/* webpackChunkName: "Blogs" */ '@/page/blogs')
 const Search = () => import(/* webpackChunkName: "Search" */ '@/page/search')
 const SearchSongs = () => import(/* webpackChunkName: "SearchSongs" */ '@/page/search/songs')
@@ -120,6 +121,11 @@ export default new Router({
       path: '/staff',
       name: 'staff',
       component: Staff
+    },
+    {
+      path: '/user',
+      name: 'user',
+      component: User
     }
   ],
 })

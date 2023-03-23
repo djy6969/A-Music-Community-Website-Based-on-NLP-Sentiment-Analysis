@@ -6,7 +6,7 @@ blog = Blueprint('blog', __name__)
 def post_blog():
     if request.method == "POST":
         text = request.form.get('text')
-        images = request.files.get('picList')
+        images = request.form.get('picList')
         print(text)
         print(images)
         for image in images:

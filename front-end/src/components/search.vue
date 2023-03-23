@@ -71,13 +71,13 @@
             </p>
             <div
               class="tags"
-              v-if="searchHistorys.length"
+              v-if="searchHistory.length"
             >
               <NButton
                 :key="index"
                 @click="onClickHot(history)"
                 class="button"
-                v-for="(history, index) in searchHistorys"
+                v-for="(history, index) in searchHistory"
               >{{history.first}}</NButton>
             </div>
             <div
@@ -110,7 +110,7 @@ export default {
       searchPanelShow: false,
       searchKeyword: "",
       searchHots: [],
-      searchHistorys: storage.get(SEARCH_HISTORY_KEY, []),
+      searchHistory: storage.get(SEARCH_HISTORY_KEY, []),
       suggest: {},
       reserveDoms: []
     }
@@ -140,8 +140,8 @@ export default {
       }
     },
     goSearch(keywords) {
-      this.searchHistorys.push({ first: keywords })
-      storage.set(SEARCH_HISTORY_KEY, this.searchHistorys)
+      this.searchHistory.push({ first: keywords })
+      storage.set(SEARCH_HISTORY_KEY, this.searchHistory)
       this.$router.push(`/search/${keywords}`)
       this.searchPanelShow = false
     },
@@ -177,8 +177,7 @@ export default {
     },
     clearHistory() {
       storage.remove(SEARCH_HISTORY_KEY)
-      console.log(this.searchHistorys)
-      console.log(storage.get(SEARCH_HISTORY_KEY, []))
+      this.searchHistory = []
     },
     ...mapMutations(["setPlaylist"]),
     ...mapActions(["startSong", "addToPlaylist"])

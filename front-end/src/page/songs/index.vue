@@ -94,7 +94,7 @@ export default {
       //   // this.songs[i].name = re.data.name
       //   // this.songs[i].url = re.data.url
       // }
-      console.log(this.songs)
+      // console.log(this.songs)
     },
     async getMusic(data) {
       return await newRequest.post('/music/getMusicResource',

@@ -1,9 +1,12 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
+from flask_cors import CORS
 import paramiko
 
 app = Flask(__name__, instance_relative_config=True)
+
+CORS(app, supports_credentials=True)
 
 # 默认silent = False，即当配置文件不存在时，抛出异常
 app.config.from_pyfile("../common/config/base_setting.py", silent=False)

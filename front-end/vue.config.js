@@ -16,7 +16,7 @@ module.exports = {
           secure: false,
         },
       },
-      port: 80,
+      port: 8888,
     },
     externals: isProd
       ? {

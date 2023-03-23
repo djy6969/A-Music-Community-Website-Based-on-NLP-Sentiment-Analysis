@@ -16,6 +16,4 @@ def post_blog():
 
 
         print(text)
-        for image in images:
-            image.show()
         return

@@ -89,6 +89,7 @@ def register():
 def login():
     username = request.json.get('username')
     password = request.json.get('password')
+    print(username)
 
     if username is None or len(username) < 3:
         return MessageHelper.ops_renderErrJSON(msg="请输入正确格式的用户名")
@@ -112,13 +113,14 @@ def login():
 
     # cookie身份识别
     response = make_response(MessageHelper.ops_renderJSON(msg="登录成功！"))
-    try:
-        # user last number is 1, staff is 2
-        response.set_cookie(app.config['AUTH_COOKIE_NAME'],
-                            value="%s#%s#1" % (UserHelper.geneAuthCode(user_info), user_info.get("id")),
+    # try:
+    print("%s#%s#1" % (UserHelper.geneAuthCode(user_info), user_info.id))
+    # user last number is 1, staff is 2
+    response.set_cookie(app.config['AUTH_COOKIE_NAME'],
+                        value="%s#%s#1" % (UserHelper.geneAuthCode(user_info), user_info.id),
                             max_age = 60 * 60 * 24 * 7)
-    except Exception as e:
-        return MessageHelper.ops_renderErrJSON(msg="flask 版本过低，请升级flask版本")
+    # except Exception as e:
+    #     return MessageHelper.ops_renderErrJSON(msg="flask 版本过低，请升级flask版本")
 
     return response
 

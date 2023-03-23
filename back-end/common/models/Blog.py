@@ -1,5 +1,5 @@
 from app import db
-import User
+from common.models.User import TUser
 
 class TBlog(db.Model):
     __tablename__ = 't_blog'
@@ -7,7 +7,7 @@ class TBlog(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     # foreignKey需要放到nullable之前
     userid = db.Column(db.SmallInteger,
-                       db.ForeignKey(User.id, ondelete="CASCADE"), nullable=False)
+                       db.ForeignKey(TUser.id, ondelete="CASCADE"), nullable=False)
     blog_content = db.Column(db.String(1024, 'utf8_bin'))
     piclist = db.Column(db.JSON)
     likes = db.Column(db.Integer, nullable=False)

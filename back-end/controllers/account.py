@@ -14,6 +14,7 @@ account = Blueprint('account', __name__)
 后端给前端传递cookie
 '''
 
+
 # 注册账号
 @account.route("/register", methods=['POST', 'GET'])
 def register():

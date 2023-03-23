@@ -1,6 +1,13 @@
 # 基础通用配置文件
+from datetime import timedelta
 
 import sshtunnel
+
+DEBUG = True
+SQLALCHEMY_ECHO = False
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+SQLALCHEMY_ENCODING = "utf8mb4"
+PERMANENT_SESSION_LIFETIME = timedelta(days=7)
 
 SECRET_KEY = 'fianna_11'
 
@@ -16,14 +23,14 @@ mysql_user = "root"  # 这是你mysql数据库上的用户名
 mysql_password = "123456"  # 这是你mysql数据库的密码
 mysql_db = "music"  # mysql服务器上的数据库名
 
-server = sshtunnel.SSHTunnelForwarder(
-        (ssh_host, ssh_port),
-        ssh_username=ssh_user,
-        ssh_password=ssh_password,
-        remote_bind_address=(mysql_host, mysql_port)
-)
-server.start()
-local_port = str(server.local_bind_port)
+# server = sshtunnel.SSHTunnelForwarder(
+#         (ssh_host, ssh_port),
+#         ssh_username=ssh_user,
+#         ssh_password=ssh_password,
+#         remote_bind_address=(mysql_host, mysql_port)
+# )
+# server.start()
+# local_port = str(server.local_bind_port)
 
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8mb4'\
-    .format(mysql_user, mysql_password, '127.0.0.1', local_port, mysql_db)
+    .format(mysql_user, mysql_password, '127.0.0.1', mysql_port, mysql_db)

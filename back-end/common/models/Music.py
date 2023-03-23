@@ -15,3 +15,4 @@ class TMusic(db.Model):
     image_url = db.Column(db.String(255, 'utf8mb4_unicode_ci'), nullable=False)
     tags = db.Column(db.JSON)
     duration = db.Column(db.String(8), nullable=False)
+    artist = db.Column(db.String(64), nullable=False)

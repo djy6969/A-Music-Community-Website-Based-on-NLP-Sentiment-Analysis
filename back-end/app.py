@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
 import paramiko
 
-
 app = Flask(__name__, instance_relative_config=True)
 
 # 默认silent = False，即当配置文件不存在时，抛出异常

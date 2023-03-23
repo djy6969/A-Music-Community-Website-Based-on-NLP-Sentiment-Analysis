@@ -16,10 +16,12 @@ def genePwd(pwd, salt):
     m.update(str.encode("utf-8"))
     return m.hexdigest()
 
+@staticmethod
 def geneSalt(length=16):
     key_list = [random.choice(string.ascii_letters + string.digits) for i in range(length)]
     return ("".join(key_list))
 
+@staticmethod
 def geneAuthCode(user_info=None):
     m = hashlib.md5()
     infor = "%s-%s-%s-%s" % (

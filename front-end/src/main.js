@@ -7,10 +7,22 @@ import '@/utils/rem'
 import '@/utils/axios'
 import store from './store/index'
 import global from './utils/global'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import VueCookies from 'vue-cookies'
 
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+import 'bootstrap/dist/js/bootstrap.min.js'
+
+
+import axios from "axios"
+axios.defaults.withCredentials = true
+axios.defaults.baseURL = "http://127.0.0.1:5000/"
+Vue.use(ElementUI);
+Vue.use(VueCookies)
 Vue.config.productionTip = false
 Vue.use(global)
-
 new Vue({
   router,
   store,

@@ -5,11 +5,14 @@ const Discovery = () => import(/* webpackChunkName: "Discovery" */ '@/page/disco
 const PlaylistDetail = () => import(/* webpackChunkName: "PlaylistDetail" */ '@/page/playlist-detail')
 const Playlists = () => import(/* webpackChunkName: "Playlists" */ '@/page/playlists')
 const Songs = () => import(/* webpackChunkName: "Songs" */ '@/page/songs')
+
+const User = () => import(/* webpackChunkName: "User" */ '@/page/user')
+const Blogs = () => import(/* webpackChunkName: "Blogs" */ '@/page/blogs')
 const Search = () => import(/* webpackChunkName: "Search" */ '@/page/search')
 const SearchSongs = () => import(/* webpackChunkName: "SearchSongs" */ '@/page/search/songs')
 const SearchPlaylists = () => import(/* webpackChunkName: "SearchPlaylists" */ '@/page/search/playlists')
 const SearchMvs = () => import(/* webpackChunkName: "SearchMvs" */ '@/page/search/mvs')
-
+const Staff = () => import('@/page/staff/staff')
 const Mvs = () => import(/* webpackChunkName: "Mvs" */ '@/page/mvs')
 const Mv = () => import(/* webpackChunkName: "Mv" */ '@/page/mv')
 
@@ -27,15 +30,15 @@ export const menuRoutes = [
       icon: 'music',
     },
   },
-  {
-    path: '/playlists',
-    name: 'playlists',
-    component: Playlists,
-    meta: {
-      title: 'Recommended music lists',
-      icon: 'playlist-menu',
-    },
-  },
+  // {
+  //   path: '/playlists',
+  //   name: 'playlists',
+  //   component: Playlists,
+  //   meta: {
+  //     title: 'Recommended music lists',
+  //     icon: 'playlist-menu',
+  //   },
+  // },
   {
     path: '/songs',
     name: 'songs',
@@ -45,21 +48,31 @@ export const menuRoutes = [
       icon: 'yinyue',
     },
   },
+  // {
+  //   path: '/mvs',
+  //   name: 'mvs',
+  //   component: Mvs,
+  //   meta: {
+  //     title: 'The newest MV',
+  //     icon: 'mv',
+  //   },
+  // },
   {
-    path: '/mvs',
-    name: 'mvs',
-    component: Mvs,
+    path: '/community',
+    name: 'community',
+    component: Blogs,
     meta: {
-      title: 'The newest MV',
-      icon: 'mv',
-    },
-  },
+      title: 'Community',
+      // element icon
+      icon: 'new el-icon-s-grid'
+    }
+  }
 ]
 
 Vue.use(Router)
 
 export default new Router({
-  mode: 'hash',
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -104,5 +117,15 @@ export default new Router({
       props: (route) =>  ({id: +route.params.id}),
     },
     ...menuRoutes,
+    {
+      path: '/staff',
+      name: 'staff',
+      component: Staff
+    },
+    {
+      path: '/user',
+      name: 'user',
+      component: User
+    }
   ],
 })

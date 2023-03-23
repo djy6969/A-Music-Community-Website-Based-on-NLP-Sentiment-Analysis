@@ -1,85 +1,142 @@
 <template>
   <div class="user">
     <!-- 登录前 -->
-    <div @click="onOpenModal" class="login-trigger" v-if="!isLogin">
+    <div @click="visible = true" class="login-trigger" v-show="!isLogin">
       <i class="user-icon iconfont icon-yonghu" />
-      <p class="user-name">未登录</p>
+      <p class="user-name">Login</p>
     </div>
     <!-- 登录后 -->
-    <div @click="onLogout" class="logined-user" v-else>
-      <img v-lazy="$utils.genImgUrl(user.avatarUrl, 80)" class="avatar" />
-      <p class="user-name">{{ user.nickname }}</p>
-    </div>
+    <el-dropdown>
+      <div class="logined-user" v-show="isLogin">
+        <el-avatar />
+        <p class="user-name">{{ username }}</p>
+      </div>
+      <el-dropdown-menu>
+        <el-dropdown-item @click.native="toPersonalPage">Personal Page</el-dropdown-item>
+        <el-dropdown-item @click.native="toAddBlogPage">Add a Blog</el-dropdown-item>
+        <el-dropdown-item @click.native="onLogout" >Log Out</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+
+
 
     <!-- 登录框 -->
     <el-dialog
-      :modal="false"
-      :visible.sync="visible"
-      :width="$utils.toRem(320)"
+        :visible.sync="visible"
+        width="30%"
     >
-      <p slot="title">登录</p>
-      <div class="login-body">
-        <el-input
-          class="input"
-          placeholder="请输入您的网易云uid"
-          v-model="uid"
-        />
-        <div class="login-help">
-          <p class="help">
-            1、请
-            <a href="http://music.163.com" target="_blank"
-              >点我(http://music.163.com)</a
-            >打开网易云音乐官网
-          </p>
-          <p class="help">2、点击页面右上角的“登录”</p>
-          <p class="help">3、点击您的头像，进入我的主页</p>
-          <p class="help">
-            4、复制浏览器地址栏 /user/home?id= 后面的数字（网易云 UID）
-          </p>
-        </div>
-      </div>
-      <span class="dialog-footer" slot="footer">
-        <el-button
-          :loading="loading"
-          @click="onLogin(uid)"
-          class="login-btn"
-          type="primary"
-          >登 录</el-button
-        >
-      </span>
+      <el-tabs>
+      <el-tab-pane label="Log In">
+        <el-form ref="loginForm"
+                 :model="loginForm"
+                 class="login-form" autocomplete="on" label-position="left">
+          <el-form-item prop="username">
+            <el-input
+                ref="username"
+                v-model="loginForm.username"
+                placeholder="Username"
+                name="username"
+                type="text"
+                tabindex="1"
+                autocomplete="on"
+            />
+          </el-form-item>
+            <el-form-item prop="password">
+              <el-input
+                  ref="password"
+                  v-model="loginForm.password"
+                  placeholder="Password"
+                  name="password"
+                  tabindex="2"
+                  autocomplete="on"
+              />
+            </el-form-item>
+          <el-button type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="loginRequest">Login
+          </el-button>
+        </el-form>
+      </el-tab-pane>
+      <el-tab-pane label="Register">
+        <el-form
+            ref="loginForm"
+            :model="registerForm"
+            class="login-form" autocomplete="on" label-position="left">
+          <el-form-item>
+            <el-input
+                ref="username"
+                v-model="registerForm.username"
+                placeholder="Username"
+                name="username"
+                type="text"
+                tabindex="1"
+                autocomplete="on"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-input
+                ref="password"
+                v-model="registerForm.password"
+                placeholder="Password"
+                name="password"
+                tabindex="2"
+                autocomplete="on"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              v-model="registerForm.tel"
+              placeholder="Telephone Number"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-input
+                v-model="registerForm.email"
+                placeholder="Email Address"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              v-model="registerForm.nickname"
+              placeholder="Nickname"/>
+          </el-form-item>
+          <el-button type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="registerRequest">Register</el-button>
+        </el-form>
+      </el-tab-pane>
+    </el-tabs>
     </el-dialog>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import storage from "good-storage"
-import { UID_KEY, isDef } from "@/utils"
-import { confirm } from "@/base/confirm"
 import {
   mapActions as mapUserActions,
   mapState as mapUserState,
-  mapGetters as mapUserGetters
 } from "@/store/helper/user"
+import axios from "axios";
 
 export default {
-  // 自动登录
-  created() {
-    const uid = storage.get(UID_KEY)
-    if (isDef(uid)) {
-      this.onLogin(uid)
-    }
-  },
+  components: {},
   data() {
     return {
       visible: false,
+      loginVisible: false,
       loading: false,
-      uid: ""
+      uid: "",
+      username: '',
+      isLogin: '',
+      loginForm: {
+        username: '',
+        password: ''
+      },
+      registerForm: {
+        username: '',
+        password: '',
+        email: '',
+        tel: '',
+        nickname: ''
+      }
     }
   },
   methods: {
-    onOpenModal() {
-      this.visible = true
-    },
     onCloseModal() {
       this.visible = false
     },
@@ -92,18 +149,98 @@ export default {
         this.onCloseModal()
       }
     },
-    onLogout() {
-      confirm("确定要注销吗？", () => {
-        this.logout()
+    loginRequest() {
+      axios({
+        method: 'POST',
+        url: "account/login",
+        data:{
+          username: this.loginForm.username,
+          password: this.loginForm.password
+        }
+      }).then(res=>{
+        console.log(res.data)
+        if (res.data.code===-1){
+          this.$message({
+            showClose:true,
+            message:res.data.msg,
+            type:'warning'
+          })
+        }
+        if(res.data.code === 200) {
+          this.$message({
+            showClose:true,
+            message:'Login Success',
+            type: "success"
+          })
+          sessionStorage.setItem('Auth', this.loginForm.username)
+          location.reload()
+        }
       })
+    },
+    registerRequest() {
+      axios({
+        method: 'POST',
+        url: "account/register",
+        data:{
+          username: this.registerForm.username,
+          password: this.registerForm.password,
+          password2: this.registerForm.password,
+          email: this.registerForm.email,
+          tel: this.registerForm.tel,
+          nickname: this.registerForm.nickname
+        }
+      }).then(res=>{
+        this.data = res.data
+        // eslint-disable-next-line no-console
+        console.log(res.data)
+        if (res.data.code===-1){
+          this.$message({
+            showClose:true,
+            message:res.data.msg,
+            type:'warning'
+          })
+        }
+        else {
+          this.$message({
+            showClose:true,
+            message:'Register Success',
+            type: "success"
+          })
+        }
+      })
+    },
+    onLogout() {
+      sessionStorage.removeItem('Auth')
+      console.log("Log Out")
+      axios({
+        method: 'GET',
+        url: 'account/logout'
+      })
+      location.reload()
+    },
+    toAddBlogPage(){
+      this.$router.push('/addBlog')
+    },
+    toPersonalPage(){
+      this.$router.push('/user')
+    },
+    checkLogin(){
+      const user_cookie = sessionStorage.getItem('Auth')
+      if (user_cookie !== null){
+        this.isLogin = true
+        this.visible = false
+        this.username = user_cookie
+      }
     },
     ...mapUserActions(["login", "logout"])
   },
   computed: {
     ...mapUserState(["user"]),
-    ...mapUserGetters(["isLogin"])
   },
-  components: {}
+  mounted() {
+    this.checkLogin()
+    console.log(this.isLogin)
+  }
 }
 </script>
 

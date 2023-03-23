@@ -3,9 +3,9 @@
   <div class="discovery">
     <div class="discovery-content">
       <Banner />
-      <NewPlaylists />
+<!--      <NewPlaylists />-->
       <NewSongs />
-      <NewMvs />
+<!--      <NewMvs />-->
     </div>
   </div>
 </template>

@@ -52,8 +52,8 @@ def text_correction(txt):
     return result
 
 
-json_file = read_comment_json('test_comments1.json')
-json_file = sentient_score(json_file)
-df = json_to_dataframe(json_file)
-json_top = get_positive_top(df, 10)
-json_bottom = get_negative_top(df, 10)
+# json_file = read_comment_json('test_comments1.json')
+# json_file = sentient_score(json_file)
+# df = json_to_dataframe(json_file)
+# json_top = get_positive_top(df, 10)
+# json_bottom = get_negative_top(df, 10)

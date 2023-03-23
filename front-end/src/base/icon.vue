@@ -24,11 +24,16 @@ export default {
   },
   methods: {
     getIconCls() {
-      let cls = `iconfont icon-component  icon-${this.type}`
-      if (this.color) {
-        cls += ` icon-color-${this.color}`
+      if (this.type.split(' ')[0] === 'new'){
+        let cls = `${this.type.split(' ')[1]}`
+        return cls
+      } else {
+        let cls = `icon-${this.type}`
+        if (this.color) {
+          cls += ` icon-color-${this.color}`
+        }
+        return cls
       }
-      return cls
     },
     onClick(e) {
       this.$emit("click", e)
@@ -48,7 +53,7 @@ export default {
     const Icon = (
       <i
         onClick={this.onClick}
-        class={this.getIconCls()}
+        class={`iconfont icon-component ${this.getIconCls()}`}
         style={this.getIconStyle()}
       />
     )

@@ -210,7 +210,7 @@ export default {
           onClick: this.onClickPlaylist.bind(this)
         },
         {
-          title: "mv",
+          title: "MV",
           icon: "mv",
           data: this.suggest.mvs,
           renderName(mv) {

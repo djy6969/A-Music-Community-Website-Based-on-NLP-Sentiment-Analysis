@@ -6,7 +6,7 @@
       ref="header"
     >
       <span class="keywords">{{keywords}}</span>
-      <span class="found">找到{{count}}个结果</span>
+      <span class="found">Found{{count}}results</span>
     </div>
     <div class="tabs-wrap">
       <Tabs
@@ -17,7 +17,7 @@
     <Empty
       class="empty"
       v-if="showEmpty"
-    >暂无结果</Empty>
+    >No Results</Empty>
     <router-view></router-view>
   </div>
 </template>
@@ -26,12 +26,12 @@
 import { mapState as mapGlobalState } from "@/store/helper/global"
 const tabs = [
   {
-    title: "歌曲",
+    title: "Song",
     key: "songs",
     to: "songs"
   },
   {
-    title: "歌单",
+    title: "Music List",
     key: "playlists",
     to: "playlists"
   },

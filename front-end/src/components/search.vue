@@ -37,9 +37,9 @@
             <ul class="list">
               <li
                 :key="item.id"
-                @click="normalizedSuggest.onClick(item)"
                 class="item"
                 v-for="item in normalizedSuggest.data"
+                @click="normalizedSuggest.onClick(item)"
               >
                 <HighlightText
                   :highlightText="searchKeyword"
@@ -192,6 +192,7 @@ export default {
       )
     },
     normalizedSuggests() {
+      // single, music list, mv suggestion
       return [
         {
           title: "Single",
@@ -200,13 +201,13 @@ export default {
           renderName(song) {
             return `${song.name} - ${genArtistisText(song.artists)}`
           },
-          onClick: this.onClickSong.bind(this)
+          // onClick: this.onClickSong.bind(this)
         },
         {
           title: "Music List",
           icon: "playlist",
           data: this.suggest.playlists,
-          onClick: this.onClickPlaylist.bind(this)
+          // onClick: this.onClickPlaylist.bind(this)
         },
         {
           title: "MV",
@@ -215,7 +216,7 @@ export default {
           renderName(mv) {
             return `${mv.name} - ${genArtistisText(mv.artists)}`
           },
-          onClick: this.onClickMv.bind(this)
+          // onClick: this.onClickMv.bind(this)
         }
       ].filter(item => item.data && item.data.length)
     }

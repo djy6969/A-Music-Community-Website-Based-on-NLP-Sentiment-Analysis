@@ -4,7 +4,6 @@ const isProd = process.env.NODE_ENV === "production";
 
 module.exports = {
   outputDir: "../music",
-  assetsDir: 'static/',
   configureWebpack: {
     devtool: isProd ? false : "source-map",
     devServer: {

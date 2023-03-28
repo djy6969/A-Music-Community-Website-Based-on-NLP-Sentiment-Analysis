@@ -8,6 +8,7 @@ export default {
     // 1.不污染元数据
     // 2.单曲循环为了触发watch
     const song = Object.assign({}, rawSong)
+    console.log(song)
     if (!song.img) {
       if (song.albumId) {
         song.img = await getSongImg(song.id, song.albumId)

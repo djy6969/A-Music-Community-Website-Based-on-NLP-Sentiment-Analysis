@@ -4,7 +4,6 @@ from app import app, db
 from common.models.User import TUser
 from flask import Blueprint, request, make_response
 from common.service import MessageHelper, UserHelper
-from common.nlp.nlp import sentient_analysis
 
 
 account = Blueprint('account', __name__)
@@ -90,6 +89,9 @@ def register():
 def login():
     username = request.json.get('username')
     password = request.json.get('password')
+    # username = request.values['username']
+    # password = request.values['password']
+    print(username)
 
     if username is None or len(username) < 3:
         return MessageHelper.ops_renderErrJSON(msg="请输入正确格式的用户名")
@@ -112,17 +114,15 @@ def login():
         return MessageHelper.ops_renderErrJSON("请输入正确的登录用户名和密码")
 
     # cookie身份识别
-    response = make_response(MessageHelper.ops_renderJSON(msg="登录成功！"))
+    response = make_response(MessageHelper.ops_renderJSON(msg="登录成功！", data={'id': user_info.id}))
     try:
         print("%s#%s#1" % (UserHelper.geneAuthCode(user_info), user_info.id))
         # user last number is 1, staff is 2
-
         response.set_cookie(app.config['AUTH_COOKIE_NAME'],
                             value="%s#%s#1" % (UserHelper.geneAuthCode(user_info), user_info.id),
-                            max_age = 60 * 60 * 24 * 7)
+                                max_age = 60 * 60 * 24 * 7, samesite = 'None')
+        # , secure = True
     except Exception as e:
-        print(e)
-        print('Error')
         return MessageHelper.ops_renderErrJSON(msg="flask 版本过低，请升级flask版本")
 
     return response
@@ -135,6 +135,7 @@ def logout():
     response.delete_cookie(app.config['AUTH_COOKIE_NAME'])
     return response
 
+
 @account.route('/analysis', methods=["POST"])
 def analysis():
     input = request.json.get('input')
@@ -144,5 +145,10 @@ def analysis():
     out_str = 'The emotion of input words "' + input + '" emotion is: ' + str(output[0]['label']) + ' , its confidence is: ' + str(output[0]['score'])
     print(out_str)
     return MessageHelper.ops_renderJSON(msg=out_str)
+
+
+
+
+
 
 

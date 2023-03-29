@@ -2,7 +2,7 @@ from router import *
 from app import manager
 from flask_script import Server
 
-manager.add_command("runserver", Server('127.0.0.1', port=5000))
+manager.add_command("runserver", Server('0.0.0.0', port=5000))
 
 
 def main():

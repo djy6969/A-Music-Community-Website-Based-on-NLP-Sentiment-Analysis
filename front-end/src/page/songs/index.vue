@@ -17,9 +17,6 @@
       :songs="songs"
       header-row-class-name="header-row"
     />
-<!--    <audio controls>-->
-<!--      <source src="../../../../back-end/static/music/04cHqPMD4So.mp3"/>-->
-<!--    </audio>-->
   </div>
 </template>
 
@@ -74,27 +71,29 @@ export default {
     async init() {
       await this.getSongs()
       console.log(this.songs)
-      this.getAllMusic()
     },
     async getAllMusic() {
-      // const res = await newRequest.get('/music/getAllMusicResources')
+      newRequest.post('/music/getMusicResource',
+          {
+            num: 50
+          }
+      ).then
       // this.allSongs = res.data
       // for(let i = 0;i < this.allSongs.length;i++){
       //   const re = await this.getMusic(this.allSongs[i][0])
       //   this.allSongs[i] = re.data
-      //   // this.songs[i].albumId = re.data.albumId
-      //   // this.songs[i].albumName = re.data.albumName
-      //   // this.songs[i].artists = re.data.artists
-      //   // this.songs[i].artistsText = re.data.artistsText
-      //   // this.songs[i].duration = re.data.duration
-      //   // this.songs[i].durationSecond = re.data.durationSecond
-      //   // this.songs[i].id = re.data.id
-      //   // this.songs[i].img = re.data.img
-      //   // this.songs[i].mvId = re.data.mvId
-      //   // this.songs[i].name = re.data.name
-      //   // this.songs[i].url = re.data.url
+      //   this.songs[i].albumId = re.data.albumId
+      //   this.songs[i].albumName = re.data.albumName
+      //   this.songs[i].artists = re.data.artists
+      //   this.songs[i].artistsText = re.data.artistsText
+      //   this.songs[i].duration = re.data.duration
+      //   this.songs[i].durationSecond = re.data.durationSecond
+      //   this.songs[i].id = re.data.id
+      //   this.songs[i].img = re.data.img
+      //   this.songs[i].mvId = re.data.mvId
+      //   this.songs[i].name = re.data.name
+      //   this.songs[i].url = re.data.url
       // }
-      // console.log(this.songs)
     },
     async getMusic(data) {
       return await newRequest.post('/music/getMusicResource',

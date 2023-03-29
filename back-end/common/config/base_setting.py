@@ -1,10 +1,17 @@
 # 基础通用配置文件
+from datetime import timedelta
 
 import sshtunnel
 
+DEBUG = True
+SQLALCHEMY_ECHO = False
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+SQLALCHEMY_ENCODING = "utf8mb4"
+PERMANENT_SESSION_LIFETIME = timedelta(days=7)
+
 SECRET_KEY = 'fianna_11'
 
-AUTH_COOKIE_NAME = 'Fianna_music_communicity'
+AUTH_COOKIE_NAME = 'Fianna_music_community'
 
 ssh_host = "137.43.49.28"  # 堡垒机ip地址或主机名
 ssh_port = 22  # 堡垒机连接mysql服务器的端口号，一般都是22，必须是数字

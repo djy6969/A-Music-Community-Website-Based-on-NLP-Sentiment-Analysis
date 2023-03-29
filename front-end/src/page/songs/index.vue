@@ -77,7 +77,10 @@ export default {
           {
             num: 50
           }
-      ).then
+      ).then((res) =>{
+        console.log(12345)
+        console.log(res)
+      })
       // this.allSongs = res.data
       // for(let i = 0;i < this.allSongs.length;i++){
       //   const re = await this.getMusic(this.allSongs[i][0])

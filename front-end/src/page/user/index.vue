@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import PersonInformation from "@/page/user/personInformation.vue";
-import PostHistory from "@/page/user/postHistory.vue";
+import PersonInformation from "@/page/user/personInformation.vue"
+import PostHistory from "@/page/user/postHistory.vue"
 
 export default {
   name: "index",

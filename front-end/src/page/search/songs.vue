@@ -25,7 +25,7 @@
 import { getSearch } from "@/api"
 import SongTable from "@/components/song-table"
 import WithPagination from "@/components/with-pagination"
-import { createSong } from "@/utils"
+import {createSong, newCreateSong} from "@/utils"
 
 export default {
   inject: ["searchRoot"],
@@ -41,6 +41,7 @@ export default {
   },
   methods: {
     onGetSearch(result) {
+      console.log(result)
       const {
         result: { songs, songCount }
       } = result
@@ -57,6 +58,25 @@ export default {
           albumId: album.id
         })
       })
+
+      // new code
+      // this.songs = songs.map(song => {
+      //   const { id, mvId, name, artists, artistsText, url, duration, durationSecond, albumName, albumId } = song
+      //   return newCreateSong({
+      //     id,
+      //     name,
+      //     artists,
+      //     artistsText,
+      //     url,
+      //     duration,
+      //     durationSecond,
+      //     mvId,
+      //     albumName,
+      //     albumId
+      //   })
+      // })
+
+      // update the number of search results
       this.songCount = songCount
       this.searchRoot.onUpdateCount(songCount)
     },

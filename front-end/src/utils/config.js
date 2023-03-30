@@ -24,3 +24,7 @@ export const UID_KEY = '__uid__'
 
 // 音量
 export const VOLUME_KEY = '__volume__'
+
+
+// play mode
+export const PLAY_MODE = '__play__mode__'

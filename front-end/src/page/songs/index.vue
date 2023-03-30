@@ -1,6 +1,7 @@
 // The newest music page
 <template>
   <div class="songs">
+<!--  the tags  -->
     <div class="tabs">
       <Tabs
         :tabs="tabs"
@@ -10,6 +11,7 @@
         v-model="activeTabIndex"
       />
     </div>
+<!--  displayed songs  -->
     <SongTable
       :songs="songs"
       header-row-class-name="header-row"
@@ -19,7 +21,7 @@
 
 <script type="text/ecmascript-6">
 import {getTopSongs} from "@/api"
-import {createSong, newRequest} from "@/utils"
+import {createSong, newCreateSong, newRequest} from "@/utils"
 import SongTable from "@/components/song-table"
 import {ref} from "vue";
 
@@ -67,32 +69,47 @@ export default {
     async init() {
       await this.getSongs()
       console.log(this.songs)
-      this.getAllMusic()
+      await this.getAllMusic()
     },
     async getAllMusic() {
-      const res = await newRequest.get('/music/getAllMusicResources')
-      this.allSongs = res.data
-      for(let i = 0;i < this.allSongs.length;i++){
-        const re = await this.getMusic(this.allSongs[i][0])
-        this.allSongs[i] = re.data
-        console.log(re.data.music_filepath)
-        // this.songs[i].url = this.songs[99-i].url
-        // this.songs[i].img = this.songs[99-i].img
-        // this.songs[i].durationSecond = this.songs[99-i].durationSecond
-        // this.songs[i].duration = this.songs[99-i].duration
-      }
-      console.log(this.songs)
-    },
-    async getMusic(data) {
-      return await newRequest.post('/music/getMusicResource',
+      newRequest.post('/api/music/getMusicResource',
           {
-            music_id: data
+            num: 50
           }
-      )
-    }
+      ).then((res) =>{
+        const allSongs = Object.values(res.data)
+        console.log(allSongs)
+        this.songs = allSongs.map(song =>{
+          const {
+            id,
+            name,
+            artists,
+            artistsText,
+            duration,
+            durationSecond,
+            mvId,
+            img,
+            albumName,
+            url
+          } = song
+          return newCreateSong({
+            id,
+            name,
+            artists,
+            artistsText: artists,
+            duration,
+            durationSecond,
+            albumName,
+            img,
+            mvId,
+            url
+          })
+        })
+      })
+    },
   },
   components: {
-    SongTable
+    SongTable,
   }
 }
 </script>

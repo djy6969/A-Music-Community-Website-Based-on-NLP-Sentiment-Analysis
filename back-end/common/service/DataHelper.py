@@ -44,9 +44,15 @@ def load_datas_from_json(data_type):
 def load_json_data_to_Tmusic(data_list):
     for data in data_list:
         music = TMusic()
-        print(data)
+        # print(data)
         data_info = re.split('T|Z', data[0].get("publishedAt"))
         datatime = data_info[0] + ' ' + data_info[1]
+        duration_split = re.split('PT|M|S', data[0].get("duration"))
+        if len(duration_split) == 4:
+            duration = duration_split[1] + ":" + duration_split[2]
+        else:
+            duration = duration_split[1]
+        print(duration)
         music.video_Id = data[0].get("videoId")
         music.publish_time =datatime
         music.title = data[0].get("title")
@@ -55,6 +61,7 @@ def load_json_data_to_Tmusic(data_list):
         music.view_count = data[0].get("viewCount")
         music.image_url = data[0].get("thumbnailsURL")
         music.tags = data[0].get("tags")
+        music.duration = duration
         db.session.add(music)
     db.session.commit()
 
@@ -70,8 +77,9 @@ def load_json_data_to_Tcomment(data_list):
             print(j)
             t_comment = TComment()
             data_single = data[j]
-            # print(data)
-            data_info = re.split('T|Z', data_single.get("publishtime"))
+            # print(data_single)
+            # print(data_single.get("publishtime"))
+            data_info = re.split("[TZ]", data_single.get("publishtime"))
             datatime = data_info[0] + ' ' + data_info[1]
             t_comment.video_Id = data_single.get("videoId")
             t_comment.author = data_single.get("author")
@@ -79,8 +87,8 @@ def load_json_data_to_Tcomment(data_list):
             t_comment.like_count = data_single.get("likeCount")
             t_comment.comment = data_single.get("comment")
             db.session.add(t_comment)
-            if j % 500 == 0 or j == len(data):
-                db.session.commit()
+            # if j % 100 == 0 or j == len(data):
+        db.session.commit()
 
 if __name__ == "__main__":
     load_json_data_to_Tcomment(load_datas_from_json('comment'))

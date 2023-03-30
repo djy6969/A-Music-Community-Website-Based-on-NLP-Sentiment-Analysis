@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 import re, os
 import paramiko
 from app import transport
+=======
+import re
+import paramiko
+from app import transport
+
+>>>>>>> origin/main
 '''
 the format of music time in database is minute:second
 the front-end need pure second time, format second.00

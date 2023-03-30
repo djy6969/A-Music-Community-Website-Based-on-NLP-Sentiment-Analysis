@@ -3,7 +3,7 @@ const WorkboxPlugin = require("workbox-webpack-plugin");
 const isProd = process.env.NODE_ENV === "production";
 
 module.exports = {
-  outputDir: "music",
+  outputDir: "../music",
   configureWebpack: {
     devtool: isProd ? false : "source-map",
     devServer: {

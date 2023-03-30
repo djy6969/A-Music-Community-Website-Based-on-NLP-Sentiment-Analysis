@@ -18,13 +18,13 @@
             <p class="artists">{{ currentSong.artistsText }}</p>
           </div>
           <div class="time">
-            <span class="played-time">{{
-              $utils.formatTime(currentTime)
-            }}</span>
+            <span class="played-time">
+              {{$utils.formatTime(currentTime) }}
+            </span>
             <span class="split">/</span>
-            <span class="total-time">{{
-              $utils.formatTime(currentSong.duration / 1000)
-            }}</span>
+            <span class="total-time">
+              {{$utils.formatTime(currentSong.duration / 1000) }}
+            </span>
           </div>
         </div>
       </template>
@@ -110,7 +110,7 @@ import {
 } from "@/store/helper/music"
 import Storage from "good-storage"
 import Share from "@/components/share"
-import { VOLUME_KEY, playModeMap, isDef } from "@/utils"
+import { VOLUME_KEY, PLAY_MODE, playModeMap, isDef } from "@/utils"
 
 const DEFAULT_VOLUME = 0.75
 export default {
@@ -187,6 +187,7 @@ export default {
       const nextModeKey = modeKeys[nextIndex]
       const nextMode = playModeMap[nextModeKey]
       this.setPlayMode(nextMode.code)
+      Storage.set(PLAY_MODE, nextMode.code)
     },
     togglePlaylistShow() {
       this.setPlaylistShow(!this.isPlaylistShow)

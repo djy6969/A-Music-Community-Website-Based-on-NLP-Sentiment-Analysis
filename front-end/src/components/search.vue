@@ -37,9 +37,9 @@
             <ul class="list">
               <li
                 :key="item.id"
-                @click="normalizedSuggest.onClick(item)"
                 class="item"
                 v-for="item in normalizedSuggest.data"
+                @click="normalizedSuggest.onClick(item)"
               >
                 <HighlightText
                   :highlightText="searchKeyword"
@@ -54,7 +54,7 @@
           v-else
         >
           <div class="block">
-            <p class="title">热门搜索</p>
+            <p class="title">Top Searches</p>
             <div class="tags">
               <NButton
                 :key="index"
@@ -65,22 +65,25 @@
             </div>
           </div>
           <div class="block">
-            <p class="title">搜索历史</p>
+            <p class="title">
+              Search History
+              <el-button type="danger" icon="el-icon-delete" circle @click="clearHistory"></el-button>
+            </p>
             <div
               class="tags"
-              v-if="searchHistorys.length"
+              v-if="searchHistory.length"
             >
               <NButton
                 :key="index"
                 @click="onClickHot(history)"
                 class="button"
-                v-for="(history, index) in searchHistorys"
+                v-for="(history, index) in searchHistory"
               >{{history.first}}</NButton>
             </div>
             <div
               class="empty"
               v-else
-            >暂无搜索历史</div>
+            >No Search History</div>
           </div>
         </div>
       </div>
@@ -107,7 +110,7 @@ export default {
       searchPanelShow: false,
       searchKeyword: "",
       searchHots: [],
-      searchHistorys: storage.get(SEARCH_HISTORY_KEY, []),
+      searchHistory: storage.get(SEARCH_HISTORY_KEY, []),
       suggest: {},
       reserveDoms: []
     }
@@ -137,8 +140,8 @@ export default {
       }
     },
     goSearch(keywords) {
-      this.searchHistorys.push({ first: keywords })
-      storage.set(SEARCH_HISTORY_KEY, this.searchHistorys)
+      this.searchHistory.push({ first: keywords })
+      storage.set(SEARCH_HISTORY_KEY, this.searchHistory)
       this.$router.push(`/search/${keywords}`)
       this.searchPanelShow = false
     },
@@ -172,6 +175,10 @@ export default {
       const { id } = mv
       this.$router.push(`/mv/${id}`)
     },
+    clearHistory() {
+      storage.remove(SEARCH_HISTORY_KEY)
+      this.searchHistory = []
+    },
     ...mapMutations(["setPlaylist"]),
     ...mapActions(["startSong", "addToPlaylist"])
   },
@@ -185,30 +192,31 @@ export default {
       )
     },
     normalizedSuggests() {
+      // single, music list, mv suggestion
       return [
         {
-          title: "单曲",
+          title: "Single",
           icon: "music",
           data: this.suggest.songs,
           renderName(song) {
             return `${song.name} - ${genArtistisText(song.artists)}`
           },
-          onClick: this.onClickSong.bind(this)
+          // onClick: this.onClickSong.bind(this)
         },
         {
-          title: "歌单",
+          title: "Music List",
           icon: "playlist",
           data: this.suggest.playlists,
-          onClick: this.onClickPlaylist.bind(this)
+          // onClick: this.onClickPlaylist.bind(this)
         },
         {
-          title: "mv",
+          title: "MV",
           icon: "mv",
           data: this.suggest.mvs,
           renderName(mv) {
             return `${mv.name} - ${genArtistisText(mv.artists)}`
           },
-          onClick: this.onClickMv.bind(this)
+          // onClick: this.onClickMv.bind(this)
         }
       ].filter(item => item.data && item.data.length)
     }

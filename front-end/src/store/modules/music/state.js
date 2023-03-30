@@ -1,6 +1,6 @@
 import storage from 'good-storage'
 import { PLAY_HISTORY_KEY } from '@/utils'
-import { playModeMap } from '@/utils/config'
+import { playModeMap, PLAY_MODE } from '@/utils/config'
 
 export default {
   // 当前播放歌曲
@@ -10,7 +10,7 @@ export default {
   // 播放状态
   playing: false,
   // 播放模式
-  playMode: playModeMap.sequence.code,
+  playMode: storage.get(PLAY_MODE, playModeMap.sequence.code),
   // 播放列表显示
   isPlaylistShow: false,
   // 播放提示显示

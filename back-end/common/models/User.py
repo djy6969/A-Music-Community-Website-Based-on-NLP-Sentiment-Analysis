@@ -1,5 +1,6 @@
 # coding: utf-8
 # use flask-sqlalcodegen to help generate the models easier
+
 from app import db
 
 

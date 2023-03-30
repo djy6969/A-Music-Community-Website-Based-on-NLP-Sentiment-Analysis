@@ -23,7 +23,7 @@
             </span>
             <span class="split">/</span>
             <span class="total-time">
-              {{$utils.formatTime(currentSong.duration / 1000) }}
+              {{ currentSong.duration }}
             </span>
           </div>
         </div>

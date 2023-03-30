@@ -27,10 +27,11 @@ export function createSong(song) {
 }
 
 export function newCreateSong(song) {
-  const { id, name, img, artists, duration, durationSecond, albumId, albumName, mvId, url, artistsText,  ...rest } = song
+  const { id, seq, name, img, artists, duration, durationSecond, albumId, albumName, mvId, url, artistsText,  ...rest } = song
 
   return {
     id,
+    seq,
     name,
     img,
     artists,

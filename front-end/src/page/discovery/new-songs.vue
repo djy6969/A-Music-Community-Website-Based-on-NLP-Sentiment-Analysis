@@ -79,7 +79,7 @@ export default {
     },
     newNormalizeSong(song) {
       const {
-        id,
+        seq,
         name,
         mvId,
         artists,
@@ -89,7 +89,7 @@ export default {
         url
       } = song
       return newCreateSong({
-        id,
+        id: seq,
         name,
         img,
         artists,

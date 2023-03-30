@@ -1,6 +1,7 @@
 <template>
   <el-card class="blog-card" style="background-position: center">
     <div slot="header">
+      <el-avatar :src="avatar" />
       {{ username }}:
     </div>
     <div class="text item" style="margin-bottom: 18px">{{ blogText }}</div>
@@ -25,11 +26,10 @@
         width="50%"
     >
       <ul v-for="(item,index) in commentData" :key="index">
-        <li>{{ item.username }}:</li>
-        <li>{{ item.comment }}</li>
+        <li>{{ item.username }}:   {{ item.content }}</li>
       </ul>
       <div style="display: flex">
-        <el-input placeholder="Comment"/>
+        <el-input placeholder="Comment" v-model="addCommentData"/>
         <el-button @click="addBlogComment">Send</el-button>
       </div>
     </el-dialog>
@@ -45,12 +45,14 @@ export default {
     'username',
     'blogText',
     'blogId',
-    'picList'
+    'picList',
+    'avatar'
   ],
   data() {
     return {
       commentData: '',
       commentDialogVisible: false,
+      addCommentData: ''
     }
   },
   methods: {
@@ -71,7 +73,7 @@ export default {
         console.log(res.data)
         getBlogCommentsLoading.close()
         this.commentDialogVisible = true
-        this.commentData = res.data.comments
+        this.commentData = res.data.data
       })
     },
     addBlogComment(){
@@ -83,13 +85,17 @@ export default {
       })
       axios({
         method: 'POST',
-        url:'',
+        url:'/blog/post_blog_comment',
         data:{
-
+          'user_id': sessionStorage.getItem('userid'),
+          'blog_id': this.blogId,
+          'comment_content': this.addCommentData
         }
       }).then(res=>{
+        this.addCommentData = ''
         console.log(res.data)
         addBlogCommentsLoading.close()
+        this.commentDialogVisible = false
       })
     }
   },

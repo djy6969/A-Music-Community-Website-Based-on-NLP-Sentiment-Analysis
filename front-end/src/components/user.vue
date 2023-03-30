@@ -12,12 +12,12 @@
     <!-- 登录后 -->
     <el-dropdown>
       <div class="logined-user" v-show="isLogin">
-        <el-avatar />
+        <el-avatar :src="avatarUrl" />
         <p class="user-name">{{ username }}</p>
       </div>
       <el-dropdown-menu>
         <el-dropdown-item @click.native="toPersonalPage">Personal Page</el-dropdown-item>
-        <el-dropdown-item @click.native="toAddBlogPage">Add a Blog</el-dropdown-item>
+        <el-dropdown-item @click.native="toStaffPage">Staff</el-dropdown-item>
         <el-dropdown-item @click.native="onLogout" >Log Out</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -133,6 +133,7 @@ export default {
         username: '',
         password: ''
       },
+      avatarUrl: '',
       registerForm: {
         username: '',
         password: '',
@@ -161,6 +162,7 @@ export default {
           password: this.loginForm.password
         }
       }).then(res=>{
+        console.log(res.data)
         if (res.data.code===-1){
           loginLoading.close()
           this.$message({
@@ -179,6 +181,7 @@ export default {
           console.log(res.data)
           sessionStorage.setItem('Auth', this.loginForm.username)
           sessionStorage.setItem('userid', res.data.data.id)
+          sessionStorage.setItem('avatar', res.data.data.url)
           location.reload()
         }
       })
@@ -236,8 +239,8 @@ export default {
       location.reload()
       logoutLoading.close()
     },
-    toAddBlogPage(){
-      this.$router.push('/addBlog')
+    toStaffPage(){
+      this.$router.push('/staff')
     },
     toPersonalPage(){
       this.$router.push('/user')
@@ -248,6 +251,7 @@ export default {
         this.isLogin = true
         this.visible = false
         this.username = user_cookie
+        this.avatarUrl = sessionStorage.getItem('avatar')
       }
     },
     ...mapUserActions(["login", "logout"])
@@ -257,7 +261,6 @@ export default {
   },
   mounted() {
     this.checkLogin()
-    console.log(this.isLogin)
   }
 }
 </script>

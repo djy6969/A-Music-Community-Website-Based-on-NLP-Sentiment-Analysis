@@ -6,6 +6,7 @@
           :username="item.username"
           :blog-text="item.blog_content"
           :picList="item.picList"
+          :avatar="item.head"
       />
     </div>
 <!--    css back to top button-->
@@ -121,7 +122,6 @@ export default {
         method: 'GET',
         url: 'blog/get_all_blogs',
       }).then(res=>{
-        console.log(res.data.data)
         this.blogListData = res.data.data
         getAllBlogLoading.close()
         console.log(this.blogListData)

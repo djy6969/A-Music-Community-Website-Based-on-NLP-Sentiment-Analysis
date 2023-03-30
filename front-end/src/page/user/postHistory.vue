@@ -30,6 +30,10 @@
             <li>{{ item3.username }}:</li>
             <li>{{ item3.comment }}</li>
           </ul>
+          <div style="display: flex">
+            <el-input placeholder="Comment"/>
+            <el-button @click="addBlogComment">Send</el-button>
+          </div>
         </el-dialog>
       </el-card>
     </div>
@@ -44,7 +48,9 @@ export default {
   components: {},
   data() {
     return {
-      personalBlogData: []
+      commentData: '',
+      personalBlogData: [],
+      commentDialogVisible: false
     }
   },
   methods: {
@@ -64,6 +70,44 @@ export default {
       }).then(res => {
         this.personalBlogData = res.data.data
         getPersonalBlogLoading.close()
+      })
+    },
+    getBlogComments() {
+      const getBlogCommentsLoading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0,0,0,0.7)'
+      })
+      axios({
+        method: 'POST',
+        url: '/blog/get_blog_comments',
+        data: {
+          blogid: this.blogId
+        }
+      }).then(res => {
+        console.log(res.data)
+        getBlogCommentsLoading.close()
+        this.commentDialogVisible = true
+        this.commentData = res.data.comments
+      })
+    },
+    addBlogComment(){
+      const addBlogCommentsLoading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0,0,0,0.7)'
+      })
+      axios({
+        method: 'POST',
+        url:'',
+        data:{
+
+        }
+      }).then(res=>{
+        console.log(res.data)
+        addBlogCommentsLoading.close()
       })
     }
   },

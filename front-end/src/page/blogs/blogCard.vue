@@ -9,7 +9,7 @@
       <div class="imageBox" v-for="(item,index) in picList" :key="index">
         <el-image
             :src="item"
-            style=""/>
+            style="width: 80%"/>
       </div>
     </div>
 

@@ -31,7 +31,7 @@ def uploadServerPic(file, folder):
     # sftp.put(path, '/home/group3/public_html/project/flask-back/static/img/{}/{}'.format(folder, name))
     # a = request.files.get('file')
     print(type(file))
-    # 本地用路径传文件使用put方法，接收前端传递的文件用putof
-    sftp.putof(file, '/home/student/comp3032j/data/image/{}/{}'.format(folder, name))
+    # 本地用路径传文件使用put方法，接收前端传递的文件用putfo
+    sftp.putfo(file, '/home/student/comp3032j/data/image/{}/{}'.format(folder, name))
     return_name = '{}/{}'.format(folder, name)
     return return_name

@@ -1,4 +1,4 @@
-import { request } from "@/utils";
+import {newRequest, request} from "@/utils";
 
 export const getSearchHot = () => request.get('/search/hot')
 

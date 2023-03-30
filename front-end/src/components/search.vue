@@ -140,8 +140,23 @@ export default {
       }
     },
     goSearch(keywords) {
-      this.searchHistory.push({ first: keywords })
-      storage.set(SEARCH_HISTORY_KEY, this.searchHistory)
+      let ifAdd = true
+      const localHistory = storage.get(SEARCH_HISTORY_KEY, [])
+      // if repeat
+      if (localHistory.length !== 0) {
+        console.log(localHistory)
+        for (let i=0; i<localHistory.length; i++) {
+          if (localHistory[i].first === keywords) {
+            ifAdd = false
+          }
+        }
+      }
+
+      // if add
+      if (ifAdd) {
+        this.searchHistory.push({ first: keywords })
+        storage.set(SEARCH_HISTORY_KEY, this.searchHistory)
+      }
       this.$router.push(`/search/${keywords}`)
       this.searchPanelShow = false
     },

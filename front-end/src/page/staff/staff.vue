@@ -11,6 +11,12 @@
     <el-table
         :data="resultData"
     >
+<!--      <el-table-column-->
+<!--          type="index"-->
+<!--          width="50"-->
+<!--          -->
+<!--      >-->
+<!--      </el-table-column>-->
       <el-table-column
         prop="Text"
         label="Input Text"
@@ -57,7 +63,7 @@ export default {
           text: this.input
         }
       }).then(res=>{
-        this.resultData.push({
+        this.resultData.unshift({
           Text: this.input,
           Result: res.data.data.result
         })

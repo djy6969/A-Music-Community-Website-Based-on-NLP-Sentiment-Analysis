@@ -1,37 +1,24 @@
 <template>
-  <div>
+  <div class="personalInformationBox">
     <el-row>
-      <el-col span="8">
-        <el-image :size="size" src=personInformationForm.avatar></el-image>
+      <el-col :span="8">
+        <el-image  src=personInformationForm.avatar></el-image>
       </el-col>
-      <el-col span="16">
-        <ul class="list-group">
-          <li class="list-group-item">
-            <span>UserName:</span>
-            <p>{{ personInformationForm.username }}</p>
-            <el-link @click="editPersonalData('username', 'User Name')">edit</el-link>
-          </li>
-          <li class="list-group-item">
-            <span>Nick Name:</span>
-            <p>{{ personInformationForm.nickname }}</p>
-            <el-link @click="editPersonalData('nickname', 'Nick Name')">edit</el-link>
-          </li>
-          <li class="list-group-item">
-            <span>E-Mail</span>
-            <p>{{ personInformationForm.email }}</p>
-            <el-link @click="editPersonalData('email','E-Mail')">edit</el-link>
-          </li>
-          <li class="list-group-item">
-            <span>Telephone Number:</span>
-            <p>{{ personInformationForm.tel }}</p>
-            <el-link @click="editPersonalData('tel', 'Telephone Number')">edit</el-link>
-          </li>
-          <li class="list-group-item">
-            Password:
-            <p>{{ personInformationForm.password }}</p>
-            <el-link @click="editPersonalData('password', 'Password')">edit</el-link>
-          </li>
-        </ul>
+      <el-col :span="16">
+        <el-card class="box-card">
+          <div class="text-item">
+            <span>UserName: {{ personInformationForm.username }}</span>
+          </div>
+          <div class="text-item">
+            <span>Nick Name: {{ personInformationForm.nickname }}</span>
+          </div>
+          <div class="text-item">
+            <span>E-Mail: {{ personInformationForm.email }}</span>
+          </div>
+          <div class="text-item">
+            <span>Telephone Number: {{ personInformationForm.tel }}</span>
+          </div>
+        </el-card>
       </el-col>
     </el-row>
     <el-dialog
@@ -56,6 +43,7 @@ import axios from "axios";
 
 export default {
   name: "personInformation",
+  components: {},
   data() {
     return {
       dialogData: {
@@ -89,10 +77,35 @@ export default {
           targetText: this.dialogData.changeInput
         }
       })
-    }
+    },
+    getPersonalData(){
+      const getPersonalDataLoading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0,0,0,0.7)'
+      })
+      axios({
+        method: 'POST',
+        url: ''
+      }).then(res=>{
+        console.log(res.data)
+        getPersonalDataLoading.close()
+      })
+      }
+    },
+  mounted() {
   }
 }
 </script>
 
 <style>
+.personalInformationBox{
+  border: 5px solid;
+  border-image: linear-gradient(45deg, #ffadad, #ffd6a5, #fdffb6, #9bf6ff);
+}
+.text-item{
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
 </style>

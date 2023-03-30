@@ -112,13 +112,14 @@ def login():
         return MessageHelper.ops_renderErrJSON("请输入正确的登录用户名和密码")
 
     # cookie身份识别
-    response = make_response(MessageHelper.ops_renderJSON(msg="登录成功！"))
+    response = make_response(MessageHelper.ops_renderJSON(msg="登录成功！",  data={'id': user_info.id}),)
+    print(user_info.id)
     try:
         print("%s#%s#1" % (UserHelper.geneAuthCode(user_info), user_info.id))
         # user last number is 1, staff is 2
 
         response.set_cookie(app.config['AUTH_COOKIE_NAME'],
-                            value="%s#%s#1" % (UserHelper.geneAuthCode(user_info), user_info.id),
+                            value="%s#%s#1" % (UserHelper.geneAuthCode(user_info), user_info.id), samesite="None", secure="True",
                             max_age = 60 * 60 * 24 * 7)
     except Exception as e:
         print(e)

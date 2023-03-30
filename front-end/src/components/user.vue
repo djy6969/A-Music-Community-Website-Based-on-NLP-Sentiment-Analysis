@@ -1,5 +1,9 @@
 <template>
   <div class="user">
+    <Loading
+      :loading="userLoading"
+      v-if="userLoading"
+    />
     <!-- 登录前 -->
     <div @click="visible = true" class="login-trigger" v-show="!isLogin">
       <i class="user-icon iconfont icon-yonghu" />
@@ -112,11 +116,13 @@ import {
   mapState as mapUserState,
 } from "@/store/helper/user"
 import axios from "axios";
+import Loading from "@/base/loading.vue";
 
 export default {
-  components: {},
+  components: {Loading},
   data() {
     return {
+      userLoading: false,
       visible: false,
       loginVisible: false,
       loading: false,
@@ -140,16 +146,13 @@ export default {
     onCloseModal() {
       this.visible = false
     },
-    async onLogin(uid) {
-      this.loading = true
-      const success = await this.login(uid).finally(() => {
-        this.loading = false
-      })
-      if (success) {
-        this.onCloseModal()
-      }
-    },
     loginRequest() {
+      const loginLoading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0,0,0,0.7)'
+      })
       axios({
         method: 'POST',
         url: "account/login",
@@ -158,8 +161,8 @@ export default {
           password: this.loginForm.password
         }
       }).then(res=>{
-        console.log(res.data)
         if (res.data.code===-1){
+          loginLoading.close()
           this.$message({
             showClose:true,
             message:res.data.msg,
@@ -167,17 +170,26 @@ export default {
           })
         }
         if(res.data.code === 200) {
+          loginLoading.close()
           this.$message({
             showClose:true,
             message:'Login Success',
             type: "success"
           })
+          console.log(res.data)
           sessionStorage.setItem('Auth', this.loginForm.username)
+          sessionStorage.setItem('userid', res.data.data.id)
           location.reload()
         }
       })
     },
     registerRequest() {
+      const registerLoading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0,0,0,0.7)'
+      })
       axios({
         method: 'POST',
         url: "account/register",
@@ -191,9 +203,8 @@ export default {
         }
       }).then(res=>{
         this.data = res.data
-        // eslint-disable-next-line no-console
-        console.log(res.data)
         if (res.data.code===-1){
+          registerLoading.close()
           this.$message({
             showClose:true,
             message:res.data.msg,
@@ -201,6 +212,7 @@ export default {
           })
         }
         else {
+          registerLoading.close()
           this.$message({
             showClose:true,
             message:'Register Success',
@@ -210,13 +222,19 @@ export default {
       })
     },
     onLogout() {
+      const logoutLoading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0,0,0,0.7)'
+      })
       sessionStorage.removeItem('Auth')
-      console.log("Log Out")
       axios({
         method: 'GET',
         url: 'account/logout'
       })
       location.reload()
+      logoutLoading.close()
     },
     toAddBlogPage(){
       this.$router.push('/addBlog')

@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="blog-container" v-for="(item,index) in blogListData" :key="index">
-      <blog-card :blog-text="item.blogText" :username="item.username" />
+      <blog-card
+          :blog-id="item.id"
+          :username="item.username"
+          :blog-text="item.blog_content"
+          :picList="item.picList"
+      />
     </div>
 <!--    css back to top button-->
     <div class="el-backtop" @click="showAddBlogDialog">
@@ -25,6 +30,7 @@
               action="#"
               :on-change="uploadSuccess"
               :auto-upload="false"
+              accept=".jpg,.png"
           >
             <el-button size="small" type="primary">Upload Pictures</el-button>
           </el-upload>
@@ -54,22 +60,12 @@ export default {
       dialogImageUrl: '',
       dialogVisible: false,
       blogData: '',
-      fileList: [{}],
       addBlogForm:{
         text: '',
         picFiles: [],
         picFileNumber: ''
       },
-      blogListData: [
-        {
-          'blogText': 'blogText1',
-          'username': 'username1'
-          },
-        {
-          'blogText': 'blogText2',
-          'username': 'username2'
-        }
-      ]
+      blogListData: []
     }
   },
   methods:{
@@ -83,34 +79,57 @@ export default {
       console.log(this.addBlogForm.picFiles)
     },
     onSubmitBlog(){
+      const submitBlogLoading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0,0,0,0.7)'
+      })
       let blogData = new FormData()
       blogData.append('text', this.addBlogForm.text)
+      blogData.append('user_id', sessionStorage.getItem('userid'))
       for (let i=0; i< this.addBlogForm.picFiles.length; i++){
         let name = `picList[${i}]`
         blogData.append(name, this.addBlogForm.picFiles[i])
-        this.addBlogForm.picFileNumber = i
+        this.addBlogForm.picFileNumber = i+1
       }
       blogData.append('picNumber', this.addBlogForm.picFileNumber)
+      console.log(blogData)
       axios({
         method: "POST",
         url: 'blog/post_blog',
         headers: { "Content-Type": "multipart/form-data" },
         data: blogData,
       }).then(res=>{
-        console.log(res.data)
+        this.$message({
+          showClose:true,
+          message:res.data.meg,
+          type: "success"
+        })
+        submitBlogLoading.close()
+        location.reload()
       })
     },
-    getBlogsData(){
+    getAllBlogsData(){
+      const getAllBlogLoading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0,0,0,0.7)'
+      })
       axios({
         method: 'GET',
-        url: 'blog/get_blogs',
-        params: {
-
-        }
+        url: 'blog/get_all_blogs',
       }).then(res=>{
-        console.log(res.data)
+        console.log(res.data.data)
+        this.blogListData = res.data.data
+        getAllBlogLoading.close()
+        console.log(this.blogListData)
       })
     }
+  },
+  mounted() {
+    this.getAllBlogsData()
   }
 }
 </script>

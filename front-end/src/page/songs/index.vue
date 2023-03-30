@@ -2,15 +2,15 @@
 <template>
   <div class="songs">
 <!--  the tags  -->
-    <div class="tabs">
-      <Tabs
-        :tabs="tabs"
-        @tabChange="getSongs"
-        align="right"
-        type="small"
-        v-model="activeTabIndex"
-      />
-    </div>
+<!--    <div class="tabs">-->
+<!--      <Tabs-->
+<!--        :tabs="tabs"-->
+<!--        @tabChange="getSongs"-->
+<!--        align="right"-->
+<!--        type="small"-->
+<!--        v-model="activeTabIndex"-->
+<!--      />-->
+<!--    </div>-->
 <!--  displayed songs  -->
     <SongTable
       :songs="songs"
@@ -46,6 +46,7 @@ export default {
   methods: {
     async getSongs() {
       const { data } = await getTopSongs(this.tabs[this.activeTabIndex].type)
+      console.log(data)
       this.songs = data.map(song => {
         const {
           id,
@@ -67,8 +68,7 @@ export default {
       })
     },
     async init() {
-      await this.getSongs()
-      console.log(this.songs)
+      //await this.getSongs()
       await this.getAllMusic()
     },
     async getAllMusic() {
@@ -84,7 +84,6 @@ export default {
             id,
             name,
             artists,
-            artistsText,
             duration,
             durationSecond,
             mvId,

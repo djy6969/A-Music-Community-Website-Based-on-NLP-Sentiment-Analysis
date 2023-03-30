@@ -34,11 +34,12 @@ def getMusicResource():
         music_file = music_id + '.mp3'
 
         # relative path of music in project
-        music_file_path = 'http://ipa-012.ucd.ie/music/' + music_file
+        music_file_path = 'https://ipa-012.ucd.ie/music/' + music_file
 
         print(music_i.publish_time)
 
-        music_i_info = {'id': music_id, 'img': music_i.image_url, "url": music_file_path, 'name': music_i.title,
+        music_i_info = {'seq': i, 'id': music_id, 'img': music_i.image_url, "url": music_file_path,
+                        'name': music_i.title,
                         'albumId': '', 'albumName': '', 'artists': music_i.artist, 'duration': music_i.duration,
                         'durationSecond': CommonHelper.convertMusicTime(music_i.duration), 'mvId': 1}
         music_files[music_id] = music_i_info

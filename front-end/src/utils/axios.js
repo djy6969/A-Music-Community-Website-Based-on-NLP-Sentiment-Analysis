@@ -27,7 +27,7 @@ mixinLoading(newRequest.interceptors)
 // 通用的axios实例
 function createNewInstance() {
   const instance = axios.create({
-    baseURL: 'http://127.0.0.1:5000/',
+    baseURL: 'http://127.0.0.1:5000/api',
   })
 
   instance.interceptors.response.use(handleResponse, handleError)

@@ -1,5 +1,9 @@
 <template>
   <div class="user">
+    <Loading
+      :loading="userLoading"
+      v-if="userLoading"
+    />
     <!-- 登录前 -->
     <div @click="visible = true" class="login-trigger" v-show="!isLogin">
       <i class="user-icon iconfont icon-yonghu" />
@@ -8,12 +12,12 @@
     <!-- 登录后 -->
     <el-dropdown>
       <div class="logined-user" v-show="isLogin">
-        <el-avatar />
+        <el-avatar :src="avatarUrl" />
         <p class="user-name">{{ username }}</p>
       </div>
       <el-dropdown-menu>
         <el-dropdown-item @click.native="toPersonalPage">Personal Page</el-dropdown-item>
-        <el-dropdown-item @click.native="toAddBlogPage">Add a Blog</el-dropdown-item>
+        <el-dropdown-item @click.native="toStaffPage">Staff</el-dropdown-item>
         <el-dropdown-item @click.native="onLogout" >Log Out</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -112,11 +116,13 @@ import {
   mapState as mapUserState,
 } from "@/store/helper/user"
 import axios from "axios";
+import Loading from "@/base/loading.vue";
 
 export default {
-  components: {},
+  components: {Loading},
   data() {
     return {
+      userLoading: false,
       visible: false,
       loginVisible: false,
       loading: false,
@@ -127,6 +133,7 @@ export default {
         username: '',
         password: ''
       },
+      avatarUrl: '',
       registerForm: {
         username: '',
         password: '',
@@ -140,16 +147,13 @@ export default {
     onCloseModal() {
       this.visible = false
     },
-    async onLogin(uid) {
-      this.loading = true
-      const success = await this.login(uid).finally(() => {
-        this.loading = false
-      })
-      if (success) {
-        this.onCloseModal()
-      }
-    },
     loginRequest() {
+      const loginLoading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0,0,0,0.7)'
+      })
       axios({
         method: 'POST',
         url: "account/login",
@@ -160,6 +164,7 @@ export default {
       }).then(res=>{
         console.log(res.data)
         if (res.data.code===-1){
+          loginLoading.close()
           this.$message({
             showClose:true,
             message:res.data.msg,
@@ -167,17 +172,27 @@ export default {
           })
         }
         if(res.data.code === 200) {
+          loginLoading.close()
           this.$message({
             showClose:true,
             message:'Login Success',
             type: "success"
           })
+          console.log(res.data)
           sessionStorage.setItem('Auth', this.loginForm.username)
+          sessionStorage.setItem('userid', res.data.data.id)
+          sessionStorage.setItem('avatar', res.data.data.url)
           location.reload()
         }
       })
     },
     registerRequest() {
+      const registerLoading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0,0,0,0.7)'
+      })
       axios({
         method: 'POST',
         url: "account/register",
@@ -191,9 +206,8 @@ export default {
         }
       }).then(res=>{
         this.data = res.data
-        // eslint-disable-next-line no-console
-        console.log(res.data)
         if (res.data.code===-1){
+          registerLoading.close()
           this.$message({
             showClose:true,
             message:res.data.msg,
@@ -201,6 +215,7 @@ export default {
           })
         }
         else {
+          registerLoading.close()
           this.$message({
             showClose:true,
             message:'Register Success',
@@ -210,16 +225,22 @@ export default {
       })
     },
     onLogout() {
+      const logoutLoading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0,0,0,0.7)'
+      })
       sessionStorage.removeItem('Auth')
-      console.log("Log Out")
       axios({
         method: 'GET',
         url: 'account/logout'
       })
       location.reload()
+      logoutLoading.close()
     },
-    toAddBlogPage(){
-      this.$router.push('/addBlog')
+    toStaffPage(){
+      this.$router.push('/staff')
     },
     toPersonalPage(){
       this.$router.push('/user')
@@ -230,6 +251,7 @@ export default {
         this.isLogin = true
         this.visible = false
         this.username = user_cookie
+        this.avatarUrl = sessionStorage.getItem('avatar')
       }
     },
     ...mapUserActions(["login", "logout"])
@@ -239,7 +261,6 @@ export default {
   },
   mounted() {
     this.checkLogin()
-    console.log(this.isLogin)
   }
 }
 </script>

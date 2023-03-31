@@ -1,10 +1,34 @@
 <template>
-  <el-form>
+  <div class="staff-container">
+    <el-button @click="onCreateNLP">NLP Creation</el-button>
+    <el-form>
     <el-form-item>
       <el-input v-model="input"/>
+      <el-button @click="this.analysisRequest">Enter</el-button>
     </el-form-item>
-    <el-button @click="this.analysisRequest">Enter</el-button>
   </el-form>
+    <p>{{result}}</p>
+    <el-table
+        :data="resultData"
+    >
+<!--      <el-table-column-->
+<!--          type="index"-->
+<!--          width="50"-->
+<!--          -->
+<!--      >-->
+<!--      </el-table-column>-->
+      <el-table-column
+        prop="Text"
+        label="Input Text"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="Result"
+        label="result"
+        width="180">
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 
 <script>
@@ -15,20 +39,35 @@ export default {
   data(){
     return{
       input: '',
-      result: ''
+      resultData:[]
     }
   },
   methods:{
+    onCreateNLP(){
+      axios({
+        method: 'GET',
+        url: '/nlp_creation'
+      }).then(res=>{
+        this.$message({
+            showClose:true,
+            message:res.data.msg,
+            type: "success"
+        })
+      })
+    },
     analysisRequest(){
       axios({
         method: "POST",
-        url: 'account/analysis',
+        url: '/nlp_predict',
         data:{
-          input: this.input
+          text: this.input
         }
       }).then(res=>{
-        this.result = res.data.msg
-        alert(this.result)
+        this.resultData.unshift({
+          Text: this.input,
+          Result: res.data.data.result
+        })
+        console.log(res.data)
       })
     }
   }

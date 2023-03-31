@@ -16,8 +16,7 @@ def getMusicResource():
     num = request.json.get('num')
     music_info = TMusic.query.count()
     if num > music_info:
-        return MessageHelper.ops_renderErrJSON(
-            msg="the number of music is bigger than the total number of songs of our website.")
+        return MessageHelper.ops_renderErrJSON(msg="the number of music is bigger than the total number of songs of our website.")
     # num = request.values['num']
     # get music_id from database order by publish_time
     try:
@@ -38,13 +37,14 @@ def getMusicResource():
 
         print(music_i.publish_time)
 
-        music_i_info = {'seq': i, 'id': music_id, 'img': music_i.image_url, "url": music_file_path,
-                        'name': music_i.title,
-                        'albumId': '', 'albumName': '', 'artists': music_i.artist, 'duration': music_i.duration,
-                        'durationSecond': CommonHelper.convertMusicTime(music_i.duration), 'mvId': 1}
+        music_i_info = {'seq': i, 'id': music_id, 'img': music_i.image_url, "url": music_file_path, 'name': music_i.title,
+                      'albumId': '', 'albumName': '', 'artists': music_i.artist, 'duration': music_i.duration,
+                      'durationSecond': CommonHelper.convertMusicTime(music_i.duration), 'mvId': 1}
         music_files[music_id] = music_i_info
     print(music_files)
     return MessageHelper.ops_renderJSON(data=music_files)
+
+
 
 # get musics from database and judge whether have their file in static
 # @music.route("/getAllMusicResources", methods=['GET'])

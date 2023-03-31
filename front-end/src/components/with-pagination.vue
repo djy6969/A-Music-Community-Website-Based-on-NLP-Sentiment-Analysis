@@ -63,7 +63,7 @@ export default {
         // if (this.scrollTarget) {
         //   scrollInto(this.scrollTarget)
         // }
-        newRequest.post('/api/search/searchMusic',
+        newRequest.post('/search/searchMusic',
             {
               searchContent: this.keywords,
             }

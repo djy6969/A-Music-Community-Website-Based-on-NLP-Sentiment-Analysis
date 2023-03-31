@@ -47,7 +47,7 @@ export default {
       return listIndex * this.chunkLimit + index + 1
     },
     getNewSongs() {
-      newRequest.post('/api/music/getMusicResource',
+      newRequest.post('/music/getMusicResource',
           {
             num: 10
           }

@@ -29,7 +29,7 @@ export default {
     storage.set(PLAY_HISTORY_KEY, playHistoryCopy)
 
     //update view counts
-    // newRequest.get('/api/music/updateViewCounts')
+    // newRequest.get('/music/updateViewCounts')
     //     .then((res) =>{
     //       console.log("update view counts")
     //     })

@@ -3,8 +3,8 @@ from app import app, db
 
 from common.models.User import TUser
 from flask import Blueprint, request, make_response
-from common.service import MessageHelper, UserHelper
-
+from common.service import MessageHelper, UserHelper, CommonHelper
+from common.nlp import nlp
 
 account = Blueprint('account', __name__)
 
@@ -101,29 +101,26 @@ def login():
 
     # user_info = {"id": "1", "username": "liuzijian", "password": "123456",
     #              "password_salt": "lzj"}
-
     try:
         user_info = TUser.query.filter_by(username=username).first()
     except Exception as e:
         return MessageHelper.ops_renderErrJSON(msg="")
-
     if user_info is None:
         return MessageHelper.ops_renderErrJSON("请输入正确的登录用户名和密码")
 
     if user_info.password != UserHelper.genePwd(password, user_info.password_salt):
         return MessageHelper.ops_renderErrJSON("请输入正确的登录用户名和密码")
-
     # cookie身份识别
-    response = make_response(MessageHelper.ops_renderJSON(msg="登录成功！", data={'id': user_info.id}))
-    try:
-        print("%s#%s#1" % (UserHelper.geneAuthCode(user_info), user_info.id))
+    response = make_response(MessageHelper.ops_renderJSON(msg="登录成功！", data={'id': user_info.id, 'url': user_info.head}))
+    # try:
+    print("%s#%s#1" % (UserHelper.geneAuthCode(user_info), user_info.id))
         # user last number is 1, staff is 2
-        response.set_cookie(app.config['AUTH_COOKIE_NAME'],
+    response.set_cookie(app.config['AUTH_COOKIE_NAME'],
                             value="%s#%s#1" % (UserHelper.geneAuthCode(user_info), user_info.id),
                                 max_age = 60 * 60 * 24 * 7, samesite = 'None')
         # , secure = True
-    except Exception as e:
-        return MessageHelper.ops_renderErrJSON(msg="flask 版本过低，请升级flask版本")
+    # except Exception as e:
+    #     return MessageHelper.ops_renderErrJSON(msg="flask 版本过低，请升级flask版本")
 
     return response
 
@@ -135,20 +132,29 @@ def logout():
     response.delete_cookie(app.config['AUTH_COOKIE_NAME'])
     return response
 
+# user upload head portrait
+# need the front-end upload user_id and head portrait
+@account.route("/upload_head_portrait", methods=["POST"])
+def upload_head_protrait():
+    user_id = request.values['user_id']
+    image = request.files.get('head')
+    user = TUser.query.filter_by(id=user_id).first()
+    user.head = "https://ipa-012.ucd.ie/image/" + CommonHelper.uploadServerPic(image, user_id)
+    db.session.commit()
+    return MessageHelper.ops_renderJSON(msg="upload successfully")
 
-@account.route('/analysis', methods=["POST"])
-def analysis():
-    input = request.json.get('input')
-    print(input)
-    output = sentient_analysis(input)
-    print(output)
-    out_str = 'The emotion of input words "' + input + '" emotion is: ' + str(output[0]['label']) + ' , its confidence is: ' + str(output[0]['score'])
-    print(out_str)
-    return MessageHelper.ops_renderJSON(msg=out_str)
-
-
-
-
-
-
+# get user id from the front-end
+# return the user information
+@account.route("/get_user_info", methods=["POST"])
+def get_user_info():
+    user_id = request.json.get('user_id')
+    user = TUser.query.filter_by(id=user_id).first()
+    # email, tel, nickname, head
+    user_info = {
+        "email": user.email,
+        'tel': user.tel,
+        'nickname': user.nickname,
+        'head_protrait': user.head
+    }
+    return MessageHelper.ops_renderJSON(msg="personal information", data=user_info)
 

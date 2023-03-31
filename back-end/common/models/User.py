@@ -14,5 +14,6 @@ class TUser(db.Model):
     email = db.Column(db.String(32, 'utf8_bin'))
     tel = db.Column(db.String(11, 'utf8_bin'))
     nickname = db.Column(db.String(32, 'utf8_bin'), nullable=False)
+    head = db.Column(db.String(64, 'utf8_bin'), nullable=False)
     created_time = db.Column(db.DateTime, server_default=db.FetchedValue())
     updated_time = db.Column(db.DateTime, server_default=db.FetchedValue())

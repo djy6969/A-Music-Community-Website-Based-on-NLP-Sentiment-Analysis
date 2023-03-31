@@ -1,4 +1,7 @@
+from PIL import Image
 from flask import Blueprint,request
+from pyarrow import BufferReader
+
 from common.models.Blog import TBlog
 from common.models.User import TUser
 from common.models.BlogComment import TBlogComment
@@ -12,20 +15,22 @@ blog = Blueprint('blog', __name__)
 # @auth.login_required()
 # need get user_id, text, pictureNum and pictureList from the front-end
 def post_blog():
-    user_id = request.form['user_id']
-    text = request.form['text']
-    picNum = request.form['picNumber']
+    user_id = request.values['user_id']
+    text = request.values['text']
+    picNum = request.values['picNumber']
+    print(picNum)
     images = []
     for i in range(int(picNum)):
-        image = request.form['picList'][i]
+        name = 'picList['+str(i)+"]"
+        image = request.files.get(name)
         pic_name = CommonHelper.uploadServerPic(image, user_id)
         print(pic_name)
-        images.append("http://137.43.49.28/image/" + pic_name)
-
+        images.append("https://137.43.49.28/image/" + pic_name)
     blog = TBlog()
     blog.userid = user_id
     blog.blog_content = text
     blog.piclist = images
+    blog.likes = 0
     db.session.add(blog)
     db.session.commit()
 
@@ -42,9 +47,15 @@ def get_all_blogs():
     blogs_data_info = TBlog.query.filter_by(status=1).order_by(TBlog.publish_time.desc()).all()
     blogs_info = []
     for blog_data_info in blogs_data_info:
-        user = TUser.query.filter_by(user_id=blog_data_info.user_id).first()
-        blog_info = {'id': blog_data_info.id, 'user_id': blog_data_info.user_id, 'username': user.username, 'blog_content': blog_data_info.blog_content,
-         'publish_time': blog_data_info.publish_time, 'picList': blog_data_info.picList}
+        user = TUser.query.filter_by(id=blog_data_info.userid).first()
+        blog_info = {
+            'id': blog_data_info.id,
+            'user_id': blog_data_info.userid,
+            'username': user.username,
+            'blog_content': blog_data_info.blog_content,
+            'publish_time': blog_data_info.publish_time,
+            'head': user.head,
+            'picList': blog_data_info.piclist}
         blogs_info.append(blog_info)
 
     print(blogs_info)
@@ -55,13 +66,13 @@ def get_all_blogs():
 # need the front-end post a userid
 def get_usr_blog():
     userid = request.json.get('userid')
-    blogs_data_info = TBlog.query.filter_by(user_id=userid).order_by(TBlog.publish_time.desc()).all()
+    blogs_data_info = TBlog.query.filter_by(userid=userid).order_by(TBlog.publish_time.desc()).all()
     blogs_info = []
     for blog_data_info in blogs_data_info:
-        user = TUser.query.filter_by(user_id=blog_data_info.user_id).first()
-        blog_info = {'id': blog_data_info.id, 'user_id': blog_data_info.user_id, 'username': user.username,
+        user = TUser.query.filter_by(id=blog_data_info.userid).first()
+        blog_info = {'id': blog_data_info.id, 'user_id': blog_data_info.userid, 'username': user.username,
                      'blog_content': blog_data_info.blog_content,
-                     'publish_time': blog_data_info.publish_time, 'picList': blog_data_info.picList, 'status': blog_data_info.status}
+                     'publish_time': blog_data_info.publish_time, 'picList': blog_data_info.piclist, 'status': blog_data_info.status}
         blogs_info.append(blog_info)
 
     print(blogs_info)
@@ -72,11 +83,11 @@ def get_usr_blog():
 # need the front-end send blog_id
 def get_blog_comments():
     blogid = request.json.get('blogid')
-    blog_comments = TBlogComment.query.filter_by(blogid=blogid).order_by(TBlog.publish_time.desc()).all()
+    blog_comments = TBlogComment.query.filter_by(blogid=blogid).order_by(TBlogComment.publish_time.desc()).all()
     comments = []
     for blog_comment in blog_comments:
-        user = TUser.query.filter_by(user_id=blog_comment.user_id).first()
-        comment = {'id': blog_comment.id, 'user_id': blog_comment.user_id, 'username': user.username,
+        user = TUser.query.filter_by(id=blog_comment.userid).first()
+        comment = {'id': blog_comment.id, 'user_id': blog_comment.userid, 'username': user.username,
                    'content': blog_comment.content}
         comments.append(comment)
 
@@ -86,9 +97,9 @@ def get_blog_comments():
 # post a comment for one blog
 # need the front-end send user_id, blog_id, and comment_content
 def post_blog_comment():
-    user_id = request.form['user_id']
-    blog_id = request.form['blog_id']
-    comment_content = request.form['comment_content']
+    user_id = request.json.get('user_id')
+    blog_id = request.json.get('blog_id')
+    comment_content = request.json.get('comment_content')
 
     blog_comment = TBlogComment()
     blog_comment.userid = user_id

@@ -15,7 +15,7 @@
           :order="getSongOrder(listIndex, index)"
           @click.native="onClickSong(listIndex, index)"
           class="song-card"
-          v-bind="nomalizeSong(item)"
+          v-bind="newNormalizeSong(item)"
           v-for="(item,index) in list"
         />
       </div>
@@ -27,13 +27,14 @@
 import { mapActions, mapMutations } from "@/store/helper/music"
 import { getNewSongs } from "@/api"
 import SongCard from "@/components/song-card"
-import { createSong } from "@/utils"
+import {createSong, newCreateSong, newRequest} from "@/utils"
 
 const songsLimit = 10
 export default {
   async created() {
-    const { result } = await getNewSongs()
-    this.list = result
+    // const { result } = await getNewSongs()
+    // this.list = result
+    await this.getNewSongs()
   },
   data() {
     return {
@@ -45,7 +46,18 @@ export default {
     getSongOrder(listIndex, index) {
       return listIndex * this.chunkLimit + index + 1
     },
-    nomalizeSong(song) {
+    getNewSongs() {
+      newRequest.post('/music/getMusicResource',
+          {
+            num: 10
+          }
+      ).then((res) =>{
+        const allSongs = Object.values(res.data)
+        console.log(allSongs)
+        this.list = allSongs
+      })
+    },
+    normalizeSong(song) {
       const {
         id,
         name,
@@ -63,6 +75,29 @@ export default {
         artists,
         duration,
         mvId: mvid
+      })
+    },
+    newNormalizeSong(song) {
+      const {
+        seq,
+        name,
+        mvId,
+        artists,
+        img,
+        duration,
+        durationSecond,
+        url
+      } = song
+      return newCreateSong({
+        id: seq,
+        name,
+        img,
+        artists,
+        artistsText: artists,
+        duration,
+        durationSecond,
+        mvId,
+        url
       })
     },
     onClickSong(listIndex, index) {
@@ -83,7 +118,7 @@ export default {
       ]
     },
     normalizedSongs() {
-      return this.list.map(song => this.nomalizeSong(song))
+      return this.list.map(song => this.newNormalizeSong(song))
     }
   },
   components: { SongCard }

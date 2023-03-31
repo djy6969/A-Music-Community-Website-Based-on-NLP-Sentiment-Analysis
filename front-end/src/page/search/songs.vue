@@ -2,13 +2,13 @@
 <template>
   <div class="search-songs">
     <WithPagination
-      :getData="getSearch"
+      :getData="newGetSearch"
       :getDataParams="searchParams"
       :limit="30"
       :scrollTarget="searchRoot.$refs && searchRoot.$refs.header"
       :total="songCount"
-      @getDataSuccess="onGetSearch"
-    >
+      @getDataSuccess="newOnGetSearch"
+      :keywords="this.keywords">
       <div class="table">
         <SongTable
           :highlightText="keywords"
@@ -25,13 +25,10 @@
 import { getSearch } from "@/api"
 import SongTable from "@/components/song-table"
 import WithPagination from "@/components/with-pagination"
-import {createSong, newCreateSong} from "@/utils"
+import {createSong, newCreateSong, newRequest} from "@/utils"
 
 export default {
   inject: ["searchRoot"],
-  created() {
-    this.getSearch = getSearch
-  },
   data() {
     return {
       songs: [],
@@ -40,8 +37,11 @@ export default {
     }
   },
   methods: {
+    getSearch,
+    newGetSearch() {
+      //discarded
+    },
     onGetSearch(result) {
-      console.log(result)
       const {
         result: { songs, songCount }
       } = result
@@ -59,36 +59,51 @@ export default {
         })
       })
 
-      // new code
-      // this.songs = songs.map(song => {
-      //   const { id, mvId, name, artists, artistsText, url, duration, durationSecond, albumName, albumId } = song
-      //   return newCreateSong({
-      //     id,
-      //     name,
-      //     artists,
-      //     artistsText,
-      //     url,
-      //     duration,
-      //     durationSecond,
-      //     mvId,
-      //     albumName,
-      //     albumId
-      //   })
-      // })
-
       // update the number of search results
       this.songCount = songCount
       this.searchRoot.onUpdateCount(songCount)
     },
+    newOnGetSearch(songs) {
+      this.songs = songs.map(song => {
+        const { seq, name, img, mvId, artists, url, duration, durationSecond, albumName, albumId } = song
+        return newCreateSong({
+          id: 48,
+          name,
+          artists,
+          artistsText: artists,
+          url,
+          duration,
+          durationSecond,
+          mvId,
+          albumName,
+          albumId,
+          img
+        })
+      })
+      // update the number of search results
+      this.songCount = this.songs.length
+      this.searchRoot.onUpdateCount(this.songs.length)
+    },
     renderNameDesc(scope) {
-      const { alias } = scope.row
-      return alias.map(desc => (
-        <HighlightText
-          class="name-desc"
-          text={desc}
-          highlightText={this.keywords}
-        />
-      ))
+
+      // new
+      // const single = Object.values(scope.row)
+      // return single.map(desc => (
+      //   <HighlightText
+      //     class="name-desc"
+      //     text={desc}
+      //     highlightText={this.keywords}
+      //   />
+      // ))
+
+      // const { alias } = scope.row
+      // return alias.map(desc => (
+      //   <HighlightText
+      //     class="name-desc"
+      //     text={desc}
+      //     highlightText={this.keywords}
+      //   />
+      // ))
     }
   },
   computed: {

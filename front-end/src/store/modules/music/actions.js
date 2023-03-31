@@ -1,5 +1,5 @@
 import storage from 'good-storage'
-import { PLAY_HISTORY_KEY,  getSongImg } from '@/utils'
+import {PLAY_HISTORY_KEY, getSongImg, newRequest} from '@/utils'
 
 export default {
   // 整合歌曲信息 并且开始播放
@@ -27,6 +27,12 @@ export default {
     playHistoryCopy.unshift(song)
     commit('setPlayHistory', playHistoryCopy)
     storage.set(PLAY_HISTORY_KEY, playHistoryCopy)
+
+    //update view counts
+    // newRequest.get('/music/updateViewCounts')
+    //     .then((res) =>{
+    //       console.log("update view counts")
+    //     })
   },
   clearCurrentSong({ commit }) {
     commit('setCurrentSong', {})

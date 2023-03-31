@@ -14,7 +14,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { getPageOffset, scrollInto } from "@/utils"
+import {getPageOffset, newRequest, scrollInto} from "@/utils"
 
 export default {
   props: {
@@ -36,6 +36,10 @@ export default {
     total: {
       type: Number,
       default: 0
+    },
+    keywords: {
+      type: String,
+      required: true
     }
   },
   created() {
@@ -49,16 +53,29 @@ export default {
   methods: {
     async onPageChange() {
       try {
-        const result = await this.getData({
-          limit: this.limit,
-          offset: getPageOffset(this.currentPage, this.limit),
-          ...this.getDataParams
+        // const result = await this.getData({
+        //   limit: this.limit,
+        //   offset: getPageOffset(this.currentPage, this.limit),
+        //   ...this.getDataParams
+        // })
+        // this.$emit("getDataSuccess", result)
+        // // 如果传入了滚动的目标对象 分页后自动滚入
+        // if (this.scrollTarget) {
+        //   scrollInto(this.scrollTarget)
+        // }
+        newRequest.post('/search/searchMusic',
+            {
+              searchContent: this.keywords,
+            }
+        ).then((res) =>{
+          //this.getData()
+          this.$emit("getDataSuccess", Object.values(res.data))
+          // 如果传入了滚动的目标对象 分页后自动滚入
+          if (this.scrollTarget) {
+            scrollInto(this.scrollTarget)
+          }
         })
-        this.$emit("getDataSuccess", result)
-        // 如果传入了滚动的目标对象 分页后自动滚入
-        if (this.scrollTarget) {
-          scrollInto(this.scrollTarget)
-        }
+
       } catch (error) {
         this.$emit("getDataError", error)
       }

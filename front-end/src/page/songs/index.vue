@@ -2,15 +2,15 @@
 <template>
   <div class="songs">
 <!--  the tags  -->
-    <div class="tabs">
-      <Tabs
-        :tabs="tabs"
-        @tabChange="getSongs"
-        align="right"
-        type="small"
-        v-model="activeTabIndex"
-      />
-    </div>
+<!--    <div class="tabs">-->
+<!--      <Tabs-->
+<!--        :tabs="tabs"-->
+<!--        @tabChange="getSongs"-->
+<!--        align="right"-->
+<!--        type="small"-->
+<!--        v-model="activeTabIndex"-->
+<!--      />-->
+<!--    </div>-->
 <!--  displayed songs  -->
     <SongTable
       :songs="songs"
@@ -46,6 +46,7 @@ export default {
   methods: {
     async getSongs() {
       const { data } = await getTopSongs(this.tabs[this.activeTabIndex].type)
+      console.log(data)
       this.songs = data.map(song => {
         const {
           id,
@@ -67,12 +68,11 @@ export default {
       })
     },
     async init() {
-      await this.getSongs()
-      console.log(this.songs)
+      //await this.getSongs()
       await this.getAllMusic()
     },
     async getAllMusic() {
-      newRequest.post('/api/music/getMusicResource',
+      newRequest.post('/music/getMusicResource',
           {
             num: 50
           }
@@ -81,10 +81,9 @@ export default {
         console.log(allSongs)
         this.songs = allSongs.map(song =>{
           const {
-            id,
+            seq,
             name,
             artists,
-            artistsText,
             duration,
             durationSecond,
             mvId,
@@ -93,7 +92,7 @@ export default {
             url
           } = song
           return newCreateSong({
-            id,
+            id: seq,
             name,
             artists,
             artistsText: artists,

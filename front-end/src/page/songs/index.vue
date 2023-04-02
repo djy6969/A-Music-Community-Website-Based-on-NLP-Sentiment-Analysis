@@ -39,8 +39,7 @@ export default {
   data() {
     return {
       activeTabIndex: 0,
-      songs: ref([]),
-      allSongs: []
+      songs: [],
     }
   },
   methods: {

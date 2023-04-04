@@ -17,7 +17,7 @@ function createBaseInstance() {
     baseURL: BASE_URL,
   })
 
-  instance.interceptors.response.use(handleResponse, handleError)
+  instance.interceptors.response.use(handleResponse)
   return instance
 }
 
@@ -31,7 +31,7 @@ function createNewInstance() {
     baseURL: 'https://ipa-012.ucd.ie/api/',
   })
 
-  instance.interceptors.response.use(handleResponse, handleError)
+  instance.interceptors.response.use(handleResponse)
   return instance
 }
 

@@ -137,6 +137,15 @@ export default {
     onRowClick(song) {
       this.startSong(song)
       this.setPlaylist(this.songs)
+      const ifRestart = setInterval(() => {
+        if (this.currentTime === 0 ) {
+          console.log('re')
+          this.startSong(song)
+        } else {
+          console.log(this.currentTime)
+          clearInterval(ifRestart)
+        }
+      }, 3500)
     },
     isActiveSong(song) {
       return song.id === this.currentSong.id
@@ -177,7 +186,7 @@ export default {
         return !hideColumns.find(hideColumn => hideColumn === column.prop)
       })
     },
-    ...mapState(["currentSong"]),
+    ...mapState(["currentSong", "currentTime"]),
   },
   render() {
     const elTableProps = ElTable.props

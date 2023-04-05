@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from "@/store/helper/music"
+import { mapActions, mapMutations, mapState } from "@/store/helper/music"
 import { getNewSongs } from "@/api"
 import SongCard from "@/components/song-card"
 import {createSong, newCreateSong, newRequest} from "@/utils"
@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       chunkLimit: Math.ceil(songsLimit / 2),
-      list: []
+      list: [],
     }
   },
   methods: {
@@ -106,8 +106,18 @@ export default {
       const nomalizedSong = this.normalizedSongs[nomalizedSongIndex]
       this.startSong(nomalizedSong)
       this.setPlaylist(this.normalizedSongs)
+      const ifRestart = setInterval(() => {
+        if (this.currentSongTime() === 0 ) {
+          console.log('re')
+          this.startSong(nomalizedSong)
+        } else {
+          console.log(this.currentSongTime())
+          clearInterval(ifRestart)
+        }
+      }, 3500)
     },
     ...mapMutations(["setPlaylist"]),
+    ...mapState(["currentTime"]),
     ...mapActions(["startSong"])
   },
   computed: {
@@ -119,6 +129,15 @@ export default {
     },
     normalizedSongs() {
       return this.list.map(song => this.newNormalizeSong(song))
+    },
+    currentPlayingSong() {
+      return this.currentSong
+    },
+    currentSongTime() {
+      return this.currentTime
+    },
+    playingState() {
+      return this.playing
     }
   },
   components: { SongCard }

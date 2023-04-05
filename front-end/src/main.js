@@ -13,7 +13,7 @@ import VueCookies from 'vue-cookies'
 
 import axios from "axios"
 axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'https://ipa-012.ucd.ie/api/'
+axios.defaults.baseURL = 'http://127.0.0.1:5000/api/'
 Vue.use(ElementUI);
 Vue.use(VueCookies)
 Vue.config.productionTip = false

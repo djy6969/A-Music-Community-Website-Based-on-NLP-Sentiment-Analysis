@@ -1,112 +1,51 @@
 <template>
   <div class="user">
     <Loading
-      :loading="userLoading"
-      v-if="userLoading"
+        :loading="userLoading"
+        v-if="userLoading"
     />
     <!-- 登录前 -->
     <div @click="visible = true" class="login-trigger" v-show="!isLogin">
-      <i class="user-icon iconfont icon-yonghu" />
+      <i class="user-icon iconfont icon-yonghu"/>
       <p class="user-name">Login</p>
     </div>
     <!-- 登录后 -->
     <el-dropdown>
       <div class="logined-user" v-show="isLogin">
-        <el-avatar :src="avatarUrl" />
+        <el-avatar :src="avatarUrl"/>
         <p class="user-name">{{ username }}</p>
       </div>
       <el-dropdown-menu>
         <el-dropdown-item @click.native="toPersonalPage">Personal Page</el-dropdown-item>
         <el-dropdown-item @click.native="toStaffPage">Staff</el-dropdown-item>
-        <el-dropdown-item @click.native="onLogout" >Log Out</el-dropdown-item>
+        <el-dropdown-item @click.native="onLogout">Log Out</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
 
 
-
     <!-- 登录框 -->
-    <el-dialog
-        :visible.sync="visible"
-        width="30%"
-    >
-      <el-tabs>
-      <el-tab-pane label="Log In">
-        <el-form ref="loginForm"
-                 :model="loginForm"
-                 class="login-form" autocomplete="on" label-position="left">
-          <el-form-item prop="username">
-            <el-input
-                ref="username"
-                v-model="loginForm.username"
-                placeholder="Username"
-                name="username"
-                type="text"
-                tabindex="1"
-                autocomplete="on"
-            />
-          </el-form-item>
-            <el-form-item prop="password">
-              <el-input
-                  ref="password"
-                  v-model="loginForm.password"
-                  placeholder="Password"
-                  name="password"
-                  tabindex="2"
-                  autocomplete="on"
-              />
-            </el-form-item>
-          <el-button type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="loginRequest">Login
-          </el-button>
-        </el-form>
-      </el-tab-pane>
-      <el-tab-pane label="Register">
-        <el-form
-            ref="loginForm"
-            :model="registerForm"
-            class="login-form" autocomplete="on" label-position="left">
-          <el-form-item>
-            <el-input
-                ref="username"
-                v-model="registerForm.username"
-                placeholder="Username"
-                name="username"
-                type="text"
-                tabindex="1"
-                autocomplete="on"
-            />
-          </el-form-item>
-          <el-form-item>
-            <el-input
-                ref="password"
-                v-model="registerForm.password"
-                placeholder="Password"
-                name="password"
-                tabindex="2"
-                autocomplete="on"
-            />
-          </el-form-item>
-          <el-form-item>
-            <el-input
-              v-model="registerForm.tel"
-              placeholder="Telephone Number"
-            />
-          </el-form-item>
-          <el-form-item>
-            <el-input
-                v-model="registerForm.email"
-                placeholder="Email Address"
-            />
-          </el-form-item>
-          <el-form-item>
-            <el-input
-              v-model="registerForm.nickname"
-              placeholder="Nickname"/>
-          </el-form-item>
-          <el-button type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="registerRequest">Register</el-button>
-        </el-form>
-      </el-tab-pane>
-    </el-tabs>
-    </el-dialog>
+    <div class="mask-layer">
+      <div class="login-box" v-show="visible">
+      <div class="align">
+        <span class="red" @click="visible=false"></span>
+      </div>
+      <form>
+        <div class="user-box">
+          <input type="text" name="" required="" v-model="loginForm.username">
+          <label>Username</label>
+        </div>
+        <div class="user-box">
+          <input type="password" name="" required="" v-model="loginForm.password">
+          <label>Password</label>
+          <center>
+            <a href="#" @click="loginRequest">
+              User Login
+              <span></span>
+            </a></center>
+        </div>
+      </form>
+    </div>
+    </div>
   </div>
 </template>
 
@@ -115,8 +54,8 @@ import {
   mapActions as mapUserActions,
   mapState as mapUserState,
 } from "@/store/helper/user"
-import axios from "axios";
 import Loading from "@/base/loading.vue";
+import {newRequest} from "../utils";
 
 export default {
   components: {Loading},
@@ -154,34 +93,35 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0,0,0,0.7)'
       })
-      axios({
-        method: 'POST',
-        url: "account/login",
-        data:{
-          username: this.loginForm.username,
-          password: this.loginForm.password
-        }
-      }).then(res=>{
-        console.log(res.data)
-        if (res.data.code===-1){
+      console.log(this.loginForm.username)
+      newRequest.post('/account/login',
+          {
+            username: this.loginForm.username,
+            password: this.loginForm.password
+          }
+      ).then(res => {
+        console.log(res)
+        if (res.code === -1) {
           loginLoading.close()
           this.$message({
-            showClose:true,
-            message:res.data.msg,
-            type:'warning'
+            showClose: true,
+            message: res.data.msg,
+            type: 'warning'
           })
         }
-        if(res.data.code === 200) {
+        if (res.code === 200) {
           loginLoading.close()
           this.$message({
-            showClose:true,
-            message:'Login Success',
+            showClose: true,
+            message: 'Login Success',
             type: "success"
           })
-          console.log(res.data)
+          this.$cookies.set('username', this.loginForm.username)
+          this.$cookies.set('userid', res.data.id)
+          this.$cookies.set('avatar', res.data.url)
           sessionStorage.setItem('Auth', this.loginForm.username)
-          sessionStorage.setItem('userid', res.data.data.id)
-          sessionStorage.setItem('avatar', res.data.data.url)
+          sessionStorage.setItem('userid', res.data.id)
+          sessionStorage.setItem('avatar', res.data.url)
           location.reload()
         }
       })
@@ -193,32 +133,30 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0,0,0,0.7)'
       })
-      axios({
-        method: 'POST',
-        url: "account/register",
-        data:{
-          username: this.registerForm.username,
-          password: this.registerForm.password,
-          password2: this.registerForm.password,
-          email: this.registerForm.email,
-          tel: this.registerForm.tel,
-          nickname: this.registerForm.nickname
-        }
-      }).then(res=>{
+      newRequest.post(
+          "/account/register",
+          {
+            username: this.registerForm.username,
+            password: this.registerForm.password,
+            password2: this.registerForm.password,
+            email: this.registerForm.email,
+            tel: this.registerForm.tel,
+            nickname: this.registerForm.nickname,
+          }
+      ).then(res => {
         this.data = res.data
-        if (res.data.code===-1){
+        if (res.data.code === -1) {
           registerLoading.close()
           this.$message({
-            showClose:true,
-            message:res.data.msg,
-            type:'warning'
+            showClose: true,
+            message: res.data.msg,
+            type: 'warning'
           })
-        }
-        else {
+        } else {
           registerLoading.close()
           this.$message({
-            showClose:true,
-            message:'Register Success',
+            showClose: true,
+            message: 'Register Success',
             type: "success"
           })
         }
@@ -232,22 +170,21 @@ export default {
         background: 'rgba(0,0,0,0.7)'
       })
       sessionStorage.removeItem('Auth')
-      axios({
-        method: 'GET',
-        url: 'account/logout'
-      })
+      newRequest.get(
+          '/account/logout'
+      )
       location.reload()
       logoutLoading.close()
     },
-    toStaffPage(){
+    toStaffPage() {
       this.$router.push('/staff')
     },
-    toPersonalPage(){
+    toPersonalPage() {
       this.$router.push('/user')
     },
-    checkLogin(){
+    checkLogin() {
       const user_cookie = sessionStorage.getItem('Auth')
-      if (user_cookie !== null){
+      if (user_cookie !== null) {
         this.isLogin = true
         this.visible = false
         this.username = user_cookie
@@ -276,6 +213,7 @@ export default {
     align-items: center;
     cursor: pointer;
   }
+
   .user-icon {
     font-size: 24px;
   }
@@ -290,22 +228,7 @@ export default {
     color: var(--font-color-shallow-grey);
   }
 
-  .login-body {
-    .input {
-      margin-bottom: 16px;
-    }
 
-    .login-help {
-      .help {
-        margin-bottom: 4px;
-      }
-    }
-  }
-
-  .login-btn {
-    width: 100%;
-    padding: 8px 0;
-  }
 
   .logined-user {
     display: flex;
@@ -316,5 +239,118 @@ export default {
       @include round(40px);
     }
   }
+}
+
+.login-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(24, 20, 20, 0.987);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+  border-radius: 10px;
+  z-index: 4;
+}
+
+.login-box .align {
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-self: flex-start;
+}
+
+.red {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ff605c;
+  box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.280);
+}
+
+.login-box .user-box {
+  position: relative;
+}
+
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+
+.login-box .user-box label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #bdb8b8;
+  font-size: 12px;
+}
+
+.login-box form a {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color: #ffffff;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px
+}
+
+.login-box a:hover {
+  background: #0000ff;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #0000ff,
+  0 0 25px #0000ff,
+  0 0 50px #0000ff,
+  0 0 100px #0000ff;
+}
+
+.login-box a span {
+  position: absolute;
+  display: block;
+}
+
+@keyframes btn-anim1 {
+  0% {
+    left: -100%;
+  }
+
+  50%, 100% {
+    left: 100%;
+  }
+}
+
+.login-box a span:nth-child(1) {
+  bottom: 2px;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #0000ff);
+  animation: btn-anim1 2s linear infinite;
 }
 </style>

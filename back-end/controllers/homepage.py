@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request
 import sys
 import os
 dir_path = os.path.dirname(os.path.realpath(__file__)) # 获取当前目录

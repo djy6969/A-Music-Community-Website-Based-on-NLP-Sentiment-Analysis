@@ -16,7 +16,7 @@
           <i class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-col>
-      <el-col :span="16"  style="height: 100%">
+      <el-col :span="16" style="height: 100%">
         <el-card class="box-card">
           <div class="text-item">
             <span>UserName: {{ personInformationForm.username }}</span>
@@ -30,6 +30,7 @@
           <div class="text-item">
             <span>Telephone Number: {{ personInformationForm.tel }}</span>
           </div>
+          <el-button @click="dialogData.showDialog=true">Change Information</el-button>
         </el-card>
       </el-col>
     </el-row>
@@ -38,7 +39,18 @@
         :visible.sync="dialogData.showDialog"
     >
       <el-form>
-        <el-form-item>
+        <el-form-item label="Choose which to edit">
+          <el-select v-model="dialogData.changeTarget" placeholder="please input">
+            <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Input">
           <el-input v-model="dialogData.changeInput" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -52,6 +64,7 @@
 
 <script>
 import axios from "axios";
+import {newRequest} from "../../utils";
 
 export default {
   name: "personInformation",
@@ -70,23 +83,38 @@ export default {
         email: 'email',
         tel: 'tel',
         avatar: ''
-      }
+      },
+      options:[
+        {
+          label: 'username',
+          value: 'username'
+        },
+        {
+          label: 'nickname',
+          value: 'nickname'
+        },
+        {
+          label: 'email',
+          value: 'email',
+        },
+        {
+          label: 'tel',
+          value: 'tel'
+        }
+      ]
     }
   },
   methods: {
-    editPersonalData(target, name) {
-      this.dialogData.dialogName = 'New ' + name
-      this.dialogData.changeTarget = target
-      this.dialogData.showDialog = true
-    },
     updateNewPersonalData() {
-      axios({
-        method: "POST",
-        url: '',
-        data: {
-          targetName: this.dialogData.changeTarget,
-          targetText: this.dialogData.changeInput
-        }
+      newRequest.post(
+          '',
+          {
+            targetName: this.dialogData.changeTarget,
+            targetText: this.dialogData.changeInput,
+            userid: sessionStorage.getItem('userid')
+          }
+        ).then(res=>{
+          console.log(res)
       })
     },
     getPersonalData() {
@@ -96,24 +124,23 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0,0,0,0.7)'
       })
-      axios({
-        method: 'POST',
-        url: '/account/get_user_info',
-        data:{
-          user_id: sessionStorage.getItem('userid')
-        }
-      }).then(res => {
+      newRequest.post(
+          '/account/get_user_info',
+          {
+            user_id: sessionStorage.getItem('userid')
+          }
+      ).then(res => {
         console.log(res.data)
         this.personInformationForm.username = sessionStorage.getItem('Auth')
-        this.personInformationForm.email = res.data.data.email
-        this.personInformationForm.nickname = res.data.data.nickname
-        this.personInformationForm.tel = res.data.data.tel
-        this.personInformationForm.avatar = res.data.data.head_protrait
+        this.personInformationForm.email = res.data.email
+        this.personInformationForm.nickname = res.data.nickname
+        this.personInformationForm.tel = res.data.tel
+        this.personInformationForm.avatar = res.data.head_protrait
         console.log(this.personInformationForm.avatar)
         getPersonalDataLoading.close()
       })
     },
-    changeUserAvatar(file){
+    changeUserAvatar(file) {
       const changeUserAvatarLoading = this.$loading({
         lock: true,
         text: 'Loading',
@@ -122,16 +149,14 @@ export default {
       })
       let avatarForm = new FormData()
       avatarForm.append('head', file.raw)
-      console.log(avatarForm.head)
-      console.log(file.raw)
       avatarForm.append('user_id', sessionStorage.getItem('userid'))
-      axios({
-        method: 'POST',
-        url: '/account/upload_head_portrait',
-        headers: { "Content-Type": "multipart/form-data" },
-        data: avatarForm
-      }).then(res=>{
-        this.personInformationForm.avatar = res.data.data
+      newRequest.post(
+          '/account/upload_head_portrait',
+          {
+            avatarForm
+          }
+      ).then(res => {
+        this.personInformationForm.avatar = res.data
         console.log(this.personInformationForm.avatar)
         changeUserAvatarLoading.close()
       })
@@ -153,27 +178,31 @@ export default {
   flex-wrap: wrap;
   margin-bottom: 18px;
 }
+
 .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  }
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
 </style>

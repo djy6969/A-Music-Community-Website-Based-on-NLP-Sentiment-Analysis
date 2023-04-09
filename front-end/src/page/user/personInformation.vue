@@ -127,11 +127,11 @@ export default {
       newRequest.post(
           '/account/get_user_info',
           {
-            user_id: sessionStorage.getItem('userid')
+            user_id: this.$cookies.get('auth').userid
           }
       ).then(res => {
         console.log(res.data)
-        this.personInformationForm.username = sessionStorage.getItem('Auth')
+        this.personInformationForm.username = this.$cookies.get('auth').username
         this.personInformationForm.email = res.data.email
         this.personInformationForm.nickname = res.data.nickname
         this.personInformationForm.tel = res.data.tel

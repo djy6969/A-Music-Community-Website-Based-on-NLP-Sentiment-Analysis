@@ -68,6 +68,7 @@ def register():
     user.tel = tel
     user.nickname = nickname
     user.role = 1
+    user.head = 'https://ipa-012.ucd.ie/image/default.png'
     # info = {
     #     'username': username,
     #     'password_salt': pwd_salt,

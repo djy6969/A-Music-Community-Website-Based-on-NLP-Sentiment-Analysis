@@ -46,7 +46,7 @@ def post_blog():
 #       id, user_id, blog_content, piclist, publish_time
 def get_all_blogs():
     # status = 1 表示公开， status = 0 表示删除， status = 2 表示私密
-    blogs_data_info = TBlog.query.filter_by(status=1).order_by(TBlog.publish_time.desc()).all()
+    blogs_data_info = TBlog.query.filter_by(state=1).order_by(TBlog.publish_time.desc()).all()
     blogs_info = []
     for blog_data_info in blogs_data_info:
         user = TUser.query.filter_by(id=blog_data_info.userid).first()
@@ -57,7 +57,8 @@ def get_all_blogs():
             'blog_content': blog_data_info.blog_content,
             'publish_time': blog_data_info.publish_time,
             'head': user.head,
-            'picList': blog_data_info.piclist}
+            'picList': blog_data_info.piclist
+        }
         blogs_info.append(blog_info)
 
     print(blogs_info)

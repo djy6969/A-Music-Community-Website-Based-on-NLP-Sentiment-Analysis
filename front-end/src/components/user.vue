@@ -13,12 +13,12 @@
     <el-dropdown>
       <div class="logined-user" v-show="isLogin">
         <el-avatar :src="userData.avatarUrl"/>
-        <p class="user-name">{{ username }}</p>
+        <p class="user-name">{{ this.userData.username }}</p>
       </div>
       <el-dropdown-menu>
-        <el-dropdown-item v-show="userData.role==='user'" @click.native="toPersonalPage">Personal Page
+        <el-dropdown-item v-show="this.userData.role===1" @click.native="toPersonalPage">Personal Page
         </el-dropdown-item>
-        <el-dropdown-item v-show="userData.role==='staff'" @click.native="toStaffPage">Staff</el-dropdown-item>
+        <el-dropdown-item v-show="this.userData.role===2" @click.native="toStaffPage">Staff</el-dropdown-item>
         <el-dropdown-item @click.native="onLogout">Log Out</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -73,8 +73,8 @@
             <input type="password" name="" required="" v-model="registerForm.tel">
             <label>Telephone Number</label>
             <center>
-              <a href="#" @click="loginRequest">
-                User Login
+              <a href="#" @click="registerRequest">
+                Register
                 <span></span>
               </a>
             </center>
@@ -124,10 +124,6 @@ export default {
   methods: {
     onCloseModal() {
       this.visible = false
-    },
-    onOpenRegister() {
-      this.visibleData.loginVisible = false
-      this.visibleData.registerVisible = true
     },
     loginRequest() {
       const loginLoading = this.$loading({
@@ -230,9 +226,9 @@ export default {
     },
     checkLogin() {
       const userCookie = this.$cookies.get('auth')
+      console.log(userCookie)
       if (userCookie !== null) {
         this.isLogin = true
-        this.visible = false
         this.userData.username = userCookie.username
         this.userData.avatarUrl = userCookie.avatarUrl
         this.userData.role = userCookie.role

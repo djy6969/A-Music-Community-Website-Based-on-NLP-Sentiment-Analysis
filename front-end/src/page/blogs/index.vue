@@ -119,7 +119,7 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0,0,0,0.7)'
       })
-      newRequest.post('/blog/get_all_blogs').then((res=>{
+      newRequest.get('/blog/get_all_blogs').then((res=>{
         console.log(res.data)
         this.blogListData = res.data
         getAllBlogLoading.close()

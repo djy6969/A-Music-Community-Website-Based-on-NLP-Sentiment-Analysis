@@ -5,46 +5,82 @@
         v-if="userLoading"
     />
     <!-- 登录前 -->
-    <div @click="visible = true" class="login-trigger" v-show="!isLogin">
+    <div @click="visibleData.loginVisible = true" class="login-trigger" v-show="!isLogin">
       <i class="user-icon iconfont icon-yonghu"/>
       <p class="user-name">Login</p>
     </div>
     <!-- 登录后 -->
     <el-dropdown>
       <div class="logined-user" v-show="isLogin">
-        <el-avatar :src="avatarUrl"/>
+        <el-avatar :src="userData.avatarUrl"/>
         <p class="user-name">{{ username }}</p>
       </div>
       <el-dropdown-menu>
-        <el-dropdown-item @click.native="toPersonalPage">Personal Page</el-dropdown-item>
-        <el-dropdown-item @click.native="toStaffPage">Staff</el-dropdown-item>
+        <el-dropdown-item v-show="userData.role==='user'" @click.native="toPersonalPage">Personal Page
+        </el-dropdown-item>
+        <el-dropdown-item v-show="userData.role==='staff'" @click.native="toStaffPage">Staff</el-dropdown-item>
         <el-dropdown-item @click.native="onLogout">Log Out</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-
-
     <!-- 登录框 -->
     <div class="mask-layer">
-      <div class="login-box" v-show="visible">
-      <div class="align">
-        <span class="red" @click="visible=false"></span>
+      <div class="login-box" v-show="visibleData.loginVisible">
+        <div class="align">
+          <span class="red" @click="visibleData.loginVisible=false"></span>
+        </div>
+        <form>
+          <div class="user-box">
+            <input type="text" name="" required="" v-model="loginForm.username">
+            <label>Username</label>
+          </div>
+          <div class="user-box">
+            <input type="password" name="" required="" v-model="loginForm.password">
+            <label>Password</label>
+            <p href="#" style="float: right" @click="visibleData.registerVisible=true">
+              No Account?
+            </p>
+            <center>
+              <a href="#" @click="loginRequest">
+                User Login
+                <span></span>
+              </a>
+            </center>
+          </div>
+        </form>
       </div>
-      <form>
-        <div class="user-box">
-          <input type="text" name="" required="" v-model="loginForm.username">
-          <label>Username</label>
+      <div class="login-box" v-show="visibleData.registerVisible">
+        <div class="align">
+          <span class="red" @click="visibleData.registerVisible=false"></span>
         </div>
-        <div class="user-box">
-          <input type="password" name="" required="" v-model="loginForm.password">
-          <label>Password</label>
-          <center>
-            <a href="#" @click="loginRequest">
-              User Login
-              <span></span>
-            </a></center>
-        </div>
-      </form>
-    </div>
+        <form>
+          <div class="user-box">
+            <input type="text" name="" required="" v-model="registerForm.username">
+            <label>Username</label>
+          </div>
+          <div class="user-box">
+            <input type="text" name="" required="" v-model="registerForm.password">
+            <label>Password</label>
+          </div>
+          <div class="user-box">
+            <input type="text" name="" required="" v-model="registerForm.email">
+            <label>Email</label>
+          </div>
+          <div class="user-box">
+            <input type="text" name="" required="" v-model="registerForm.nickname">
+            <label>Nickname</label>
+          </div>
+          <div class="user-box">
+            <input type="password" name="" required="" v-model="registerForm.tel">
+            <label>Telephone Number</label>
+            <center>
+              <a href="#" @click="loginRequest">
+                User Login
+                <span></span>
+              </a>
+            </center>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -62,29 +98,36 @@ export default {
   data() {
     return {
       userLoading: false,
-      visible: false,
-      loginVisible: false,
-      loading: false,
-      uid: "",
-      username: '',
-      isLogin: '',
+      visibleData: {
+        loginVisible: false,
+        registerVisible: false
+      },
+      isLogin: false,
       loginForm: {
         username: '',
         password: ''
       },
-      avatarUrl: '',
       registerForm: {
         username: '',
         password: '',
         email: '',
         tel: '',
         nickname: ''
+      },
+      userData: {
+        username: '',
+        avatarUrl: '',
+        role: ''
       }
     }
   },
   methods: {
     onCloseModal() {
       this.visible = false
+    },
+    onOpenRegister() {
+      this.visibleData.loginVisible = false
+      this.visibleData.registerVisible = true
     },
     loginRequest() {
       const loginLoading = this.$loading({
@@ -110,18 +153,21 @@ export default {
           })
         }
         if (res.code === 200) {
+          this.$cookies.set(
+              'auth',
+              {
+                username: this.loginForm.username,
+                userid: res.data.id,
+                avatarUrl: res.data.url,
+                role: res.data.role
+              }
+          )
           loginLoading.close()
           this.$message({
             showClose: true,
             message: 'Login Success',
             type: "success"
           })
-          this.$cookies.set('username', this.loginForm.username)
-          this.$cookies.set('userid', res.data.id)
-          this.$cookies.set('avatar', res.data.url)
-          sessionStorage.setItem('Auth', this.loginForm.username)
-          sessionStorage.setItem('userid', res.data.id)
-          sessionStorage.setItem('avatar', res.data.url)
           location.reload()
         }
       })
@@ -169,7 +215,7 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0,0,0,0.7)'
       })
-      sessionStorage.removeItem('Auth')
+      this.$cookies.remove('auth')
       newRequest.get(
           '/account/logout'
       )
@@ -183,12 +229,13 @@ export default {
       this.$router.push('/user')
     },
     checkLogin() {
-      const user_cookie = sessionStorage.getItem('Auth')
-      if (user_cookie !== null) {
+      const userCookie = this.$cookies.get('auth')
+      if (userCookie !== null) {
         this.isLogin = true
         this.visible = false
-        this.username = user_cookie
-        this.avatarUrl = sessionStorage.getItem('avatar')
+        this.userData.username = userCookie.username
+        this.userData.avatarUrl = userCookie.avatarUrl
+        this.userData.role = userCookie.role
       }
     },
     ...mapUserActions(["login", "logout"])
@@ -227,7 +274,6 @@ export default {
     margin-left: 8px;
     color: var(--font-color-shallow-grey);
   }
-
 
 
   .logined-user {

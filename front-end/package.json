@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "npm run serve",
-    "serve": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
-    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
+    "serve": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
     "publish": "npm run build && cd music && now",
     "lint": "vue-cli-service lint",
     "release-f": "standard-version -f",

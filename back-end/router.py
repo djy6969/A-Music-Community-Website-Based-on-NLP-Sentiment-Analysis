@@ -13,6 +13,7 @@ from controllers.account import account
 from controllers.music import music
 from controllers.blog import blog
 from controllers.search import search
+from controllers.comment import comment
 
 
 app.register_blueprint(homepage, url_prefix="/api")
@@ -20,6 +21,7 @@ app.register_blueprint(account, url_prefix="/api/account")
 app.register_blueprint(blog, url_prefix="/api/blog")
 app.register_blueprint(music, url_prefix="/api/music")
 app.register_blueprint(search, url_prefix="/api/search")
+app.register_blueprint(comment, url_prefix="/api/comment")
 
 
 

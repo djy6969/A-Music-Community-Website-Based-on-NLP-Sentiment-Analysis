@@ -37,7 +37,7 @@ def getMusicResource():
 
         print(music_i.publish_time)
 
-        music_i_info = {'seq': i, 'id': music_id, 'img': music_i.image_url, "url": music_file_path, 'name': music_i.title,
+        music_i_info = {'seq': i + 1, 'id': music_id, 'img': music_i.image_url, "url": music_file_path, 'name': music_i.title,
                       'albumId': '', 'albumName': '', 'artists': music_i.artist, 'duration': music_i.duration,
                       'durationSecond': CommonHelper.convertMusicTime(music_i.duration), 'mvId': 0}
         music_files[music_id] = music_i_info

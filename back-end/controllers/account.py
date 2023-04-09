@@ -67,6 +67,8 @@ def register():
     user.email = email
     user.tel = tel
     user.nickname = nickname
+    user.role = 1
+    user.head = 'https://ipa-012.ucd.ie/image/default.png'
     # info = {
     #     'username': username,
     #     'password_salt': pwd_salt,
@@ -112,12 +114,20 @@ def login():
         return MessageHelper.ops_renderErrJSON("请输入正确的登录用户名和密码")
     # cookie身份识别
     response = make_response(
-        MessageHelper.ops_renderJSON(msg="登录成功！", data={'id': user_info.id, 'url': user_info.head}))
+        MessageHelper.ops_renderJSON(
+            msg="登录成功！",
+            data={
+                'id': user_info.id,
+                'url': user_info.head,
+                'role': user_info.role
+            }
+        )
+    )
     try:
-        print("%s#%s#1" % (UserHelper.geneAuthCode(user_info), user_info.id))
+        print("%s#%s#%s" % (UserHelper.geneAuthCode(user_info), user_info.id, user_info.role))
         # user last number is 1, staff is 2
         response.set_cookie(app.config['AUTH_COOKIE_NAME'],
-                            value="%s#%s#1" % (UserHelper.geneAuthCode(user_info), user_info.id),
+                            value="%s#%s#%s" % (UserHelper.geneAuthCode(user_info), user_info.id, user_info.role),
                             max_age=60 * 60 * 24 * 7, samesite='None')
         # , secure = True
     except Exception as e:
@@ -136,6 +146,7 @@ def logout():
 
 # user upload head portrait
 # need the front-end upload user_id and head portrait
+# update head portrait image still use this api
 @account.route("/upload_head_portrait", methods=["POST"])
 def upload_head_protrait():
     user_id = request.values['user_id']
@@ -160,3 +171,26 @@ def get_user_info():
         'head_protrait': user.head
     }
     return MessageHelper.ops_renderJSON(msg="personal information", data=user_info)
+
+
+# update user information
+# need the front-end tell us user_id and which information they want to update
+@account.route("/update_user_information", methods=["POST"])
+def update_user_information():
+    user_id = request.json.get('user_id')
+    name = request.json.get('name')
+    info_content = request.json.get('content')
+    user = TUser.query.filter_by(id=user_id).first()
+    if user is not None:
+        if name == 'email':
+            user.email = info_content
+        elif name == 'tel':
+            user.tel = info_content
+        elif name == 'nickname':
+            user.nickname = info_content
+        elif name == 'description':
+            user.description = info_content
+        db.session.commit()
+        return MessageHelper.ops_renderJSON(msg="update successfully!")
+    else:
+        return MessageHelper.ops_renderErrJSON(msg="error happened.")

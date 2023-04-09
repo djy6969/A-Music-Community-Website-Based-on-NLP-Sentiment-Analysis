@@ -11,5 +11,6 @@ class TBlog(db.Model):
     blog_content = db.Column(db.String(1024, 'utf8_bin'))
     piclist = db.Column(db.JSON)
     likes = db.Column(db.Integer, nullable=False)
-    status = db.Column(db.SMALLINT, nullable=False, server_default="1")
+    # 1 is public, 2 is private, 3 is deleted
+    state = db.Column(db.SMALLINT, nullable=False, server_default="1")
     publish_time = db.Column(db.DateTime, server_default=db.FetchedValue())

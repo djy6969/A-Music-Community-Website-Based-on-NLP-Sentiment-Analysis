@@ -42,6 +42,7 @@
 
 <script>
 import axios from "axios";
+import {newRequest} from "../../utils";
 
 export default {
   name: "postHistory",
@@ -61,14 +62,13 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0,0,0,0.7)'
       })
-      axios({
-        method: 'POST',
-        url: '/blog/get_user_blog',
-        data: {
-          userid: sessionStorage.getItem('userid')
-        }
-      }).then(res => {
-        this.personalBlogData = res.data.data
+      newRequest.post(
+          '/blog/get_user_blog',
+          {
+            userid: sessionStorage.getItem('userid')
+          }).then(res =>
+      {
+        this.personalBlogData = res.data
         getPersonalBlogLoading.close()
       })
     },
@@ -92,7 +92,7 @@ export default {
         this.commentData = res.data.comments
       })
     },
-    addBlogComment(){
+    addBlogComment() {
       const addBlogCommentsLoading = this.$loading({
         lock: true,
         text: 'Loading',
@@ -101,11 +101,9 @@ export default {
       })
       axios({
         method: 'POST',
-        url:'',
-        data:{
-
-        }
-      }).then(res=>{
+        url: '',
+        data: {}
+      }).then(res => {
         console.log(res.data)
         addBlogCommentsLoading.close()
       })

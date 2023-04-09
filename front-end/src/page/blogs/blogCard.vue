@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import {newRequest} from "../../utils";
 
 export default {
   name: "blogCard",
@@ -63,13 +63,12 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0,0,0,0.7)'
       })
-      axios({
-        method: 'POST',
-        url: '/blog/get_blog_comments',
-        data: {
-          blogid: this.blogId
-        }
-      }).then(res => {
+      newRequest.post(
+          '/blog/get_blog_comments',
+          {
+            blogid: this.blogId
+          }
+      ).then(res => {
         console.log(res.data)
         getBlogCommentsLoading.close()
         this.commentDialogVisible = true
@@ -83,15 +82,14 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0,0,0,0.7)'
       })
-      axios({
-        method: 'POST',
-        url:'/blog/post_blog_comment',
-        data:{
-          'user_id': sessionStorage.getItem('userid'),
-          'blog_id': this.blogId,
-          'comment_content': this.addCommentData
-        }
-      }).then(res=>{
+      newRequest.post(
+          '/blog/post_blog_comment',
+          {
+            'user_id': sessionStorage.getItem('userid'),
+            'blog_id': this.blogId,
+            'comment_content': this.addCommentData
+          }
+      ).then(res=>{
         this.addCommentData = ''
         console.log(res.data)
         addBlogCommentsLoading.close()

@@ -51,6 +51,7 @@
 <script>
 import BlogCard from "@/page/blogs/blogCard.vue";
 import axios from "axios";
+import {newRequest} from "../../utils";
 
 export default {
   name: "Blogs",
@@ -118,14 +119,12 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0,0,0,0.7)'
       })
-      axios({
-        method: 'GET',
-        url: 'blog/get_all_blogs',
-      }).then(res=>{
-        this.blogListData = res.data.data
+      newRequest.get('/blog/get_all_blogs').then((res=>{
+        console.log(res.data)
+        this.blogListData = res.data
         getAllBlogLoading.close()
         console.log(this.blogListData)
-      })
+      }))
     }
   },
   mounted() {

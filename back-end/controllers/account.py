@@ -177,9 +177,12 @@ def get_user_info():
 # need the front-end tell us user_id and which information they want to update
 @account.route("/update_user_information", methods=["POST"])
 def update_user_information():
-    user_id = request.json.get('user_id')
-    name = request.json.get('name')
-    info_content = request.json.get('content')
+    user_id = request.json.get('userid')
+    name = request.json.get('targetName')
+    info_content = request.json.get('targetText')
+    print(user_id)
+    print(name)
+    print(info_content)
     user = TUser.query.filter_by(id=user_id).first()
     if user is not None:
         if name == 'email':

@@ -85,7 +85,7 @@ export default {
       newRequest.post(
           '/blog/post_blog_comment',
           {
-            'user_id': sessionStorage.getItem('userid'),
+            'user_id': this.$cookies.get('auth').userid,
             'blog_id': this.blogId,
             'comment_content': this.addCommentData
           }

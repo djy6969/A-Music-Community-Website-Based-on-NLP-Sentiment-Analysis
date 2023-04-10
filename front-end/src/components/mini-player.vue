@@ -82,7 +82,7 @@
         <Volume :volume="volume" @volumeChange="onVolumeChange" />
       </div>
       <!-- github -->
-      <Icon :size="20" class="mode-item" type="github" />
+      <el-button>Comment</el-button>
     </div>
     <div class="progress-bar-wrap">
       <ProgressBar

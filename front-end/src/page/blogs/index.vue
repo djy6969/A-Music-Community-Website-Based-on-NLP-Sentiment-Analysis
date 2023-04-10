@@ -89,20 +89,18 @@ export default {
       })
       let blogData = new FormData()
       blogData.append('text', this.addBlogForm.text)
-      blogData.append('user_id', sessionStorage.getItem('userid'))
+      blogData.append('user_id', this.$cookies.get('auth').userid)
       for (let i=0; i< this.addBlogForm.picFiles.length; i++){
         let name = `picList[${i}]`
         blogData.append(name, this.addBlogForm.picFiles[i])
         this.addBlogForm.picFileNumber = i+1
       }
       blogData.append('picNumber', this.addBlogForm.picFileNumber)
-      console.log(blogData)
-      axios({
-        method: "POST",
-        url: 'blog/post_blog',
-        headers: { "Content-Type": "multipart/form-data" },
-        data: blogData,
-      }).then(res=>{
+      newRequest.post(
+        '/blog/post_blog',
+        { "Content-Type": "multipart/form-data" },
+        blogData,
+      ).then(res=>{
         this.$message({
           showClose:true,
           message:res.data.meg,

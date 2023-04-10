@@ -81,7 +81,7 @@ def get_usr_blog():
             'blog_content': blog_data_info.blog_content,
             'publish_time': blog_data_info.publish_time,
             'picList': blog_data_info.piclist,
-            'status': blog_data_info.status
+            'status': blog_data_info.state
         }
         blogs_info.append(blog_info)
 
@@ -139,10 +139,10 @@ def post_blog_comment():
 
 # delete blog comment by blog comment_id
 # need the front-end send the comment_id
-@blog.route('delete_blog_comment')
+@blog.route('delete_blog_comment', methods=['POST'])
 def delete_blog_comment():
     comment_id = request.json.get('commentid')
-    blog_comment = TBlogComment.query.filter_by(comment_id=comment_id).first()
+    blog_comment = TBlogComment.query.filter_by(id=comment_id).first()
     db.session.delete(blog_comment)
     db.session.commit()
     return MessageHelper.ops_renderJSON()

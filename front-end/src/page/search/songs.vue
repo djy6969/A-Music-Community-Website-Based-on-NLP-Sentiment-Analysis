@@ -65,9 +65,10 @@ export default {
     },
     newOnGetSearch(songs) {
       this.songs = songs.map(song => {
-        const { seq, name, img, mvId, artists, url, duration, durationSecond, albumName, albumId } = song
+        const { seq, id, name, img, mvId, artists, url, duration, durationSecond, albumName, albumId } = song
         return newCreateSong({
-          id: 48,
+          id: seq,
+          oldId: id,
           name,
           artists,
           artistsText: artists,

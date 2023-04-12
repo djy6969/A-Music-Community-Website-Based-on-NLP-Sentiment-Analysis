@@ -38,8 +38,7 @@ export default {
       default: 0
     },
     keywords: {
-      type: String,
-      required: true
+      type: String
     }
   },
   created() {
@@ -53,28 +52,33 @@ export default {
   methods: {
     async onPageChange() {
       try {
-        // const result = await this.getData({
-        //   limit: this.limit,
-        //   offset: getPageOffset(this.currentPage, this.limit),
-        //   ...this.getDataParams
-        // })
-        // this.$emit("getDataSuccess", result)
-        // // 如果传入了滚动的目标对象 分页后自动滚入
-        // if (this.scrollTarget) {
-        //   scrollInto(this.scrollTarget)
-        // }
-        newRequest.post('/search/searchMusic',
-            {
-              searchContent: this.keywords,
-            }
-        ).then((res) =>{
-          //this.getData()
-          this.$emit("getDataSuccess", Object.values(res.data))
+        console.log(typeof this.keywords === "undefined")
+        if (typeof this.keywords === "undefined") {
+          // original code
+          const result = await this.getData({
+            limit: this.limit,
+            offset: getPageOffset(this.currentPage, this.limit),
+            ...this.getDataParams
+          })
+          this.$emit("getDataSuccess", result)
           // 如果传入了滚动的目标对象 分页后自动滚入
           if (this.scrollTarget) {
             scrollInto(this.scrollTarget)
           }
-        })
+        } else {
+          newRequest.post('/search/searchMusic',
+              {
+                searchContent: this.keywords,
+              }
+          ).then((res) =>{
+            //this.getData()
+            this.$emit("getDataSuccess", Object.values(res.data))
+            // 如果传入了滚动的目标对象 分页后自动滚入
+            if (this.scrollTarget) {
+              scrollInto(this.scrollTarget)
+            }
+          })
+        }
 
       } catch (error) {
         this.$emit("getDataError", error)

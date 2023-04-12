@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from "@/store/helper/music"
+import { mapActions, mapMutations, mapState } from "@/store/helper/music"
 import { getNewSongs } from "@/api"
 import SongCard from "@/components/song-card"
 import {createSong, newCreateSong, newRequest} from "@/utils"
@@ -34,19 +34,20 @@ export default {
   async created() {
     // const { result } = await getNewSongs()
     // this.list = result
-    await this.getNewSongs()
+    await this.getNewestSongs()
   },
   data() {
     return {
       chunkLimit: Math.ceil(songsLimit / 2),
-      list: []
+      list: [],
+      ifRestart: 0
     }
   },
   methods: {
     getSongOrder(listIndex, index) {
       return listIndex * this.chunkLimit + index + 1
     },
-    getNewSongs() {
+    getNewestSongs() {
       newRequest.post('/music/getMusicResource',
           {
             num: 10
@@ -80,6 +81,7 @@ export default {
     newNormalizeSong(song) {
       const {
         seq,
+        id,
         name,
         mvId,
         artists,
@@ -90,6 +92,7 @@ export default {
       } = song
       return newCreateSong({
         id: seq,
+        oldId: id,
         name,
         img,
         artists,
@@ -101,13 +104,24 @@ export default {
       })
     },
     onClickSong(listIndex, index) {
+      clearInterval(this.ifRestart)
+      this.ifRestart = 0
       // 这里因为getSongOrder是从1开始显示, 所以当做数组下标需要减一
       const nomalizedSongIndex = this.getSongOrder(listIndex, index) - 1
       const nomalizedSong = this.normalizedSongs[nomalizedSongIndex]
       this.startSong(nomalizedSong)
       this.setPlaylist(this.normalizedSongs)
+      this.ifRestart = setInterval(() => {
+        if (this.currentSongTime() === 0 ) {
+          this.startSong(nomalizedSong)
+        } else {
+          clearInterval(this.ifRestart)
+          this.ifRestart = 0
+        }
+      }, 3500)
     },
-    ...mapMutations(["setPlaylist"]),
+    ...mapMutations(["setPlaylist", "setPlayingState"]),
+    ...mapState(["currentTime"]),
     ...mapActions(["startSong"])
   },
   computed: {
@@ -119,6 +133,15 @@ export default {
     },
     normalizedSongs() {
       return this.list.map(song => this.newNormalizeSong(song))
+    },
+    currentPlayingSong() {
+      return this.currentSong
+    },
+    currentSongTime() {
+      return this.currentTime
+    },
+    playingState() {
+      return this.playing
     }
   },
   components: { SongCard }

@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import {newRequest} from "../../utils";
+import {newRequest} from "@/utils";
 
 export default {
     name: "postHistory",

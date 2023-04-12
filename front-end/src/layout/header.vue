@@ -47,7 +47,7 @@
         class="history"
         v-show="!isPlayerShow"
       >
-        <RoutesHistory />
+<!--        <RoutesHistory />-->
       </div>
     </div>
     <div class="right">
@@ -123,6 +123,7 @@ export default {
     }
 
     .buttons {
+      margin-left:50px;
       display: flex;
 
       &:hover {
@@ -132,7 +133,7 @@ export default {
       }
 
       .mac-button {
-        @include round(12px);
+        @include round(16px);
         @include flex-center;
         margin-right: 8px;
         cursor: pointer;

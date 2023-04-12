@@ -91,7 +91,7 @@ import {
   mapState as mapUserState,
 } from "@/store/helper/user"
 import Loading from "@/base/loading.vue";
-import {newRequest} from "../utils";
+import { newRequest } from "@/utils";
 
 export default {
   components: {Loading},

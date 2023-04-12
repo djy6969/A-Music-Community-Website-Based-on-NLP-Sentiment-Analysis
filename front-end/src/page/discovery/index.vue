@@ -5,7 +5,7 @@
       <Banner />
 <!--      <NewPlaylists />-->
       <NewSongs />
-<!--      <NewMvs />-->
+      <NewMvs />
     </div>
   </div>
 </template>

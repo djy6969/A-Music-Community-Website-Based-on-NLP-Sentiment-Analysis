@@ -34,19 +34,20 @@ export default {
   async created() {
     // const { result } = await getNewSongs()
     // this.list = result
-    await this.getNewSongs()
+    await this.getNewestSongs()
   },
   data() {
     return {
       chunkLimit: Math.ceil(songsLimit / 2),
       list: [],
+      ifRestart: 0
     }
   },
   methods: {
     getSongOrder(listIndex, index) {
       return listIndex * this.chunkLimit + index + 1
     },
-    getNewSongs() {
+    getNewestSongs() {
       newRequest.post('/music/getMusicResource',
           {
             num: 10
@@ -101,22 +102,25 @@ export default {
       })
     },
     onClickSong(listIndex, index) {
+      clearInterval(this.ifRestart)
+      this.ifRestart = 0
       // 这里因为getSongOrder是从1开始显示, 所以当做数组下标需要减一
       const nomalizedSongIndex = this.getSongOrder(listIndex, index) - 1
       const nomalizedSong = this.normalizedSongs[nomalizedSongIndex]
       this.startSong(nomalizedSong)
       this.setPlaylist(this.normalizedSongs)
-      const ifRestart = setInterval(() => {
-        if (this.currentSongTime() === 0 ) {
-          console.log('re')
-          this.startSong(nomalizedSong)
-        } else {
-          console.log(this.currentSongTime())
-          clearInterval(ifRestart)
-        }
-      }, 3500)
+      // this.ifRestart = setInterval(() => {
+      //   if (this.currentSongTime() === 0 ) {
+      //     this.startSong(nomalizedSong)
+      //   } else {
+      //     clearInterval(this.ifRestart)
+      //     this.ifRestart = 0
+      //   }
+      // }, 3500)
+      this.setPlayingState(false)
+      this.setPlayingState(true)
     },
-    ...mapMutations(["setPlaylist"]),
+    ...mapMutations(["setPlaylist", "setPlayingState"]),
     ...mapState(["currentTime"]),
     ...mapActions(["startSong"])
   },

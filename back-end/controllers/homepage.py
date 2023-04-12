@@ -7,7 +7,7 @@ parent_dir_path = os.path.abspath(os.path.join(dir_path, os.pardir))  # 获取�
 
 sys.path.append(parent_dir_path)
 
-from common.nlp.predict_cloud import model_creation, predict
+# from common.nlp.predict_cloud import model_creation, predict
 from common.service import MessageHelper
 
 homepage = Blueprint("homepage", __name__)

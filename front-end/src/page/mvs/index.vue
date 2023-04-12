@@ -4,27 +4,27 @@
     ref="page"
   >
     <div class="tabs-wrap">
-      <span class="tabs-type">地区：</span>
+      <span class="tabs-type">Region:</span>
       <Tabs
-        :tabs="areaTabs"
+        :tabs="areaTabsCN"
         class="tabs"
         type="split"
         v-model="activeAreaTabIndex"
       />
     </div>
     <div class="tabs-wrap">
-      <span class="tabs-type">类型：</span>
+      <span class="tabs-type">Type:</span>
       <Tabs
-        :tabs="typeTabs"
+        :tabs="typeTabsCN"
         class="tabs"
         type="split"
         v-model="activeTypeTabIndex"
       />
     </div>
     <div class="tabs-wrap">
-      <span class="tabs-type">排序：</span>
+      <span class="tabs-type">Ranking:</span>
       <Tabs
-        :tabs="sortTabs"
+        :tabs="sortTabsCN"
         class="tabs"
         type="split"
         v-model="activeSortTabIndex"
@@ -66,11 +66,17 @@ import WithPagination from "@/components/with-pagination"
 const areaTabs = ["全部", "内地", "港台", "欧美", "日本", "韩国"]
 const typeTabs = ["全部", "官方版", "原声", "现场版", "网易出品"]
 const sortTabs = ["上升最快", "最热", "最新"]
+const areaTabsCN = ["All", "China Mainland", "China HongKong and Taiwan", "Europe and North America", "Japan", "South Korea"]
+const typeTabsCN = ["All", "Official", "Original Sound", "Live", "Netease"]
+const sortTabsCN = ["Fastest Rising", "The Hottest", "The Newest"]
 export default {
   created() {
     this.areaTabs = areaTabs
     this.typeTabs = typeTabs
     this.sortTabs = sortTabs
+    this.areaTabsCN = areaTabsCN
+    this.typeTabsCN = typeTabsCN
+    this.sortTabsCN = sortTabsCN
     this.getAllMvs = getAllMvs
   },
   data() {

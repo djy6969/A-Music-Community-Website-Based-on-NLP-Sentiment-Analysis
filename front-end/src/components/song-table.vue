@@ -36,6 +36,7 @@ export default {
       },
     }
     return {
+      ifRestart: 0,
       columns: [
         {
           prop: "index",
@@ -135,17 +136,20 @@ export default {
   },
   methods: {
     onRowClick(song) {
+      clearInterval(this.ifRestart)
+      this.ifRestart = 0
       this.startSong(song)
       this.setPlaylist(this.songs)
-      const ifRestart = setInterval(() => {
-        if (this.currentTime === 0 ) {
-          console.log('re')
-          this.startSong(song)
-        } else {
-          console.log(this.currentTime)
-          clearInterval(ifRestart)
-        }
-      }, 3500)
+      // this.ifRestart = setInterval(() => {
+      //   if (this.currentTime === 0 ) {
+      //     this.startSong(song)
+      //   } else {
+      //     clearInterval(this.ifRestart)
+      //     this.ifRestart = 0
+      //   }
+      // }, 3500)
+      this.setPlayingState(false)
+      this.setPlayingState(true)
     },
     isActiveSong(song) {
       return song.id === this.currentSong.id
@@ -171,7 +175,7 @@ export default {
       }
       return retCls.join(" ")
     },
-    ...mapMutations(["setPlaylist"]),
+    ...mapMutations(["setPlaylist", "setPlayingState"]),
     ...mapActions(["startSong"]),
   },
   computed: {

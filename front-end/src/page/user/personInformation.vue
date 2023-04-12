@@ -64,7 +64,7 @@
 
 <script>
 import axios from "axios";
-import {newRequest} from "../../utils";
+import { newRequest } from "@/utils";
 
 export default {
   name: "personInformation",

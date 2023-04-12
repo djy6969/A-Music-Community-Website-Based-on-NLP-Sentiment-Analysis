@@ -81,6 +81,7 @@ export default {
     newNormalizeSong(song) {
       const {
         seq,
+        id,
         name,
         mvId,
         artists,
@@ -91,6 +92,7 @@ export default {
       } = song
       return newCreateSong({
         id: seq,
+        oldId: id,
         name,
         img,
         artists,
@@ -109,16 +111,14 @@ export default {
       const nomalizedSong = this.normalizedSongs[nomalizedSongIndex]
       this.startSong(nomalizedSong)
       this.setPlaylist(this.normalizedSongs)
-      // this.ifRestart = setInterval(() => {
-      //   if (this.currentSongTime() === 0 ) {
-      //     this.startSong(nomalizedSong)
-      //   } else {
-      //     clearInterval(this.ifRestart)
-      //     this.ifRestart = 0
-      //   }
-      // }, 3500)
-      this.setPlayingState(false)
-      this.setPlayingState(true)
+      this.ifRestart = setInterval(() => {
+        if (this.currentSongTime() === 0 ) {
+          this.startSong(nomalizedSong)
+        } else {
+          clearInterval(this.ifRestart)
+          this.ifRestart = 0
+        }
+      }, 3500)
     },
     ...mapMutations(["setPlaylist", "setPlayingState"]),
     ...mapState(["currentTime"]),

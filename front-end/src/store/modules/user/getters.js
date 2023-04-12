@@ -12,8 +12,10 @@ export const userMenus = (state) => {
   userPlaylist.forEach(playlist => {
     const { userId } = playlist
     if (user.userId === userId) {
+      // created by user (favorites)
       userCreateList.push(playlist)
     } else {
+      // created by other users
       userCollectList.push(playlist)
     }
   })

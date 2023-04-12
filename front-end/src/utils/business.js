@@ -27,7 +27,7 @@ export function createSong(song) {
 }
 
 export function newCreateSong(song) {
-  const { id, seq, name, img, artists, duration, durationSecond, albumId, albumName, mvId, url, artistsText,  ...rest } = song
+  const { id, oldId, seq, name, img, artists, duration, durationSecond, albumId, albumName, mvId, url, artistsText,  ...rest } = song
 
   return {
     id,
@@ -44,6 +44,7 @@ export function newCreateSong(song) {
     albumId,
     // mv的id 如果有的话 会在songTable组件中加上mv链接。
     mvId,
+    oldId,
     ...rest
   }
 }

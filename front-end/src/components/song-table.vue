@@ -140,16 +140,14 @@ export default {
       this.ifRestart = 0
       this.startSong(song)
       this.setPlaylist(this.songs)
-      // this.ifRestart = setInterval(() => {
-      //   if (this.currentTime === 0 ) {
-      //     this.startSong(song)
-      //   } else {
-      //     clearInterval(this.ifRestart)
-      //     this.ifRestart = 0
-      //   }
-      // }, 3500)
-      this.setPlayingState(false)
-      this.setPlayingState(true)
+      this.ifRestart = setInterval(() => {
+        if (this.currentTime === 0 ) {
+          this.startSong(song)
+        } else {
+          clearInterval(this.ifRestart)
+          this.ifRestart = 0
+        }
+      }, 3500)
     },
     isActiveSong(song) {
       return song.id === this.currentSong.id

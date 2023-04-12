@@ -68,7 +68,7 @@ const typeTabs = ["全部", "官方版", "原声", "现场版", "网易出品"]
 const sortTabs = ["上升最快", "最热", "最新"]
 const areaTabsCN = ["All", "China Mainland", "China HongKong and Taiwan", "Europe and North America", "Japan", "South Korea"]
 const typeTabsCN = ["All", "Official", "Original Sound", "Live", "Netease"]
-const sortTabsCN = ["Fastest Rising", "The Hottest", "The Newest"]
+const sortTabsCN = ["The Fastest Rising", "The Hottest", "The Newest"]
 export default {
   created() {
     this.areaTabs = areaTabs

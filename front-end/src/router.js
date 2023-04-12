@@ -3,9 +3,10 @@ import Router from 'vue-router'
 
 const Discovery = () => import(/* webpackChunkName: "Discovery" */ '@/page/discovery')
 const PlaylistDetail = () => import(/* webpackChunkName: "PlaylistDetail" */ '@/page/playlist-detail')
+const UserFavorites = () => import('@/page/favorites')
 const Playlists = () => import(/* webpackChunkName: "Playlists" */ '@/page/playlists')
 const Songs = () => import(/* webpackChunkName: "Songs" */ '@/page/songs')
-
+const MusicRecommendation = () => import(/* webpackChunkName: "Songs" */ '@/page/songs/recommendation')
 const User = () => import(/* webpackChunkName: "User" */ '@/page/user')
 const Blogs = () => import(/* webpackChunkName: "Blogs" */ '@/page/blogs')
 const Search = () => import(/* webpackChunkName: "Search" */ '@/page/search')
@@ -15,6 +16,16 @@ const SearchMvs = () => import(/* webpackChunkName: "SearchMvs" */ '@/page/searc
 const Staff = () => import('@/page/staff/staff')
 const Mvs = () => import(/* webpackChunkName: "Mvs" */ '@/page/mvs')
 const Mv = () => import(/* webpackChunkName: "Mv" */ '@/page/mv')
+
+function getCookie(cname) {
+  const name = cname + "=";
+  const ca = document.cookie.split(';');
+  for(let i=0; i<ca.length; i++) {
+    const c = ca[i].trim();
+    if (c.indexOf(name) === 0) return c.substring(name.length,c.length)
+  }
+  return ""
+}
 
 // 内容需要居中的页面
 export const layoutCenterNames = ['discovery', 'playlists', 'songs', 'mvs']
@@ -49,6 +60,15 @@ export const menuRoutes = [
     },
   },
   {
+    path: '/recommendation',
+    name: 'recommendation',
+    component: MusicRecommendation,
+    meta: {
+      title: 'Music Recommendation',
+      icon: 'yinyue',
+    },
+  },
+  {
     path: '/mvs',
     name: 'mvs',
     component: Mvs,
@@ -66,8 +86,23 @@ export const menuRoutes = [
       // element icon
       icon: 'new el-icon-s-grid'
     }
-  }
+  },
+
 ]
+
+if (getCookie('auth') !== '') {
+  menuRoutes.push(
+      {
+        path: '/favorites',
+        name: 'userFavorites',
+        component: UserFavorites,
+        meta: {
+          title: 'User Favorites',
+          icon: 'playlist-menu',
+        }
+      }
+  )
+}
 
 Vue.use(Router)
 
@@ -126,6 +161,12 @@ export default new Router({
       path: '/user',
       name: 'user',
       component: User
+    },
+    {
+      path: '*', // 重定向页面地址
+      redirect: '/'
     }
   ],
 })
+
+

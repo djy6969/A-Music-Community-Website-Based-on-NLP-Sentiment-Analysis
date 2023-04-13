@@ -70,7 +70,7 @@ export async function goMvWithCheck(id) {
     await getMvDetail(id)
     goMv(id)
   } catch (error) {
-    notify("mv获取失败")
+    notify("Failed to get the MV")
   }
 }
 

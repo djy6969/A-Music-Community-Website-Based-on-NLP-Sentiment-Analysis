@@ -38,4 +38,7 @@ export default {
   setMenuShow(state, show) {
     state.isMenuShow = show
   },
+  setFavorites(state, newState) {
+    state.ifAddedToFavorites = newState
+  }
 }

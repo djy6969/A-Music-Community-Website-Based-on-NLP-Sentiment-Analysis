@@ -9,6 +9,8 @@ export default {
   currentTime: 0,
   // 播放状态
   playing: false,
+  // add to favorites button
+  ifAddedToFavorites: false,
   // 播放模式
   playMode: storage.get(PLAY_MODE, playModeMap.sequence.code),
   // 播放列表显示

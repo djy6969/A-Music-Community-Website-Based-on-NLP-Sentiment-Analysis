@@ -15,14 +15,14 @@
         v-model="activeTab"
       />
       <div class="header">
-        <p class="total">总共{{dataSource.length}}首</p>
+        <p class="total">Total:{{dataSource.length}}</p>
         <div
           @click="clear"
           class="remove"
           v-if="dataSource.length"
         >
           <Icon type="remove" />
-          <span class="text">清空</span>
+          <span class="text">Clear</span>
         </div>
       </div>
       <template>
@@ -38,7 +38,7 @@
         <div
           class="empty"
           v-else
-        >你还没有添加任何歌曲</div>
+        >You haven't added any songs yet</div>
       </template>
     </div>
   </Toggle>
@@ -53,7 +53,7 @@ export default {
     this.reserveDoms = [document.getElementById("mini-player")]
   },
   data() {
-    this.tabs = ["播放列表", "历史记录"]
+    this.tabs = ["Current Playlist", "History"]
     this.LIST_TAB = 0
     this.HISTORY_TAB = 1
 

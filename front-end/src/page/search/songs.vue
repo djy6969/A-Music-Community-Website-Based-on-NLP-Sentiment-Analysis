@@ -25,7 +25,7 @@
 import { getSearch } from "@/api"
 import SongTable from "@/components/song-table"
 import WithPagination from "@/components/with-pagination"
-import {createSong, newCreateSong, newRequest} from "@/utils"
+import { createSong, newCreateSong } from "@/utils"
 
 export default {
   inject: ["searchRoot"],

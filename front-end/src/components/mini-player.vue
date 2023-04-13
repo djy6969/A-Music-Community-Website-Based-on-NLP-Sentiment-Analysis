@@ -48,8 +48,16 @@
     </div>
 
     <div class="mode">
-      <Share :shareUrl="shareUrl" class="mode-item" v-show="hasCurrentSong" />
+<!--      <Share :shareUrl="shareUrl" class="mode-item" v-show="hasCurrentSong" />-->
 
+      <!-- if user favorites this music -->
+        <Icon
+          :type="favoritesStyle"
+          @click="changeFavoritesState"
+          class="mode-item"
+          slot="reference"
+          v-if="hasCurrentSong"
+        />
       <!-- 模式 -->
       <el-popover placement="top" trigger="hover" width="160">
         <p>{{ playModeText }}</p>
@@ -110,7 +118,7 @@ import {
 } from "@/store/helper/music"
 import Storage from "good-storage"
 import Share from "@/components/share"
-import { VOLUME_KEY, PLAY_MODE, playModeMap, isDef } from "@/utils"
+import {VOLUME_KEY, PLAY_MODE, playModeMap, isDef, newRequest} from "@/utils"
 
 const DEFAULT_VOLUME = 0.75
 export default {
@@ -195,7 +203,24 @@ export default {
     togglePlayerShow() {
       this.setPlayerShow(!this.isPlayerShow)
     },
+    changeFavoritesState() {
+      // axios
+      console.log("change favorites state")
+      newRequest.post('/collection/addMusic',
+          {
+            user_id: this.$cookies.get('auth').userid,
+            music_id: this.currentSong.oldId
+          }
+      ).then((res) =>{
+        const allSongs = Object.values(res.data)
+        console.log(allSongs)
+        this.list = allSongs
+      })
 
+      // Vuex actions
+
+    },
+    ...mapState(["ifAddedToFavorites"]),
     ...mapMutations([
       "setCurrentTime",
       "setPlayingState",
@@ -247,6 +272,20 @@ export default {
     modeIcon() {
       return this.currentMode.icon
     },
+    favoritesState() {
+      // judge state based on Vuex
+      return this.ifAddedToFavorites
+    },
+    favoritesStyle() {
+      // judge state based on Vuex
+      if (this.favoritesState) {
+        // added
+        return "fontawesome fa-solid fa-heart"
+      } else {
+        // not added
+        return "fontawesome fa-regular fa-heart-circle-plus"
+      }
+    },
     playModeText() {
       return this.currentMode.name
     },
@@ -271,7 +310,7 @@ export default {
       "playMode",
       "isPlaylistShow",
       "isPlaylistPromptShow",
-      "isPlayerShow"
+      "isPlayerShow","music/ifAddedToFavorites"
     ]),
     ...mapGetters(["prevSong", "nextSong", "nextSongButton"])
   },

@@ -1,5 +1,5 @@
 from PIL import Image
-from flask import Blueprint, request
+from flask import Blueprint,request
 from pyarrow import BufferReader
 
 from common.models.Blog import TBlog
@@ -11,8 +11,7 @@ from interceptors.Auth import auth
 
 blog = Blueprint('blog', __name__)
 
-
-@blog.route('/post_blog', methods=['POST'])
+@blog.route('/post_blog',methods=['POST'])
 # @auth.login_required()
 # need get user_id, text, pictureNum and pictureList from the front-end
 def post_blog():
@@ -22,7 +21,7 @@ def post_blog():
     print(picNum)
     images = []
     for i in range(int(picNum)):
-        name = 'picList[' + str(i) + "]"
+        name = 'picList['+str(i)+"]"
         image = request.files.get(name)
         pic_name = CommonHelper.uploadServerPic(image, user_id)
         print(pic_name)
@@ -37,7 +36,6 @@ def post_blog():
 
     return MessageHelper.ops_renderJSON(msg='Post blog successfully.')
 
-
 @blog.route('/get_all_blogs', methods=['GET'])
 # @auth.login_required()
 # get all blogs
@@ -46,7 +44,7 @@ def post_blog():
 #       id, user_id, blog_content, piclist, publish_time
 def get_all_blogs():
     # status = 1 表示公开， status = 0 表示删除， status = 2 表示私密
-    blogs_data_info = TBlog.query.filter_by(state=1).order_by(TBlog.publish_time.desc()).all()
+    blogs_data_info = TBlog.query.filter_by(status=1).order_by(TBlog.publish_time.desc()).all()
     blogs_info = []
     for blog_data_info in blogs_data_info:
         user = TUser.query.filter_by(id=blog_data_info.userid).first()
@@ -57,13 +55,11 @@ def get_all_blogs():
             'blog_content': blog_data_info.blog_content,
             'publish_time': blog_data_info.publish_time,
             'head': user.head,
-            'picList': blog_data_info.piclist
-        }
+            'picList': blog_data_info.piclist}
         blogs_info.append(blog_info)
 
     print(blogs_info)
     return MessageHelper.ops_renderJSON(data=blogs_info)
-
 
 @blog.route('get_user_blog', methods=['POST'])
 # get user all blogs
@@ -74,15 +70,9 @@ def get_usr_blog():
     blogs_info = []
     for blog_data_info in blogs_data_info:
         user = TUser.query.filter_by(id=blog_data_info.userid).first()
-        blog_info = {
-            'id': blog_data_info.id,
-            'user_id': blog_data_info.userid,
-            'username': user.username,
-            'blog_content': blog_data_info.blog_content,
-            'publish_time': blog_data_info.publish_time,
-            'picList': blog_data_info.piclist,
-            'status': blog_data_info.state
-        }
+        blog_info = {'id': blog_data_info.id, 'user_id': blog_data_info.userid, 'username': user.username,
+                     'blog_content': blog_data_info.blog_content,
+                     'publish_time': blog_data_info.publish_time, 'picList': blog_data_info.piclist, 'status': blog_data_info.status}
         blogs_info.append(blog_info)
 
     print(blogs_info)
@@ -102,7 +92,6 @@ def update_blog_state():
     db.session.commit()
     return MessageHelper.ops_renderJSON()
 
-
 @blog.route('get_blog_comments', methods=['POST'])
 # get comments for one blog
 # need the front-end send blog_id
@@ -117,7 +106,6 @@ def get_blog_comments():
         comments.append(comment)
 
     return MessageHelper.ops_renderJSON(data=comments)
-
 
 @blog.route('post_blog_comment', methods=['POST'])
 # post a comment for one blog

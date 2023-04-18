@@ -9,13 +9,16 @@ app = Flask(__name__, instance_relative_config=True)
 CORS(app, supports_credentials=True)
 
 # 默认silent = False，即当配置文件不存在时，抛出异常
+#
+# /home/student/comp3032j/back-end/common/config/base_setting.py
+# ../common/config/base_setting.py
 app.config.from_pyfile("../common/config/base_setting.py", silent=False)
 
 db = SQLAlchemy(app)
 
 transport = paramiko.Transport('137.43.49.28', 22)
 
-transport.connect(username='student', password='fianna-LDLYR?')
+transport.connect(username='student', password='Ahkoh4queidiegho')
 
 ssh = paramiko.SSHClient()
 

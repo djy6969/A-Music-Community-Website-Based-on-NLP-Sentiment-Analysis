@@ -24,7 +24,6 @@ export default {
   methods: {
     getIconCls() {
       if (this.type.split(' ')[0] === 'new'){
-        console.log(this.type.split(' ').slice(1).join(' '))
         return this.type.split(' ').slice(1).join(' ')
       } else {
         let cls = `icon-${this.type}`

@@ -40,5 +40,8 @@ export default {
   },
   setFavorites(state, newState) {
     state.ifAddedToFavorites = newState
+  },
+  setUserFavoritesList(state, newList) {
+    state.userFavoritesList= newList
   }
 }

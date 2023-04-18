@@ -23,9 +23,9 @@ export default {
   },
   methods: {
     async init() {
-      await this.getAllMusic()
+      await this.getUserCollection()
     },
-    async getAllMusic() {
+    async getUserCollection() {
       newRequest.post('/collection/getMusicsFromCollection',
           {
             userId: this.$cookies.get('auth').userid

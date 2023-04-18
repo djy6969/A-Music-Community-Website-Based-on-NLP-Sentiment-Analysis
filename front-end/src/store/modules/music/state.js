@@ -9,7 +9,7 @@ export default {
   currentTime: 0,
   // 播放状态
   playing: false,
-  // add to favorites button
+  // style of favorites button
   ifAddedToFavorites: false,
   // 播放模式
   playMode: storage.get(PLAY_MODE, playModeMap.sequence.code),
@@ -21,6 +21,8 @@ export default {
   isPlayerShow: false,
   // 播放列表数据
   playlist: [],
+  // list of user favorites songs
+  userFavoritesList: {},
   // 播放历史数据
   playHistory: storage.get(PLAY_HISTORY_KEY, []),
   // 菜单显示

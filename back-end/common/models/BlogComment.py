@@ -12,3 +12,4 @@ class TBlogComment(db.Model):
                        db.ForeignKey(TBlog.id, ondelete="CASCADE"), nullable=False)
     content = db.Column(db.String(1024, 'utf8_bin'))
     publish_time = db.Column(db.DateTime, server_default=db.FetchedValue())
+    nlp_point = db.Column(db.Float, nullable=False, default=0.0)

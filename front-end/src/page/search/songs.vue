@@ -25,9 +25,12 @@
 import { getSearch } from "@/api"
 import SongTable from "@/components/song-table"
 import WithPagination from "@/components/with-pagination"
-import { createSong, newCreateSong } from "@/utils"
+import {createSong, newCreateSong, newRequest} from "@/utils"
 
 export default {
+  async created() {
+    await this.getUserFavorites()
+  },
   inject: ["searchRoot"],
   data() {
     return {
@@ -38,8 +41,18 @@ export default {
   },
   methods: {
     getSearch,
-    newGetSearch() {
-      //discarded
+    getUserFavorites() {
+      if (this.$cookies.get('auth') !== null) {
+        newRequest.post('/account/getFavoritesSongs',
+            {
+              user_id: this.$cookies.get('auth').userid
+            }
+        ).then((res) =>{
+          console.log(res.data)
+          // vuex mutations
+          this.setUserFavoritesList(res.data)
+        })
+      }
     },
     onGetSearch(result) {
       const {

@@ -35,6 +35,7 @@ export default {
     // const { result } = await getNewSongs()
     // this.list = result
     await this.getNewestSongs()
+    await this.getUserFavorites()
   },
   data() {
     return {
@@ -46,6 +47,19 @@ export default {
   methods: {
     getSongOrder(listIndex, index) {
       return listIndex * this.chunkLimit + index + 1
+    },
+    getUserFavorites() {
+      if (this.$cookies.get('auth') !== null) {
+        newRequest.post('/account/getFavoritesSongs',
+            {
+              user_id: this.$cookies.get('auth').userid
+            }
+        ).then((res) =>{
+          console.log(res.data)
+          // vuex mutations
+          this.setUserFavoritesList(res.data)
+        })
+      }
     },
     getNewestSongs() {
       newRequest.post('/music/getMusicResource',
@@ -120,7 +134,7 @@ export default {
         }
       }, 3500)
     },
-    ...mapMutations(["setPlaylist", "setPlayingState"]),
+    ...mapMutations(["setPlaylist", "setPlayingState", "setUserFavoritesList"]),
     ...mapState(["currentTime"]),
     ...mapActions(["startSong"])
   },
@@ -142,7 +156,7 @@ export default {
     },
     playingState() {
       return this.playing
-    }
+    },
   },
   components: { SongCard }
 }

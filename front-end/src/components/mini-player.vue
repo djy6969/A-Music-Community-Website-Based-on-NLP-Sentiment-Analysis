@@ -218,15 +218,16 @@ export default {
       })
 
       // Vuex actions
+      this.setFavorites(!this.ifAddedToFavorites)
 
     },
-    ...mapState(["ifAddedToFavorites"]),
     ...mapMutations([
       "setCurrentTime",
       "setPlayingState",
       "setPlayMode",
       "setPlaylistShow",
-      "setPlayerShow"
+      "setPlayerShow",
+      "setFavorites"
     ]),
     ...mapActions(["startSong"])
   },
@@ -310,7 +311,8 @@ export default {
       "playMode",
       "isPlaylistShow",
       "isPlaylistPromptShow",
-      "isPlayerShow","music/ifAddedToFavorites"
+      "isPlayerShow",
+      "ifAddedToFavorites"
     ]),
     ...mapGetters(["prevSong", "nextSong", "nextSongButton"])
   },

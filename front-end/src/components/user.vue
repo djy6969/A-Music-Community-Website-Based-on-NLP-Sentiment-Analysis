@@ -88,10 +88,11 @@
 <script type="text/ecmascript-6">
 import {
   mapActions as mapUserActions,
-  mapState as mapUserState,
+  mapState as mapUserState
 } from "@/store/helper/user"
-import Loading from "@/base/loading.vue";
-import { newRequest } from "@/utils";
+import Loading from "@/base/loading.vue"
+import { newRequest } from "@/utils"
+import storage from 'good-storage'
 
 export default {
   components: {Loading},
@@ -158,6 +159,7 @@ export default {
                 role: res.data.role
               }
           )
+          storage.set("userRole", res.data.role)
           loginLoading.close()
           this.$message({
             showClose: true,
@@ -212,6 +214,7 @@ export default {
         background: 'rgba(0,0,0,0.7)'
       })
       this.$cookies.remove('auth')
+      storage.set("userRole", 0)
       newRequest.get(
           '/account/logout'
       )

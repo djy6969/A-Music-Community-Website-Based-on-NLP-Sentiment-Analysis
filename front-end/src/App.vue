@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Layout />
-    <Player />
+    <Player v-if="ifCustomer"/>
     <MiniPlayer />
     <Playlist />
     <ShareReader />
@@ -21,7 +21,17 @@ export default {
       title: "Daring Music Community"
     }
   },
-  components: { Layout, MiniPlayer, Playlist, Player, ShareReader }
+  components: { Layout, MiniPlayer, Playlist, Player, ShareReader },
+  computed: {
+    ifCustomer() {
+      if (this.$cookies.get('auth') !== null) {
+        return this.$cookies.get('auth').role !== 2
+      } else {
+        return false
+      }
+
+    }
+  }
 }
 </script>
 

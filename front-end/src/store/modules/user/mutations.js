@@ -4,5 +4,9 @@ export default {
   },
   setUserPlaylist(state, playlist) {
     state.userPlaylist = playlist
+  },
+  setUserRole(state, newRole) {
+    console.log(newRole)
+    state.userRole = newRole
   }
 }

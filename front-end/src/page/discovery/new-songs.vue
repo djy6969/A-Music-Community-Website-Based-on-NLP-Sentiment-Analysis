@@ -118,6 +118,7 @@ export default {
       })
     },
     onClickSong(listIndex, index) {
+      // start this song
       clearInterval(this.ifRestart)
       this.ifRestart = 0
       // 这里因为getSongOrder是从1开始显示, 所以当做数组下标需要减一
@@ -133,9 +134,12 @@ export default {
           this.ifRestart = 0
         }
       }, 3500)
+
+      // show if the current song is in favorites
+      this.setFavorites(this.userFavoritesList.includes(this.currentPlayingSong.id))
     },
-    ...mapMutations(["setPlaylist", "setPlayingState", "setUserFavoritesList"]),
-    ...mapState(["currentTime"]),
+    ...mapMutations(["setPlaylist", "setPlayingState", "setUserFavoritesList", "setFavorites"]),
+    ...mapState(["currentTime", "currentSong", "userFavoritesList"]),
     ...mapActions(["startSong"])
   },
   computed: {
@@ -153,9 +157,6 @@ export default {
     },
     currentSongTime() {
       return this.currentTime
-    },
-    playingState() {
-      return this.playing
     },
   },
   components: { SongCard }

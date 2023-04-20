@@ -206,19 +206,27 @@ export default {
     changeFavoritesState() {
       // axios
       console.log("change favorites state")
-      newRequest.post('/collection/addMusic',
-          {
-            user_id: this.$cookies.get('auth').userid,
-            music_id: this.currentSong.oldId
-          }
-      ).then((res) =>{
-        const allSongs = Object.values(res.data)
-        console.log(allSongs)
-        this.list = allSongs
-      })
-
-      // Vuex actions
-      this.setFavorites(!this.ifAddedToFavorites)
+      if (this.ifAddedToFavorites) {
+        newRequest.post('/collection/deleteMusicFromCollection',
+            {
+              userId: this.$cookies.get('auth').userid,
+              musicId: this.currentSong.oldId
+            }
+        ).then((res) =>{
+          // Vuex actions
+          this.setFavorites(!this.ifAddedToFavorites)
+        })
+      } else {
+        newRequest.post('/collection/addMusicToCollection',
+            {
+              userId: this.$cookies.get('auth').userid,
+              musicId: this.currentSong.oldId
+            }
+        ).then((res) =>{
+          // Vuex actions
+          this.setFavorites(!this.ifAddedToFavorites)
+        })
+      }
 
     },
     ...mapMutations([
@@ -284,7 +292,7 @@ export default {
         return "fontawesome fa-solid fa-heart"
       } else {
         // not added
-        return "fontawesome fa-regular fa-heart-circle-plus"
+        return "fontawesome fa-regular fa-heart"
       }
     },
     playModeText() {

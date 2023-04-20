@@ -21,7 +21,7 @@ def addCollection():
     newCollection = TCollection()
     newCollection.video_Id = musicId
     newCollection.collection_name = collectionName
-    newCollection.userid = userId
+    newCollection.user_id = userId
 
     # add collection to database
     db.session.add(newCollection)

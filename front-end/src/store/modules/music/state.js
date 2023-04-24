@@ -22,7 +22,7 @@ export default {
   // 播放列表数据
   playlist: [],
   // list of user favorites songs
-  userFavoritesList: {},
+  userFavoritesList: [],
   // 播放历史数据
   playHistory: storage.get(PLAY_HISTORY_KEY, []),
   // 菜单显示

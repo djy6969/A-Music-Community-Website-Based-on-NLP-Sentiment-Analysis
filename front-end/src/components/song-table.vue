@@ -151,7 +151,7 @@ export default {
       }, 3500)
 
       // show if the current song is in favorites
-      this.setFavorites(this.userFavoritesList.includes(this.currentSong.id))
+      this.setFavorites(this.userFavoritesList.includes(this.currentSong.oldId))
     },
     isActiveSong(song) {
       return song.id === this.currentSong.id

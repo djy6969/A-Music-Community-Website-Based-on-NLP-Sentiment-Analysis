@@ -140,7 +140,7 @@ def upload_head_protrait():
     user_id = request.values['user_id']
     image = request.files.get('head')
     user = TUser.query.filter_by(id=user_id).first()
-    user.head = "https://ipa-012.ucd.ie/image/" + CommonHelper.uploadServerPic(image)
+    user.head = "https://ipa-012.ucd.ie/image/" + CommonHelper.uploadServerPic(user_id, image)
     db.session.commit()
     return MessageHelper.ops_renderJSON(msg="upload successfully")
 

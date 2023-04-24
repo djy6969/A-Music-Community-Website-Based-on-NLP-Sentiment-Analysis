@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
 from flask_cors import CORS
 import paramiko
+from flask_socketio import SocketIO
+
 
 app = Flask(__name__, instance_relative_config=True)
 
@@ -26,7 +28,11 @@ ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
 ssh._transport = transport
 
+socketio = SocketIO()
+socketio.init_app(app, cors_allow_origin='*')
+
 # 启动管理
 manager = Manager(app)
+
 
 

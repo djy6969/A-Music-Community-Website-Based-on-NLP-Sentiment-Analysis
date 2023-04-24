@@ -55,5 +55,9 @@ export default {
       copy.unshift(song)
       commit('setPlaylist', copy)
     }
+  },
+  changeUserFavorites({ commit }, newFavoritesState, newUserFavoritesList) {
+    commit('setFavorites', newFavoritesState)
+    commit('setUserFavoritesList', newUserFavoritesList)
   }
 }

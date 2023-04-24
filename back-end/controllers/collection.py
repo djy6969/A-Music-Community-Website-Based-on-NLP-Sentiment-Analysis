@@ -13,14 +13,15 @@ collection = Blueprint('collection', __name__)
 @collection.route("/addMusicToCollection", methods=['POST'])
 def addCollection():
     # get collectionName and musicId of music want to add into the collection and userId
-    collectionName = request.json.get('collectionName')
+    # every user only have one collection
+    # collectionName = request.json.get('collectionName')
     musicId = request.json.get('musicId')
     userId = request.json.get('userId')
 
     # create a new TCollection object and insert information into it
     newCollection = TCollection()
-    newCollection.video_Id = musicId
-    newCollection.collection_name = collectionName
+    newCollection.music_Id = musicId
+    # newCollection.collection_name = collectionName
     newCollection.user_id = userId
 
     # add collection to database
@@ -32,13 +33,13 @@ def addCollection():
 
 @collection.route("/deleteMusicFromCollection", methods=['POST'])
 def deleteMusicFromCollection():
-    collectionName = request.json.get('collectionName')
+    # every user only have one collection
+    # collectionName = request.json.get('collectionName')
     musicId = request.json.get('musicId')
     userId = request.json.get('userId')
 
     # get collection
-    getCollection = TCollection.query.filter_by(user_id=userId,
-                                                collection_name=collectionName, video_Id=musicId).first()
+    getCollection = TCollection.query.fliter_by(user_id=userId, music_Id=musicId).first()
 
     # delete music from collection
     db.session.remove(getCollection)
@@ -60,9 +61,9 @@ def getMusicsFromCollection():
 
     # get music info by video_Id and add music info to collections
     for getCollection in getCollections:
-        music = TMusic.query.filter_by(video_Id=getCollection.video_Id).first()
-        music_info = {'seq': i, 'id': music.video_Id, 'img': music.image_url,
-                      "url": 'https://ipa-012.ucd.ie/music/' + music.video_Id + ".mp3",
+        music = TMusic.query.filter_by(music_Id=getCollection.music_Id).first()
+        music_info = {'seq': i, 'id': music.music_Id, 'img': music.image_url,
+                      "url": 'https://ipa-012.ucd.ie/music/' + music.music_Id + ".mp3",
                       'name': music.title, 'albumId': '', 'albumName': '',
                       'artists': music.artist, 'duration': music.duration,
                       'durationSecond': CommonHelper.convertMusicTime(music.duration), 'mvId': 0}

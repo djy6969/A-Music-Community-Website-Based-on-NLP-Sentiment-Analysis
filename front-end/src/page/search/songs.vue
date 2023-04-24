@@ -2,7 +2,6 @@
 <template>
   <div class="search-songs">
     <WithPagination
-      :getData="newGetSearch"
       :getDataParams="searchParams"
       :limit="30"
       :scrollTarget="searchRoot.$refs && searchRoot.$refs.header"
@@ -29,7 +28,7 @@ import {createSong, newCreateSong, newRequest} from "@/utils"
 
 export default {
   async created() {
-    await this.getUserFavorites()
+
   },
   inject: ["searchRoot"],
   data() {
@@ -41,19 +40,6 @@ export default {
   },
   methods: {
     getSearch,
-    getUserFavorites() {
-      if (this.$cookies.get('auth') !== null) {
-        newRequest.post('/account/getFavoritesSongs',
-            {
-              user_id: this.$cookies.get('auth').userid
-            }
-        ).then((res) =>{
-          console.log(res.data)
-          // vuex mutations
-          this.setUserFavoritesList(res.data)
-        })
-      }
-    },
     onGetSearch(result) {
       const {
         result: { songs, songCount }

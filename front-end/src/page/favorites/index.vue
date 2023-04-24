@@ -36,6 +36,7 @@ export default {
         this.songs = allSongs.map(song =>{
           const {
             seq,
+            id,
             name,
             artists,
             duration,
@@ -47,6 +48,7 @@ export default {
           } = song
           return newCreateSong({
             id: seq,
+            oldId: id,
             name,
             artists,
             artistsText: artists,

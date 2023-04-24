@@ -96,21 +96,18 @@ export const menuRoutes = [
 
 if (getCookie('auth') !== '') {
   // logged in
-  switch(storage.get("userRole", 0)) {
-    case 1:
-      menuRoutes.push(
-          {
-            path: '/favorites',
-            name: 'userFavorites',
-            component: UserFavorites,
-            meta: {
-              title: 'User Favorites',
-              icon: 'playlist-menu',
-            }
-          }
-      )
-      break
-    default:
+  menuRoutes.push(
+      {
+        path: '/favorites',
+        name: 'userFavorites',
+        component: UserFavorites,
+        meta: {
+          title: 'User Favorites',
+          icon: 'playlist-menu',
+        }
+      }
+  )
+  if (storage.get("userRole", 0) === 2) {
       menuRoutes.push(
           {
             path: '/staff-analysis',

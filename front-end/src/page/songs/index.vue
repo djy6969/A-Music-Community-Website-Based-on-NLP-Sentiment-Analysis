@@ -68,7 +68,6 @@ export default {
     async init() {
       // await this.getSongs()
       await this.getAllMusic()
-      await this.getUserFavorites()
     },
     async getAllMusic() {
       // get musics
@@ -107,19 +106,6 @@ export default {
           })
         })
       })
-    },
-    getUserFavorites() {
-      if (this.$cookies.get('auth') !== null) {
-        newRequest.post('/account/getFavoritesSongs',
-            {
-              user_id: this.$cookies.get('auth').userid
-            }
-        ).then((res) =>{
-          console.log(res.data)
-          // vuex mutations
-          this.setUserFavoritesList(res.data)
-        })
-      }
     },
   },
   components: {

@@ -56,7 +56,7 @@
           @click="changeFavoritesState"
           class="mode-item"
           slot="reference"
-          v-if="hasCurrentSong"
+          v-if="ifShowFavoritesButton"
         />
       <!-- 模式 -->
       <el-popover placement="top" trigger="hover" width="160">
@@ -129,10 +129,24 @@ export default {
       volume: Storage.get(VOLUME_KEY, DEFAULT_VOLUME)
     }
   },
-  mounted() {
+  async mounted() {
+    await this.getUserFavorites()
     this.audio.volume = this.volume
   },
   methods: {
+    getUserFavorites() {
+      if (this.$cookies.get('auth') !== null) {
+        newRequest.post('/account/getFavoritesSongs',
+            {
+              user_id: this.$cookies.get('auth').userid
+            }
+        ).then((res) =>{
+          console.log(res.data)
+          // vuex mutations
+          this.setUserFavoritesList(res.data)
+        })
+      }
+    },
     togglePlaying() {
       if (!this.currentSong.id) {
         return
@@ -166,11 +180,15 @@ export default {
     prev() {
       if (this.songReady) {
         this.startSong(this.prevSong)
+        // vuex
+        // this.setFavorites(this.userFavoritesList.includes(this.currentSong.oldId))
       }
     },
     next() {
       if (this.songReady) {
         this.startSong(this.nextSongButton)
+        // vuex
+        // this.setFavorites(this.userFavoritesList.includes(this.currentSong.oldId))
       }
     },
     end() {
@@ -207,6 +225,7 @@ export default {
       // axios
       console.log("change favorites state")
       if (this.ifAddedToFavorites) {
+        // exist in favorites
         newRequest.post('/collection/deleteMusicFromCollection',
             {
               userId: this.$cookies.get('auth').userid,
@@ -214,9 +233,10 @@ export default {
             }
         ).then((res) =>{
           // Vuex actions
-          this.setFavorites(!this.ifAddedToFavorites)
+          // this.changeUserFavorites(!this.ifAddedToFavorites, this.userFavoritesList.splice(this.userFavoritesList.indexOf(this.currentSong.oldId), 1))
         })
       } else {
+        // doesn't exist
         newRequest.post('/collection/addMusicToCollection',
             {
               userId: this.$cookies.get('auth').userid,
@@ -224,7 +244,7 @@ export default {
             }
         ).then((res) =>{
           // Vuex actions
-          this.setFavorites(!this.ifAddedToFavorites)
+          // this.changeUserFavorites(!this.ifAddedToFavorites, this.userFavoritesList.push(this.currentSong.oldId))
         })
       }
 
@@ -235,9 +255,10 @@ export default {
       "setPlayMode",
       "setPlaylistShow",
       "setPlayerShow",
-      "setFavorites"
+      "setFavorites",
+      "setUserFavoritesList"
     ]),
-    ...mapActions(["startSong"])
+    ...mapActions(["startSong", "changeUserFavorites"])
   },
   watch: {
     currentSong(newSong, oldSong) {
@@ -272,6 +293,11 @@ export default {
     hasCurrentSong() {
       return isDef(this.currentSong.id)
     },
+    checkLogin(){
+      return this.$cookies.get('auth') !== null
+          ? this.$cookies.get('auth').userid
+          : ''
+    },
     playIcon() {
       return this.playing ? "pause" : "play"
     },
@@ -294,6 +320,9 @@ export default {
         // not added
         return "fontawesome fa-regular fa-heart"
       }
+    },
+    ifShowFavoritesButton() {
+      return !!(this.hasCurrentSong && this.checkLogin !== '')
     },
     playModeText() {
       return this.currentMode.name
@@ -320,7 +349,8 @@ export default {
       "isPlaylistShow",
       "isPlaylistPromptShow",
       "isPlayerShow",
-      "ifAddedToFavorites"
+      "ifAddedToFavorites",
+      "userFavoritesList"
     ]),
     ...mapGetters(["prevSong", "nextSong", "nextSongButton"])
   },

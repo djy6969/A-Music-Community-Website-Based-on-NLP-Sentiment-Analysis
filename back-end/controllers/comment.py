@@ -29,7 +29,7 @@ def get_music_comments_number():
 def get_music_comments():
     video_Id = request.json.get('video_Id')
     page = request.json.get('page')
-    comments = TComment.query.filter_by(music_Id=video_Id).offset(50 * (page-1)).limit(50).all()
+    comments = TComment.query.filter_by(music_Id=video_Id).order_by(TComment.publish_time.desc()).offset(50 * (page-1)).limit(50).all()
     comments_list = []
     for comment in comments:
         comment_info = {'comment_id': comment.id, 'likeCount': comment.like_count, 'author': comment.author,

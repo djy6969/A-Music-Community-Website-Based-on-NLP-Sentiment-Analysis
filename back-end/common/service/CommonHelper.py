@@ -16,7 +16,10 @@ def getFolderFileCount(folder):
 
     is_existence = True if folder in sftp.listdir('/home/student/comp3032j/data/image/') else False
 
+
+
     if not is_existence:
+        # /home/student/comp3032j/data/image
         sftp.mkdir('/home/student/comp3032j/data/image/{}'.format(folder))
         return 0
     else:

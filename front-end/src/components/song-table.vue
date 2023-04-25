@@ -36,7 +36,6 @@ export default {
       },
     }
     return {
-      ifRestart: 0,
       columns: [
         {
           prop: "index",
@@ -137,18 +136,22 @@ export default {
   methods: {
     onRowClick(song) {
       //start this song
+      // clear interval
       clearInterval(this.ifRestart)
-      this.ifRestart = 0
+      this.setIfRestart(0)
+
       this.startSong(song)
       this.setPlaylist(this.songs)
-      this.ifRestart = setInterval(() => {
+
+      // if not start playing, repeat
+      this.setIfRestart(setInterval(() => {
         if (this.currentTime === 0 ) {
           this.startSong(song)
         } else {
           clearInterval(this.ifRestart)
-          this.ifRestart = 0
+          this.setIfRestart(0)
         }
-      }, 3500)
+      }, 3500))
 
       // show if the current song is in favorites
       this.setFavorites(this.userFavoritesList.includes(this.currentSong.oldId))
@@ -177,7 +180,7 @@ export default {
       }
       return retCls.join(" ")
     },
-    ...mapMutations(["setPlaylist", "setPlayingState", "setFavorites"]),
+    ...mapMutations(["setPlaylist", "setPlayingState", "setFavorites", "setIfRestart"]),
     ...mapActions(["startSong"]),
   },
   computed: {
@@ -192,7 +195,7 @@ export default {
         return !hideColumns.find(hideColumn => hideColumn === column.prop)
       })
     },
-    ...mapState(["currentSong", "currentTime", "userFavoritesList"]),
+    ...mapState(["currentSong", "currentTime", "userFavoritesList", "ifRestart"]),
   },
   render() {
     const elTableProps = ElTable.props

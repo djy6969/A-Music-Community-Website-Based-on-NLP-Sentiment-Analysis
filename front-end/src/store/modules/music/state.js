@@ -11,6 +11,8 @@ export default {
   playing: false,
   // style of favorites button
   ifAddedToFavorites: false,
+  // if the current song should be replayed
+  ifRestart: 0,
   // 播放模式
   playMode: storage.get(PLAY_MODE, playModeMap.sequence.code),
   // 播放列表显示

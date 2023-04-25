@@ -39,10 +39,10 @@ def deleteMusicFromCollection():
     userId = request.json.get('userId')
 
     # get collection
-    getCollection = TCollection.query.fliter_by(user_id=userId, music_Id=musicId).first()
+    getCollection = TCollection.query.filter_by(user_id=userId, music_Id=musicId).first()
 
     # delete music from collection
-    db.session.remove(getCollection)
+    db.session.delete(getCollection)
     db.session.commit()
 
     return MessageHelper.ops_renderJSON()
@@ -62,12 +62,31 @@ def getMusicsFromCollection():
     # get music info by video_Id and add music info to collections
     for getCollection in getCollections:
         music = TMusic.query.filter_by(music_Id=getCollection.music_Id).first()
-        music_info = {'seq': i, 'id': music.music_Id, 'img': music.image_url,
+        music_info = {'seq': i+1, 'id': music.music_Id, 'img': music.image_url,
                       "url": 'https://ipa-012.ucd.ie/music/' + music.music_Id + ".mp3",
                       'name': music.title, 'albumId': '', 'albumName': '',
                       'artists': music.artist, 'duration': music.duration,
                       'durationSecond': CommonHelper.convertMusicTime(music.duration), 'mvId': 0}
         collections[i] = music_info
+        i += 1
+
+    return MessageHelper.ops_renderJSON(data=collections)
+
+
+@collection.route("/getFavoritesSongs", methods=['POST'])
+def getFavoritesSongs():
+
+    userId = request.json.get('userId')
+
+    # get collection
+    getCollections = TCollection.query.filter_by(user_id=userId).all()
+
+    collections = []
+    i = 0
+    # get music info by video_Id and add music info to collections
+    for getCollection in getCollections:
+        music = TMusic.query.filter_by(music_Id=getCollection.music_Id).first()
+        collections.append(music.music_Id)
         i += 1
 
     return MessageHelper.ops_renderJSON(data=collections)

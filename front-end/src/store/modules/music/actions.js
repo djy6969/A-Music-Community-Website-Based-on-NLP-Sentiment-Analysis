@@ -56,8 +56,8 @@ export default {
       commit('setPlaylist', copy)
     }
   },
-  changeUserFavorites({ commit }, newFavoritesState, newUserFavoritesList) {
-    commit('setFavorites', newFavoritesState)
-    commit('setUserFavoritesList', newUserFavoritesList)
+  changeUserFavorites({ commit }, dict) {
+    commit('setFavorites', dict.newFavoritesState)
+    commit('setUserFavoritesList', dict.newUserFavoritesList)
   }
 }

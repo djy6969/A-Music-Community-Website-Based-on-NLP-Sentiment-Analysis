@@ -126,7 +126,7 @@ export default {
     return {
       isPlayErrorPromptShow: false,
       songReady: false,
-      volume: Storage.get(VOLUME_KEY, DEFAULT_VOLUME)
+      volume: Storage.get(VOLUME_KEY, DEFAULT_VOLUME),
     }
   },
   async mounted() {
@@ -136,12 +136,11 @@ export default {
   methods: {
     getUserFavorites() {
       if (this.$cookies.get('auth') !== null) {
-        newRequest.post('/account/getFavoritesSongs',
+        newRequest.post('/collection/getFavoritesSongs',
             {
-              user_id: this.$cookies.get('auth').userid
+              userId: this.$cookies.get('auth').userid
             }
         ).then((res) =>{
-          console.log(res.data)
           // vuex mutations
           this.setUserFavoritesList(res.data)
         })
@@ -172,6 +171,9 @@ export default {
     },
     pause() {
       this.audio.pause()
+      // clear interval
+      clearInterval(this.ifRestart)
+      this.setIfRestart(0)
     },
     updateTime(e) {
       const time = e.target.currentTime
@@ -181,14 +183,38 @@ export default {
       if (this.songReady) {
         this.startSong(this.prevSong)
         // vuex
-        // this.setFavorites(this.userFavoritesList.includes(this.currentSong.oldId))
+        this.setFavorites(this.userFavoritesList.includes(this.currentSong.oldId))
+        clearInterval(this.ifRestart)
+        this.setIfRestart(0)
+
+        // if not start playing, repeat
+        this.setIfRestart(setInterval(() => {
+          if (this.currentTime === 0 ) {
+            this.startSong(this.currentSong)
+          } else {
+            clearInterval(this.ifRestart)
+            this.setIfRestart(0)
+          }
+        }, 3500))
       }
     },
     next() {
       if (this.songReady) {
         this.startSong(this.nextSongButton)
         // vuex
-        // this.setFavorites(this.userFavoritesList.includes(this.currentSong.oldId))
+        this.setFavorites(this.userFavoritesList.includes(this.currentSong.oldId))
+        clearInterval(this.ifRestart)
+        this.setIfRestart(0)
+
+        // if not start playing, repeat
+        this.setIfRestart(setInterval(() => {
+          if (this.currentTime === 0 ) {
+            this.startSong(this.currentSong)
+          } else {
+            clearInterval(this.ifRestart)
+            this.setIfRestart(0)
+          }
+        }, 3500))
       }
     },
     end() {
@@ -233,7 +259,9 @@ export default {
             }
         ).then((res) =>{
           // Vuex actions
-          // this.changeUserFavorites(!this.ifAddedToFavorites, this.userFavoritesList.splice(this.userFavoritesList.indexOf(this.currentSong.oldId), 1))
+          const left = this.userFavoritesList
+          left.splice(this.userFavoritesList.indexOf(this.currentSong.oldId), 1)
+          this.changeUserFavorites({"newFavoritesState": !this.ifAddedToFavorites, "newUserFavoritesList": left})
         })
       } else {
         // doesn't exist
@@ -244,10 +272,11 @@ export default {
             }
         ).then((res) =>{
           // Vuex actions
-          // this.changeUserFavorites(!this.ifAddedToFavorites, this.userFavoritesList.push(this.currentSong.oldId))
+          const tem = this.userFavoritesList
+          tem.push(this.currentSong.oldId)
+          this.changeUserFavorites({"newFavoritesState": !this.ifAddedToFavorites, "newUserFavoritesList": tem})
         })
       }
-
     },
     ...mapMutations([
       "setCurrentTime",
@@ -256,7 +285,8 @@ export default {
       "setPlaylistShow",
       "setPlayerShow",
       "setFavorites",
-      "setUserFavoritesList"
+      "setUserFavoritesList",
+      "setIfRestart"
     ]),
     ...mapActions(["startSong", "changeUserFavorites"])
   },
@@ -350,7 +380,8 @@ export default {
       "isPlaylistPromptShow",
       "isPlayerShow",
       "ifAddedToFavorites",
-      "userFavoritesList"
+      "userFavoritesList",
+      "ifRestart"
     ]),
     ...mapGetters(["prevSong", "nextSong", "nextSongButton"])
   },

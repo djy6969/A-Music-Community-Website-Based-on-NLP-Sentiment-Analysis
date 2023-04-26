@@ -1,12 +1,21 @@
 <template>
-  <div>
+  <div class="container">
 
   </div>
 </template>
 
 <script>
 export default {
-  name: "analysis"
+  name: "analysis",
+  mounted() {
+    this.init()
+  },
+  methods: {
+    init() {
+      console.log(1)
+
+    }
+  },
 }
 </script>
 

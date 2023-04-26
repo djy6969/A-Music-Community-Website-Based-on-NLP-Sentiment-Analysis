@@ -7,7 +7,11 @@ const Playlists = () => import(/* webpackChunkName: "Playlists" */ '@/page/playl
 const Songs = () => import(/* webpackChunkName: "Songs" */ '@/page/songs')
 
 const User = () => import(/* webpackChunkName: "User" */ '@/page/user')
+const PersonInformation = () => import(/* webpackChunkName: "PersonInformation" */ '@/page/user/personInformation')
+const PostHistory = () => import(/* webpackChunkName: "PostHistory" */ '@/page/user/postHistory')
+const CommentHistory = () => import(/* webpackChunkName: "CommentHistory */ '@/page/user/commentHistory')
 const Blogs = () => import(/* webpackChunkName: "Blogs" */ '@/page/blogs')
+const Chat = () => import(/* webpackChunkName: "Chat" */ '@/page/chat')
 const Search = () => import(/* webpackChunkName: "Search" */ '@/page/search')
 const SearchSongs = () => import(/* webpackChunkName: "SearchSongs" */ '@/page/search/songs')
 const SearchPlaylists = () => import(/* webpackChunkName: "SearchPlaylists" */ '@/page/search/playlists')
@@ -125,7 +129,33 @@ export default new Router({
     {
       path: '/user',
       name: 'user',
-      component: User
+      component: User,
+      children: [
+        {
+          path: '/',
+          redirect: 'personInformation'
+        },
+        {
+          path: 'personInformation',
+          name: 'Personal Information',
+          component: PersonInformation,
+        },
+        {
+          path: 'postHistory',
+          name: 'Post History',
+          component: PostHistory
+        },
+        {
+          path: 'commentHistory',
+          name: 'Comment History',
+          component: CommentHistory,
+        },
+      ]
+    },
+    {
+      path: '/chat',
+      name: 'Chat',
+      component: Chat
     }
   ],
 })

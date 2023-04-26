@@ -1,247 +1,249 @@
 <template>
-  <div class="user">
-    <Loading
-        :loading="userLoading"
-        v-if="userLoading"
-    />
-    <!-- 登录前 -->
-    <div @click="visibleData.loginVisible = true" class="login-trigger" v-show="!isLogin">
-      <i class="user-icon iconfont icon-yonghu"/>
-      <p class="user-name">Login</p>
-    </div>
-    <!-- 登录后 -->
-    <el-dropdown>
-      <div class="logined-user" v-show="isLogin">
-        <el-avatar :src="userData.avatarUrl"/>
-        <p class="user-name">{{ this.userData.username }}</p>
-      </div>
-      <el-dropdown-menu>
-        <el-dropdown-item v-show="this.userData.role===1" @click.native="toPersonalPage">Personal Page
-        </el-dropdown-item>
-        <el-dropdown-item v-show="this.userData.role===2" @click.native="toStaffPage">Staff</el-dropdown-item>
-        <el-dropdown-item @click.native="onLogout">Log Out</el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
-    <!-- 登录框 -->
-    <div class="mask-layer">
-      <div class="login-box" v-show="visibleData.loginVisible">
-        <div class="align">
-          <span class="red" @click="visibleData.loginVisible=false"></span>
+    <div class="user">
+        <Loading
+            v-if="userLoading"
+            :loading="userLoading"
+        />
+        <!-- 登录前 -->
+        <div v-show="!isLogin" class="login-trigger" @click="visibleData.loginVisible = true">
+            <i class="user-icon iconfont icon-yonghu"/>
+            <p class="user-name">Login</p>
         </div>
-        <form>
-          <div class="user-box">
-            <input type="text" name="" required="" v-model="loginForm.username">
-            <label>Username</label>
-          </div>
-          <div class="user-box">
-            <input type="password" name="" required="" v-model="loginForm.password">
-            <label>Password</label>
-            <p href="#" style="float: right" @click="visibleData.registerVisible=true">
-              No Account?
-            </p>
-            <center>
-              <a href="#" @click="loginRequest">
-                User Login
-                <span></span>
-              </a>
-            </center>
-          </div>
-        </form>
-      </div>
-      <div class="login-box" v-show="visibleData.registerVisible">
-        <div class="align">
-          <span class="red" @click="visibleData.registerVisible=false"></span>
+        <!-- 登录后 -->
+        <el-dropdown>
+            <div v-show="isLogin" class="logined-user">
+                <el-avatar :src="userData.avatarUrl"/>
+                <p class="user-name">{{ this.userData.username }}</p>
+            </div>
+            <el-dropdown-menu>
+                <el-dropdown-item v-show="this.userData.role===1" @click.native="toPersonalPage">Personal Page
+                </el-dropdown-item>
+                <el-dropdown-item v-show="this.userData.role===1" @click.native="toChatPage">Chat</el-dropdown-item>
+                <el-dropdown-item v-show="this.userData.role===2" @click.native="toStaffPage">Staff</el-dropdown-item>
+                <el-dropdown-item @click.native="onLogout">Log Out</el-dropdown-item>
+            </el-dropdown-menu>
+        </el-dropdown>
+        <!-- 登录框 -->
+        <div class="mask-layer">
+            <div v-show="visibleData.loginVisible" class="login-box">
+                <div class="align">
+                    <span class="red" @click="visibleData.loginVisible=false"></span>
+                </div>
+                <form>
+                    <div class="user-box">
+                        <input v-model="loginForm.username" name="" required="" type="text">
+                        <label>Username</label>
+                    </div>
+                    <div class="user-box">
+                        <input v-model="loginForm.password" name="" required="" type="password">
+                        <label>Password</label>
+                        <p href="#" style="float: right" @click="visibleData.registerVisible=true">
+                            No Account?
+                        </p>
+                        <div style="text-align: center;">
+                            <a href="#" @click="loginRequest">
+                                User Login
+                                <span></span>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div v-show="visibleData.registerVisible" class="login-box">
+                <div class="align">
+                    <span class="red" @click="visibleData.registerVisible=false"></span>
+                </div>
+                <form>
+                    <div class="user-box">
+                        <input v-model="registerForm.username" name="" required="" type="text">
+                        <label>Username</label>
+                    </div>
+                    <div class="user-box">
+                        <input v-model="registerForm.password" name="" required="" type="text">
+                        <label>Password</label>
+                    </div>
+                    <div class="user-box">
+                        <input v-model="registerForm.email" name="" required="" type="text">
+                        <label>Email</label>
+                    </div>
+                    <div class="user-box">
+                        <input v-model="registerForm.nickname" name="" required="" type="text">
+                        <label>Nickname</label>
+                    </div>
+                    <div class="user-box">
+                        <input v-model="registerForm.tel" name="" required="" type="password">
+                        <label>Telephone Number</label>
+                        <div style="text-align: center;">
+                            <a href="#" @click="registerRequest">
+                                Register
+                                <span></span>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-        <form>
-          <div class="user-box">
-            <input type="text" name="" required="" v-model="registerForm.username">
-            <label>Username</label>
-          </div>
-          <div class="user-box">
-            <input type="text" name="" required="" v-model="registerForm.password">
-            <label>Password</label>
-          </div>
-          <div class="user-box">
-            <input type="text" name="" required="" v-model="registerForm.email">
-            <label>Email</label>
-          </div>
-          <div class="user-box">
-            <input type="text" name="" required="" v-model="registerForm.nickname">
-            <label>Nickname</label>
-          </div>
-          <div class="user-box">
-            <input type="password" name="" required="" v-model="registerForm.tel">
-            <label>Telephone Number</label>
-            <center>
-              <a href="#" @click="registerRequest">
-                Register
-                <span></span>
-              </a>
-            </center>
-          </div>
-        </form>
-      </div>
     </div>
-  </div>
 </template>
 
 <script type="text/ecmascript-6">
-import {
-  mapActions as mapUserActions,
-  mapState as mapUserState,
-} from "@/store/helper/user"
+import {mapActions as mapUserActions, mapState as mapUserState,} from "@/store/helper/user"
 import Loading from "@/base/loading.vue";
 import {newRequest} from "../utils";
 
 export default {
-  components: {Loading},
-  data() {
-    return {
-      userLoading: false,
-      visibleData: {
-        loginVisible: false,
-        registerVisible: false
-      },
-      isLogin: false,
-      loginForm: {
-        username: '',
-        password: ''
-      },
-      registerForm: {
-        username: '',
-        password: '',
-        email: '',
-        tel: '',
-        nickname: ''
-      },
-      userData: {
-        username: '',
-        avatarUrl: '',
-        role: ''
-      }
+    components: {Loading},
+    data() {
+        return {
+            userLoading: false,
+            visibleData: {
+                loginVisible: false,
+                registerVisible: false
+            },
+            isLogin: false,
+            loginForm: {
+                username: '',
+                password: ''
+            },
+            registerForm: {
+                username: '',
+                password: '',
+                email: '',
+                tel: '',
+                nickname: ''
+            },
+            userData: {
+                username: '',
+                avatarUrl: '',
+                role: ''
+            }
+        }
+    },
+    methods: {
+        onCloseModal() {
+            this.visible = false
+        },
+        loginRequest() {
+            const loginLoading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0,0,0,0.7)'
+            })
+            console.log(this.loginForm.username)
+            newRequest.post('/account/login',
+                {
+                    username: this.loginForm.username,
+                    password: this.loginForm.password
+                }
+            ).then(res => {
+                console.log(res)
+                if (res.code === -1) {
+                    loginLoading.close()
+                    this.$message({
+                        showClose: true,
+                        message: res.data.msg,
+                        type: 'warning'
+                    })
+                }
+                if (res.code === 200) {
+                    this.$cookies.set(
+                        'auth',
+                        {
+                            username: this.loginForm.username,
+                            userid: res.data.id,
+                            avatarUrl: res.data.url,
+                            role: res.data.role
+                        }
+                    )
+                    loginLoading.close()
+                    this.$message({
+                        showClose: true,
+                        message: 'Login Success',
+                        type: "success"
+                    })
+                    location.reload()
+                }
+            })
+        },
+        registerRequest() {
+            const registerLoading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0,0,0,0.7)'
+            })
+            newRequest.post(
+                "/account/register",
+                {
+                    username: this.registerForm.username,
+                    password: this.registerForm.password,
+                    password2: this.registerForm.password,
+                    email: this.registerForm.email,
+                    tel: this.registerForm.tel,
+                    nickname: this.registerForm.nickname,
+                }
+            ).then(res => {
+                this.data = res.data
+                if (res.data.code === -1) {
+                    registerLoading.close()
+                    this.$message({
+                        showClose: true,
+                        message: res.data.msg,
+                        type: 'warning'
+                    })
+                } else {
+                    registerLoading.close()
+                    this.visibleData.registerVisible = false
+                    this.$message({
+                        showClose: true,
+                        message: 'Register Success',
+                        type: "success"
+                    })
+                }
+            })
+        },
+        onLogout() {
+            const logoutLoading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0,0,0,0.7)'
+            })
+            this.$cookies.remove('auth')
+            newRequest.get(
+                '/account/logout'
+            )
+            location.reload()
+            logoutLoading.close()
+        },
+        toChatPage(){
+            this.$router.push('/chat')
+        },
+        toStaffPage() {
+            this.$router.push('/staff')
+        },
+        toPersonalPage() {
+            this.$router.push('/user')
+        },
+        checkLogin() {
+            const userCookie = this.$cookies.get('auth')
+            console.log(userCookie)
+            if (userCookie !== null) {
+                this.isLogin = true
+                this.userData.username = userCookie.username
+                this.userData.avatarUrl = userCookie.avatarUrl
+                this.userData.role = userCookie.role
+            }
+        },
+        ...mapUserActions(["login", "logout"])
+    },
+    computed: {
+        ...mapUserState(["user"]),
+    },
+    mounted() {
+        this.checkLogin()
     }
-  },
-  methods: {
-    onCloseModal() {
-      this.visible = false
-    },
-    loginRequest() {
-      const loginLoading = this.$loading({
-        lock: true,
-        text: 'Loading',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0,0,0,0.7)'
-      })
-      console.log(this.loginForm.username)
-      newRequest.post('/account/login',
-          {
-            username: this.loginForm.username,
-            password: this.loginForm.password
-          }
-      ).then(res => {
-        console.log(res)
-        if (res.code === -1) {
-          loginLoading.close()
-          this.$message({
-            showClose: true,
-            message: res.data.msg,
-            type: 'warning'
-          })
-        }
-        if (res.code === 200) {
-          this.$cookies.set(
-              'auth',
-              {
-                username: this.loginForm.username,
-                userid: res.data.id,
-                avatarUrl: res.data.url,
-                role: res.data.role
-              }
-          )
-          loginLoading.close()
-          this.$message({
-            showClose: true,
-            message: 'Login Success',
-            type: "success"
-          })
-          location.reload()
-        }
-      })
-    },
-    registerRequest() {
-      const registerLoading = this.$loading({
-        lock: true,
-        text: 'Loading',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0,0,0,0.7)'
-      })
-      newRequest.post(
-          "/account/register",
-          {
-            username: this.registerForm.username,
-            password: this.registerForm.password,
-            password2: this.registerForm.password,
-            email: this.registerForm.email,
-            tel: this.registerForm.tel,
-            nickname: this.registerForm.nickname,
-          }
-      ).then(res => {
-        this.data = res.data
-        if (res.data.code === -1) {
-          registerLoading.close()
-          this.$message({
-            showClose: true,
-            message: res.data.msg,
-            type: 'warning'
-          })
-        } else {
-          registerLoading.close()
-          this.$message({
-            showClose: true,
-            message: 'Register Success',
-            type: "success"
-          })
-        }
-      })
-    },
-    onLogout() {
-      const logoutLoading = this.$loading({
-        lock: true,
-        text: 'Loading',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0,0,0,0.7)'
-      })
-      this.$cookies.remove('auth')
-      newRequest.get(
-          '/account/logout'
-      )
-      location.reload()
-      logoutLoading.close()
-    },
-    toStaffPage() {
-      this.$router.push('/staff')
-    },
-    toPersonalPage() {
-      this.$router.push('/user')
-    },
-    checkLogin() {
-      const userCookie = this.$cookies.get('auth')
-      console.log(userCookie)
-      if (userCookie !== null) {
-        this.isLogin = true
-        this.userData.username = userCookie.username
-        this.userData.avatarUrl = userCookie.avatarUrl
-        this.userData.role = userCookie.role
-      }
-    },
-    ...mapUserActions(["login", "logout"])
-  },
-  computed: {
-    ...mapUserState(["user"]),
-  },
-  mounted() {
-    this.checkLogin()
-  }
 }
 </script>
 

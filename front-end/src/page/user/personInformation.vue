@@ -19,7 +19,7 @@
             <el-col :span="16" style="height: 100%">
                 <el-card class="box-card">
                     <div class="text-item">
-                        <span>UserName: {{ personInformationForm.username }}</span>
+                        <span>UserNameddd: {{ personInformationForm.username }}</span>
                     </div>
                     <div class="text-item">
                         <span>Nick Name: {{ personInformationForm.nickname }}</span>
@@ -122,14 +122,17 @@ export default {
                 spinner: 'el-icon-loading',
                 background: 'rgba(0,0,0,0.7)'
             })
+            console.log('chdahf')
             let avatarForm = new FormData()
             avatarForm.append('head', file.raw)
             avatarForm.append('user_id', this.$cookies.get('auth').userid)
             newRequest.post(
                 '/account/upload_head_portrait',
+                avatarForm
+                ,
                 {
-                    avatarForm
-                }
+                    headers: { "Content-Type": "multipart/form-data" },
+                },
             ).then(res => {
                 this.personInformationForm.avatar = res.data
                 changeUserAvatarLoading.close()

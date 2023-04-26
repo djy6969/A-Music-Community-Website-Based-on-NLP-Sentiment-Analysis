@@ -23,7 +23,6 @@
 import {getTopSongs} from "@/api"
 import {createSong, newCreateSong, newRequest} from "@/utils"
 import SongTable from "@/components/song-table"
-import {ref} from "vue";
 
 export default {
   async created() {
@@ -67,7 +66,7 @@ export default {
       })
     },
     async init() {
-      //await this.getSongs()
+      // await this.getSongs()
       await this.getAllMusic()
     },
     async getAllMusic() {
@@ -81,6 +80,7 @@ export default {
         this.songs = allSongs.map(song =>{
           const {
             seq,
+            id,
             name,
             artists,
             duration,
@@ -92,6 +92,7 @@ export default {
           } = song
           return newCreateSong({
             id: seq,
+            oldId: id,
             name,
             artists,
             artistsText: artists,

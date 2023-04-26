@@ -50,7 +50,6 @@
 
 <script>
 import BlogCard from "@/page/blogs/blogCard.vue";
-import axios from "axios";
 import {newRequest} from "../../utils";
 
 export default {
@@ -98,8 +97,10 @@ export default {
       blogData.append('picNumber', this.addBlogForm.picFileNumber)
       newRequest.post(
         '/blog/post_blog',
-        { "Content-Type": "multipart/form-data" },
-        blogData,
+          blogData,
+        {
+            headers: {"Content-Type": "multipart/form-data" }
+        },
       ).then(res=>{
         this.$message({
           showClose:true,

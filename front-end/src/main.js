@@ -11,10 +11,6 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueCookies from 'vue-cookies'
 
-// data visualization
-// 将自动注册所有组件为全局组件
-import dataV from '@jiaminghi/data-view'
-
 // axios
 import axios from "axios"
 axios.defaults.withCredentials = true
@@ -35,7 +31,15 @@ Vue.use(ElementUI);
 Vue.use(VueCookies)
 Vue.config.productionTip = false
 Vue.use(global)
+
+// data visualization
+// 将自动注册所有组件为全局组件
+import dataV from '@jiaminghi/data-view'
 Vue.use(dataV)
+
+// import echarts from "echarts"
+// Vue.prototype.$echarts = echarts
+
 
 new Vue({
   router,

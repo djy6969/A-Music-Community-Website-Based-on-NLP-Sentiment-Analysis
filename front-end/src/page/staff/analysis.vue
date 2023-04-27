@@ -28,7 +28,7 @@
     <el-tag type="" effect="dark">For a Single Music:</el-tag>
 
     <div id="select-area">
-      <el-select v-model="selectMusicValue" filterable placeholder="Please select a music">
+      <el-select v-model="selectMusicValue" filterable placeholder="Please select a music" @change="selectMusicItem">
       <el-option
           v-for="item in selectMusicOptions"
           :key="item.value"
@@ -43,15 +43,19 @@
         <dv-border-box-12 class="border-box">
             <dv-charts class="charts" :option="singleCommentConfig" style="height:300px" />
         </dv-border-box-12>
-
-        <dv-border-box-12 class="border-box">
-            <dv-charts class="charts" :option="positiveAllConfig"  style="height:300px" />
-        </dv-border-box-12>
       </div>
 
       <div class="box right">
          <dv-border-box-12 class="border-box">
-            <dv-capsule-chart class="charts" :config="bottom10Config" style="height:200px" />
+            <dv-charts class="charts" :option="singleHotConfig" style="height:300px" />
+        </dv-border-box-12>
+      </div>
+    </div>
+
+    <div class="single-container">
+      <div class="box left">
+        <dv-border-box-12 class="border-box">
+            <dv-charts class="charts" :option="singleProportionConfig"  style="height:300px" />
         </dv-border-box-12>
       </div>
     </div>
@@ -83,19 +87,16 @@ export default {
         label: '蚵仔煎'
       }],
       selectMusicValue: '',
+      musicItem: {},
       singleCommentConfig: {},
       singleHotConfig: {},
       singleProportionConfig: {}
     }
   },
-  created() {
-
-  },
   mounted() {
     // initialization the data
     this.init()
   },
-
   methods: {
     init() {
 
@@ -229,6 +230,32 @@ export default {
             type: 'line',
             lineArea: {
               show: true
+            },
+            linePoint: {
+              radius: 4
+            },
+            label: {
+              show: true
+            },
+          }
+        ]
+      }
+
+      this.singleProportionConfig = {
+        color: ["#fb7293"],
+        title: {
+          text: 'Proportion of different comments',
+        },
+        series: [
+          {
+            type: 'pie',
+            data: [
+              { name: '可口可乐', value: 93 },
+              { name: '百事可乐', value: 32 },
+              { name: '哇哈哈', value: 65 },
+            ],
+            insideLabel: {
+              show: true
             }
           }
         ]
@@ -256,6 +283,14 @@ export default {
         // update
         console.log(res.data)
       })
+    },
+    selectMusicItem(value) {
+      this.musicItem = this.selectMusicOptions.find((item) => {
+        return item.value === value
+      })
+
+      // axios
+
     }
   },
 }

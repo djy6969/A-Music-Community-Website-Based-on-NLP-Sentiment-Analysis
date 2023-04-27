@@ -38,4 +38,15 @@ export default {
   setMenuShow(state, show) {
     state.isMenuShow = show
   },
+  setIfRestart(state, newValue) {
+    state.ifRestart = newValue
+  },
+  setFavorites(state, newState) {
+    state.ifAddedToFavorites = newState
+  },
+  setUserFavoritesList(state, newList) {
+    console.log("new user favorites list")
+    console.log(newList)
+    state.userFavoritesList= newList
+  }
 }

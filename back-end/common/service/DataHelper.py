@@ -53,7 +53,7 @@ def load_json_data_to_Tmusic(data_list):
         else:
             duration = duration_split[1]
         print(duration)
-        music.video_Id = data[0].get("videoId")
+        music.music_Id = data[0].get("videoId")
         music.publish_time =datatime
         music.title = data[0].get("title")
         music.description = data[0].get("description")
@@ -81,7 +81,7 @@ def load_json_data_to_Tcomment(data_list):
             # print(data_single.get("publishtime"))
             data_info = re.split("[TZ]", data_single.get("publishtime"))
             datatime = data_info[0] + ' ' + data_info[1]
-            t_comment.video_Id = data_single.get("videoId")
+            t_comment.music_Id = data_single.get("videoId")
             t_comment.author = data_single.get("author")
             t_comment.publish_time = datatime
             t_comment.like_count = data_single.get("likeCount")

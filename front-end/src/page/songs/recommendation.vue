@@ -65,8 +65,8 @@ export default {
   },
   computed: {
     checkLogin(){
-      return this.$cookies.get('auth').userid
-          ? this.$cookies.get('auth') !== null
+      return this.$cookies.get('auth') !== null
+          ? this.$cookies.get('auth').userid
           : ''
     }
   },

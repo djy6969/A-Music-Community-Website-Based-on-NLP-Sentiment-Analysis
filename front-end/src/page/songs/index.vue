@@ -70,6 +70,7 @@ export default {
       await this.getAllMusic()
     },
     async getAllMusic() {
+      // get musics
       newRequest.post('/music/getMusicResource',
           {
             num: 50

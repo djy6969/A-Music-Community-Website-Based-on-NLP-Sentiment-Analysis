@@ -48,8 +48,16 @@
     </div>
 
     <div class="mode">
-      <Share :shareUrl="shareUrl" class="mode-item" v-show="hasCurrentSong" />
+<!--      <Share :shareUrl="shareUrl" class="mode-item" v-show="hasCurrentSong" />-->
 
+      <!-- if user favorites this music -->
+        <Icon
+          :type="favoritesStyle"
+          @click="changeFavoritesState"
+          class="mode-item"
+          slot="reference"
+          v-if="ifShowFavoritesButton"
+        />
       <!-- 模式 -->
       <el-popover placement="top" trigger="hover" width="160">
         <p>{{ playModeText }}</p>
@@ -110,7 +118,7 @@ import {
 } from "@/store/helper/music"
 import Storage from "good-storage"
 import Share from "@/components/share"
-import { VOLUME_KEY, PLAY_MODE, playModeMap, isDef } from "@/utils"
+import {VOLUME_KEY, PLAY_MODE, playModeMap, isDef, newRequest} from "@/utils"
 
 const DEFAULT_VOLUME = 0.75
 export default {
@@ -118,13 +126,26 @@ export default {
     return {
       isPlayErrorPromptShow: false,
       songReady: false,
-      volume: Storage.get(VOLUME_KEY, DEFAULT_VOLUME)
+      volume: Storage.get(VOLUME_KEY, DEFAULT_VOLUME),
     }
   },
-  mounted() {
+  async mounted() {
+    await this.getUserFavorites()
     this.audio.volume = this.volume
   },
   methods: {
+    getUserFavorites() {
+      if (this.$cookies.get('auth') !== null) {
+        newRequest.post('/collection/getFavoritesSongs',
+            {
+              userId: this.$cookies.get('auth').userid
+            }
+        ).then((res) =>{
+          // vuex mutations
+          this.setUserFavoritesList(res.data)
+        })
+      }
+    },
     togglePlaying() {
       if (!this.currentSong.id) {
         return
@@ -150,6 +171,9 @@ export default {
     },
     pause() {
       this.audio.pause()
+      // clear interval
+      clearInterval(this.ifRestart)
+      this.setIfRestart(0)
     },
     updateTime(e) {
       const time = e.target.currentTime
@@ -158,11 +182,39 @@ export default {
     prev() {
       if (this.songReady) {
         this.startSong(this.prevSong)
+        // vuex
+        this.setFavorites(this.userFavoritesList.includes(this.currentSong.oldId))
+        clearInterval(this.ifRestart)
+        this.setIfRestart(0)
+
+        // if not start playing, repeat
+        this.setIfRestart(setInterval(() => {
+          if (this.currentTime === 0 ) {
+            this.startSong(this.currentSong)
+          } else {
+            clearInterval(this.ifRestart)
+            this.setIfRestart(0)
+          }
+        }, 3500))
       }
     },
     next() {
       if (this.songReady) {
         this.startSong(this.nextSongButton)
+        // vuex
+        this.setFavorites(this.userFavoritesList.includes(this.currentSong.oldId))
+        clearInterval(this.ifRestart)
+        this.setIfRestart(0)
+
+        // if not start playing, repeat
+        this.setIfRestart(setInterval(() => {
+          if (this.currentTime === 0 ) {
+            this.startSong(this.currentSong)
+          } else {
+            clearInterval(this.ifRestart)
+            this.setIfRestart(0)
+          }
+        }, 3500))
       }
     },
     end() {
@@ -195,15 +247,48 @@ export default {
     togglePlayerShow() {
       this.setPlayerShow(!this.isPlayerShow)
     },
-
+    changeFavoritesState() {
+      // axios
+      console.log("change favorites state")
+      if (this.ifAddedToFavorites) {
+        // exist in favorites
+        newRequest.post('/collection/deleteMusicFromCollection',
+            {
+              userId: this.$cookies.get('auth').userid,
+              musicId: this.currentSong.oldId
+            }
+        ).then((res) =>{
+          // Vuex actions
+          const left = this.userFavoritesList
+          left.splice(this.userFavoritesList.indexOf(this.currentSong.oldId), 1)
+          this.changeUserFavorites({"newFavoritesState": !this.ifAddedToFavorites, "newUserFavoritesList": left})
+        })
+      } else {
+        // doesn't exist
+        newRequest.post('/collection/addMusicToCollection',
+            {
+              userId: this.$cookies.get('auth').userid,
+              musicId: this.currentSong.oldId
+            }
+        ).then((res) =>{
+          // Vuex actions
+          const tem = this.userFavoritesList
+          tem.push(this.currentSong.oldId)
+          this.changeUserFavorites({"newFavoritesState": !this.ifAddedToFavorites, "newUserFavoritesList": tem})
+        })
+      }
+    },
     ...mapMutations([
       "setCurrentTime",
       "setPlayingState",
       "setPlayMode",
       "setPlaylistShow",
-      "setPlayerShow"
+      "setPlayerShow",
+      "setFavorites",
+      "setUserFavoritesList",
+      "setIfRestart"
     ]),
-    ...mapActions(["startSong"])
+    ...mapActions(["startSong", "changeUserFavorites"])
   },
   watch: {
     currentSong(newSong, oldSong) {
@@ -238,6 +323,11 @@ export default {
     hasCurrentSong() {
       return isDef(this.currentSong.id)
     },
+    checkLogin(){
+      return this.$cookies.get('auth') !== null
+          ? this.$cookies.get('auth').userid
+          : ''
+    },
     playIcon() {
       return this.playing ? "pause" : "play"
     },
@@ -246,6 +336,23 @@ export default {
     },
     modeIcon() {
       return this.currentMode.icon
+    },
+    favoritesState() {
+      // judge state based on Vuex
+      return this.ifAddedToFavorites
+    },
+    favoritesStyle() {
+      // judge state based on Vuex
+      if (this.favoritesState) {
+        // added
+        return "fontawesome fa-solid fa-heart"
+      } else {
+        // not added
+        return "fontawesome fa-regular fa-heart"
+      }
+    },
+    ifShowFavoritesButton() {
+      return !!(this.hasCurrentSong && this.checkLogin !== '')
     },
     playModeText() {
       return this.currentMode.name
@@ -271,7 +378,10 @@ export default {
       "playMode",
       "isPlaylistShow",
       "isPlaylistPromptShow",
-      "isPlayerShow"
+      "isPlayerShow",
+      "ifAddedToFavorites",
+      "userFavoritesList",
+      "ifRestart"
     ]),
     ...mapGetters(["prevSong", "nextSong", "nextSongButton"])
   },

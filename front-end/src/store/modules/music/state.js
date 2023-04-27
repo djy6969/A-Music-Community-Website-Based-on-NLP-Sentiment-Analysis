@@ -9,6 +9,10 @@ export default {
   currentTime: 0,
   // 播放状态
   playing: false,
+  // style of favorites button
+  ifAddedToFavorites: false,
+  // if the current song should be replayed
+  ifRestart: 0,
   // 播放模式
   playMode: storage.get(PLAY_MODE, playModeMap.sequence.code),
   // 播放列表显示
@@ -19,6 +23,8 @@ export default {
   isPlayerShow: false,
   // 播放列表数据
   playlist: [],
+  // list of user favorites songs
+  userFavoritesList: [],
   // 播放历史数据
   playHistory: storage.get(PLAY_HISTORY_KEY, []),
   // 菜单显示

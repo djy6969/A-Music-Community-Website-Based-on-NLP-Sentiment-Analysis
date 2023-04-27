@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import storage from 'good-storage'
 
 const Discovery = () => import(/* webpackChunkName: "Discovery" */ '@/page/discovery')
 const PlaylistDetail = () => import(/* webpackChunkName: "PlaylistDetail" */ '@/page/playlist-detail')
@@ -14,17 +15,20 @@ const SearchSongs = () => import(/* webpackChunkName: "SearchSongs" */ '@/page/s
 const SearchPlaylists = () => import(/* webpackChunkName: "SearchPlaylists" */ '@/page/search/playlists')
 const SearchMvs = () => import(/* webpackChunkName: "SearchMvs" */ '@/page/search/mvs')
 const Staff = () => import('@/page/staff/staff')
+const Analytsis = () => import('@/page/staff/analysis')
 const Mvs = () => import(/* webpackChunkName: "Mvs" */ '@/page/mvs')
 const Mv = () => import(/* webpackChunkName: "Mv" */ '@/page/mv')
 
-function getCookie(cname) {
-  const name = cname + "=";
-  const ca = document.cookie.split(';');
-  for(let i=0; i<ca.length; i++) {
-    const c = ca[i].trim();
-    if (c.indexOf(name) === 0) return c.substring(name.length,c.length)
-  }
-  return ""
+function getCookie(key) {
+    const cookieArr = document.cookie.split(';')
+    //[a=100, b=200, c=300]
+    let value = ''
+    cookieArr.forEach(item => {
+        if (item.split('=')[0].trim() === key) {
+            value = item.split('=')[1]
+        }
+    })
+    return value
 }
 
 // 内容需要居中的页面
@@ -91,6 +95,7 @@ export const menuRoutes = [
 ]
 
 if (getCookie('auth') !== '') {
+  // logged in
   menuRoutes.push(
       {
         path: '/favorites',
@@ -102,6 +107,20 @@ if (getCookie('auth') !== '') {
         }
       }
   )
+  if (storage.get("userRole", 0) === 2) {
+      menuRoutes.push(
+          {
+            path: '/staff-analysis',
+            name: 'staffAnalysis',
+            component: Analytsis,
+            meta: {
+              title: 'Staff Analysis',
+              icon: 'playlist-menu',
+            }
+          }
+      )
+  }
+
 }
 
 Vue.use(Router)

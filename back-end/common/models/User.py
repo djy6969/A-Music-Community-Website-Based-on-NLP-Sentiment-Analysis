@@ -11,7 +11,7 @@ class TUser(db.Model):
     username = db.Column(db.String(32, 'utf8_bin'), nullable=False, unique=True)
     password = db.Column(db.String(32, 'utf8_bin'), nullable=False)
     password_salt = db.Column(db.String(32, 'utf8_bin'))
-    email = db.Column(db.String(32, 'utf8_bin'))
+    email = db.Column(db.String(64, 'utf8_bin'))
     tel = db.Column(db.String(11, 'utf8_bin'))
     nickname = db.Column(db.String(32, 'utf8_bin'), nullable=False)
     head = db.Column(db.String(64, 'utf8_bin'), nullable=False)

@@ -19,8 +19,7 @@ import {getPageOffset, newRequest, scrollInto} from "@/utils"
 export default {
   props: {
     getData: {
-      type: Function,
-      required: true
+      type: Function
     },
     getDataParams: {
       type: Object,
@@ -52,7 +51,6 @@ export default {
   methods: {
     async onPageChange() {
       try {
-        console.log(typeof this.keywords === "undefined")
         if (typeof this.keywords === "undefined") {
           // original code
           const result = await this.getData({

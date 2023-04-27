@@ -2,7 +2,6 @@
 <template>
   <div class="search-songs">
     <WithPagination
-      :getData="newGetSearch"
       :getDataParams="searchParams"
       :limit="30"
       :scrollTarget="searchRoot.$refs && searchRoot.$refs.header"
@@ -28,6 +27,9 @@ import WithPagination from "@/components/with-pagination"
 import {createSong, newCreateSong, newRequest} from "@/utils"
 
 export default {
+  async created() {
+
+  },
   inject: ["searchRoot"],
   data() {
     return {
@@ -38,9 +40,6 @@ export default {
   },
   methods: {
     getSearch,
-    newGetSearch() {
-      //discarded
-    },
     onGetSearch(result) {
       const {
         result: { songs, songCount }

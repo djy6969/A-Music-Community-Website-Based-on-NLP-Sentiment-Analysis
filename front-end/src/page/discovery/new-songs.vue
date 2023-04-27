@@ -40,7 +40,6 @@ export default {
     return {
       chunkLimit: Math.ceil(songsLimit / 2),
       list: [],
-      ifRestart: 0
     }
   },
   methods: {
@@ -104,24 +103,32 @@ export default {
       })
     },
     onClickSong(listIndex, index) {
-      clearInterval(this.ifRestart)
-      this.ifRestart = 0
+      // start this song
+      // clear interval
+      clearInterval(this.ifRestartCurrentSong())
+      this.setIfRestart(0)
+
       // 这里因为getSongOrder是从1开始显示, 所以当做数组下标需要减一
       const nomalizedSongIndex = this.getSongOrder(listIndex, index) - 1
       const nomalizedSong = this.normalizedSongs[nomalizedSongIndex]
       this.startSong(nomalizedSong)
       this.setPlaylist(this.normalizedSongs)
-      this.ifRestart = setInterval(() => {
+
+      // if not start playing, repeat
+      this.setIfRestart(setInterval(() => {
         if (this.currentSongTime() === 0 ) {
           this.startSong(nomalizedSong)
         } else {
-          clearInterval(this.ifRestart)
-          this.ifRestart = 0
+          clearInterval(this.ifRestartCurrentSong())
+          this.setIfRestart(0)
         }
-      }, 3500)
+      }, 3500))
+
+      // show if the current song is in favorites
+      this.setFavorites(this.currentFavoritesList().includes(this.currentPlayingSong().oldId))
     },
-    ...mapMutations(["setPlaylist", "setPlayingState"]),
-    ...mapState(["currentTime"]),
+    ...mapMutations(["setPlaylist", "setPlayingState", "setUserFavoritesList", "setFavorites", "setIfRestart"]),
+    ...mapState(["currentTime", "currentSong", "userFavoritesList", "ifRestart"]),
     ...mapActions(["startSong"])
   },
   computed: {
@@ -140,8 +147,11 @@ export default {
     currentSongTime() {
       return this.currentTime
     },
-    playingState() {
-      return this.playing
+    currentFavoritesList() {
+      return this.userFavoritesList
+    },
+    ifRestartCurrentSong() {
+      return this.ifRestart
     }
   },
   components: { SongCard }

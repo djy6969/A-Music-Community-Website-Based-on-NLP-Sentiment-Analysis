@@ -1,5 +1,4 @@
 
-
 <script type="text/ecmascript-6">
 import { toRem } from "@/utils"
 export default {
@@ -25,8 +24,7 @@ export default {
   methods: {
     getIconCls() {
       if (this.type.split(' ')[0] === 'new'){
-        let cls = `${this.type.split(' ')[1]}`
-        return cls
+        return this.type.split(' ').slice(1).join(' ')
       } else {
         let cls = `icon-${this.type}`
         if (this.color) {
@@ -50,13 +48,21 @@ export default {
     }
   },
   render() {
-    const Icon = (
-      <i
-        onClick={this.onClick}
-        class={`iconfont icon-component ${this.getIconCls()}`}
-        style={this.getIconStyle()}
-      />
-    )
+    let Icon
+    if (this.type.split(' ')[0] === 'fontawesome') {
+      Icon = (
+        <font-awesome-icon icon={this.fontawesomeStyle} onClick={this.onClick} style={this.getIconStyle()}/>
+      )
+    } else {
+      Icon = (
+        <i
+          onClick={this.onClick}
+          class={`iconfont icon-component ${this.getIconCls()}`}
+          style={this.getIconStyle()}
+        />
+      )
+    }
+
     if (this.backdrop) {
       const backDropSizeRatio = 1.56
       const backDropSize = toRem(backDropSizeRatio * this.size)
@@ -70,6 +76,11 @@ export default {
       )
     }
     return Icon
+  },
+  computed: {
+    fontawesomeStyle() {
+      return this.type.split(' ').slice(1).join(' ')
+    }
   }
 }
 </script>

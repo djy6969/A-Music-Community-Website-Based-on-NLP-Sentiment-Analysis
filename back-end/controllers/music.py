@@ -81,13 +81,12 @@ def manage_music_usability():
 @music.route("/add_new_music", methods=['POST'])
 def add_new_music():
     # 获取参数
-    music_id = request.values['music_Id']
-    title = request.values['title']
-    description = request.values['description']
-    tags = request.values['tags']
-    description = request.values['description']
-    artist = request.values['artist']
-    duration = request.values['duration']
+    music_id = request.json.get('music_Id')
+    title = request.json.get('title')
+    tags = request.json.get('tags')
+    description = request.json.get('description')
+    artist = request.json.get('artist')
+    duration = request.json.get('duration')
     image = request.files.get('image')
     music = request.files.get('music')
 

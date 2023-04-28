@@ -6,21 +6,27 @@
       <el-button type="warning" @click="dialogFormVisible = true">Add New Music</el-button>
 
       <el-dialog title="Please enter new music information" :visible.sync="dialogFormVisible">
-        <el-form :model="form">
-          <el-form-item label="活动名称" :label-width="formLabelWidth">
+        <el-form :inline="true" :model="form">
+          <el-form-item label="Music Name" :label-width="formLabelWidth">
             <el-input v-model="form.name" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="活动区域" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
+          <el-form-item label="Music Id" :label-width="formLabelWidth">
+            <el-input v-model="form.id" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="Description" :label-width="formLabelWidth">
+            <el-input v-model="form.description" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="Artist" :label-width="formLabelWidth">
+            <el-input v-model="form.artist" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="Duration" :label-width="formLabelWidth">
+            <el-input v-model="form.duration" autocomplete="off"></el-input>
           </el-form-item>
         </el-form>
 
         <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+          <el-button @click="formCancel">Cancel</el-button>
+          <el-button type="primary" @click="formSubmit">Submit</el-button>
         </div>
       </el-dialog>
 
@@ -61,13 +67,10 @@ export default {
       dialogFormVisible: false,
       form: {
         name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+        id: '',
+        description: '',
+        artist: '',
+        duration: '',
       },
       formLabelWidth: '120px'
     }
@@ -82,24 +85,6 @@ export default {
       // show all musics including those users can't play
       this.staffGetAllMusic()
 
-    },
-    open() {
-      this.$prompt('请输入邮箱', '提示', {
-        confirmButtonText: 'Submit',
-        cancelButtonText: 'Cancel',
-        inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-        inputErrorMessage: '邮箱格式不正确'
-      }).then(({ value }) => {
-        this.$message({
-          type: 'success',
-          message: '你的邮箱是: ' + value
-        });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '取消输入'
-        });
-      });
     },
     staffGetAllMusic() {
       newRequest.get('/music/managerGetAllMusicResource'
@@ -154,6 +139,22 @@ export default {
       return state === 1
           ? "Deactivate"
           : "Activate"
+    },
+    formSubmit() {
+      this.dialogFormVisible = false
+
+      // axios
+
+    },
+    formCancel() {
+      this.dialogFormVisible = false
+      this.form = {
+        name: '',
+        id: '',
+        description: '',
+        artist: '',
+        duration: '',
+      }
     }
   },
 }

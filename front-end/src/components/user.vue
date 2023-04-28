@@ -264,7 +264,7 @@ export default {
   .user-icon {
     font-size: 24px;
   }
-u
+
   .user-name {
     margin-left: 8px;
   }

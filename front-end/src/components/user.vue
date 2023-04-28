@@ -25,8 +25,8 @@
     <!-- 登录框 -->
     <div class="mask-layer">
       <div class="login-box" v-show="visibleData.loginVisible">
-        <div class="align">
-          <span class="red" @click="visibleData.loginVisible=false"></span>
+        <div class="align" @click="visibleData.loginVisible=false">
+          <p style="color: white">X</p>
         </div>
         <form>
           <div class="user-box">
@@ -49,8 +49,8 @@
         </form>
       </div>
       <div class="login-box" v-show="visibleData.registerVisible">
-        <div class="align">
-          <span class="red" @click="visibleData.registerVisible=false"></span>
+        <div class="align" @click="visibleData.registerVisible = false">
+          <p style="color: white">X</p>
         </div>
         <form>
           <div class="user-box">
@@ -58,7 +58,7 @@
             <label>Username</label>
           </div>
           <div class="user-box">
-            <input type="text" name="" required="" v-model="registerForm.password">
+            <input type="password" name="" required="" v-model="registerForm.password">
             <label>Password</label>
           </div>
           <div class="user-box">
@@ -70,7 +70,7 @@
             <label>Nickname</label>
           </div>
           <div class="user-box">
-            <input type="password" name="" required="" v-model="registerForm.tel">
+            <input type="text" name="" required="" v-model="registerForm.tel">
             <label>Telephone Number</label>
             <center>
               <a href="#" @click="registerRequest">
@@ -188,12 +188,13 @@ export default {
             nickname: this.registerForm.nickname,
           }
       ).then(res => {
-        this.data = res.data
-        if (res.data.code === -1) {
+        this.data = res
+          console.log(res)
+        if (res.code === -1) {
           registerLoading.close()
           this.$message({
             showClose: true,
-            message: res.data.msg,
+            message: res.msg,
             type: 'warning'
           })
         } else {

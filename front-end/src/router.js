@@ -15,7 +15,8 @@ const SearchSongs = () => import(/* webpackChunkName: "SearchSongs" */ '@/page/s
 const SearchPlaylists = () => import(/* webpackChunkName: "SearchPlaylists" */ '@/page/search/playlists')
 const SearchMvs = () => import(/* webpackChunkName: "SearchMvs" */ '@/page/search/mvs')
 const Staff = () => import('@/page/staff/staff')
-const Analytsis = () => import('@/page/staff/analysis')
+const StaffAnalysis = () => import('@/page/staff/analysis')
+const StaffManagement = () => import('@/page/staff/management')
 const Mvs = () => import(/* webpackChunkName: "Mvs" */ '@/page/mvs')
 const Mv = () => import(/* webpackChunkName: "Mv" */ '@/page/mv')
 
@@ -108,17 +109,29 @@ if (getCookie('auth') !== '') {
       }
   )
   if (storage.get("userRole", 0) === 2) {
-      menuRoutes.push(
-          {
-            path: '/staff-analysis',
-            name: 'staffAnalysis',
-            component: Analytsis,
-            meta: {
-              title: 'Staff Analysis',
-              icon: 'playlist-menu',
-            }
+    menuRoutes.push(
+        {
+          path: '/staff-analysis',
+          name: 'staffAnalysis',
+          component: StaffAnalysis,
+          meta: {
+            title: 'Staff Analysis',
+            icon: 'fontawesome fa-solid fa-chart-bar',
+            // icon: 'fontawesome fa-solid fa-magnifying-glass-chart',
           }
-      )
+        }
+    )
+    menuRoutes.push(
+        {
+          path: '/staff-management',
+          name: 'staffManagement',
+          component: StaffManagement,
+          meta: {
+            title: 'Staff Management Music',
+            icon: 'new el-icon-s-tools',
+          }
+        }
+    )
   }
 
 }

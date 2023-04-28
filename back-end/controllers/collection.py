@@ -61,14 +61,15 @@ def getMusicsFromCollection():
 
     # get music info by video_Id and add music info to collections
     for getCollection in getCollections:
-        music = TMusic.query.filter_by(music_Id=getCollection.music_Id).first()
-        music_info = {'seq': i+1, 'id': music.music_Id, 'img': music.image_url,
-                      "url": 'https://ipa-012.ucd.ie/music/' + music.music_Id + ".mp3",
-                      'name': music.title, 'albumId': '', 'albumName': '',
-                      'artists': music.artist, 'duration': music.duration,
-                      'durationSecond': CommonHelper.convertMusicTime(music.duration), 'mvId': 0}
-        collections[i] = music_info
-        i += 1
+        music = TMusic.query.filter_by(usable=1, music_Id=getCollection.music_Id).first()
+        if music is not None:
+            music_info = {'seq': i+1, 'id': music.music_Id, 'img': music.image_url,
+                          "url": 'https://ipa-012.ucd.ie/music/' + music.music_Id + ".mp3",
+                          'name': music.title, 'albumId': '', 'albumName': '',
+                          'artists': music.artist, 'duration': music.duration,
+                          'durationSecond': CommonHelper.convertMusicTime(music.duration), 'mvId': 0}
+            collections[i] = music_info
+            i += 1
 
     return MessageHelper.ops_renderJSON(data=collections)
 

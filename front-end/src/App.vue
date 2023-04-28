@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Layout />
-    <Player v-if="ifCustomer"/>
+    <Player />
     <MiniPlayer />
     <Playlist />
     <ShareReader />

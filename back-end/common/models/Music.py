@@ -18,3 +18,4 @@ class TMusic(db.Model):
     artist = db.Column(db.String(64), nullable=False)
     # 1 is usable, 0 is unusable
     usable = db.Column(db.SmallInteger, nullable=False, default=1)
+    score = db.Column(db.Float, nullable=False, default=0.0)

@@ -67,19 +67,18 @@ def getMusicResource():
 
 # manage music usability, 0 is unusable, 1 is usable
 # need the front-end send the music_id and send usability
-@music.route("manage_music_usability", methods=['POST'])
+@music.route("/manage_music_usability", methods=['POST'])
 def manage_music_usability():
     music_id = request.json.get('music_id')
     usable = request.json.get('usability')
-    music = TMusic.query.filter_by(music_id=music_id).first()
+    music = TMusic.query.filter_by(music_Id=music_id).first()
     music.usable = usable
-    db.session.update(music)
     db.session.commit()
     return MessageHelper.ops_renderJSON(msg="operation successfully.")
 
 # add new music resources
 # need the front-end sent a new music_Id, title, description, image, tags, artist, duration
-@music.route("add_new_music", methods=['POST'])
+@music.route("/add_new_music", methods=['POST'])
 def add_new_music():
     # 获取参数
     music_id = request.values['music_Id']
@@ -111,3 +110,37 @@ def add_new_music():
     db.session.add(music)
     db.session.commit()
     return MessageHelper.ops_renderJSON(msg="add music successfully.")
+
+
+@music.route("/managerGetAllMusicResource", methods=['GET'])
+def managerGetAllMusicResource():
+    # get the number of music the frontend want
+    # num = int(request.values['num'])
+    music_count = TMusic.query.count()
+
+    try:
+        # select all the usable music
+        music_info = TMusic.query.filter_by().order_by(TMusic.publish_time.desc()).all()
+    except Exception as e:
+        return MessageHelper.ops_renderErrJSON(msg="")
+
+    # store music files into a list
+    music_files = {}
+    # get music
+    for i in range(int(music_count)):
+        music_i = music_info[i]
+        music_id = music_i.music_Id
+        music_file = music_id + '.mp3'
+
+        # relative path of music in project
+        music_file_path = 'https://ipa-012.ucd.ie/music/' + music_file
+
+        print(music_i.title)
+        print(music_i.publish_time)
+
+        music_i_info = {'seq': i + 1, 'id': music_id, 'img': music_i.image_url, "url": music_file_path, 'name': music_i.title,
+                      'albumId': '', 'albumName': '', 'artists': music_i.artist, 'duration': music_i.duration,
+                      'durationSecond': CommonHelper.convertMusicTime(music_i.duration), 'mvId': 0, 'usable': music_i.usable}
+        music_files[i] = music_i_info
+
+    return MessageHelper.ops_renderJSON(data=music_files)

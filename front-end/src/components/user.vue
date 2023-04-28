@@ -194,7 +194,7 @@ export default {
           registerLoading.close()
           this.$message({
             showClose: true,
-            message: res.data.msg,
+            message: res.msg,
             type: 'warning'
           })
         } else {

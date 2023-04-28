@@ -77,7 +77,7 @@
         <div class="bottom">
           <div class="left">
             <Comments
-              :id="currentSong.id"
+              :id="currentSong.oldId"
               ref="comments"
               v-if="currentSong.id"
             />

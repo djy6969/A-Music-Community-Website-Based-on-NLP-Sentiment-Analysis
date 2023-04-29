@@ -43,35 +43,14 @@
             </div>
             <div class="desc">
               <div class="desc-item">
-                <span class="label">歌手：</span>
+                <span class="label">Singer：</span>
                 <div class="value">{{currentSong.artistsText}}</div>
               </div>
             </div>
-            <empty v-if="nolyric">还没有歌词哦~</empty>
-            <Scroller
-              :data="lyric"
-              :options="{disableTouch: true}"
-              @init="onInitScroller"
-              class="lyric-wrap"
-              ref="scroller"
-              v-else
-            >
-              <div>
-                <div
-                  :class="getActiveCls(index)"
-                  :key="index"
-                  class="lyric-item"
-                  ref="lyric"
-                  v-for="(l,index) in lyricWithTranslation"
-                >
-                  <p
-                    :key="contentIndex"
-                    class="lyric-text"
-                    v-for="(content, contentIndex) in l.contents"
-                  >{{content}}</p>
-                </div>
-              </div>
-            </Scroller>
+           <chat-box
+                   :name="currentSong.name"
+                   :artists ='currentSong.artists'
+           />
           </div>
         </div>
         <div class="bottom">
@@ -95,7 +74,7 @@
                 class="simi-playlists"
                 v-if="simiPlaylists.length"
               >
-                <p class="title">包含这首歌的歌单</p>
+                <p class="title">A playlist containing the song</p>
                 <div
                   :key="simiPlaylist.id"
                   class="simi-item"
@@ -123,7 +102,7 @@
                 class="simi-songs"
                 v-if="simiSongs.length"
               >
-                <p class="title">相似歌曲</p>
+                <p class="title">Play More Like This</p>
                 <div
                   :key="simiSong.id"
                   class="simi-item"
@@ -155,6 +134,7 @@ import lyricParser from "@/utils/lrcparse"
 import { debounce, isDef, createSong, goMvWithCheck } from "@/utils"
 import Comments from "@/components/comments"
 import { mapState, mapMutations, mapActions, mapGetters } from "@/store/helper/music"
+import ChatBox from "@/components/chatBox.vue";
 
 const WHEEL_TYPE = "wheel"
 const SCROLL_TYPE = "scroll"
@@ -336,18 +316,18 @@ export default {
     ...mapGetters(["hasCurrentSong"])
   },
   watch: {
-    isPlayerShow(show) {
-      if (show) {
-        // 歌词短期内不会变化 所以只拉取相似信息
-        this.updateSimi()
-        this.addResizeListener()
-        this.$nextTick(() => {
-          this.scrollToActiveLyric()
-        })
-      } else {
-        this.removeResizeListener()
-      }
-    },
+    // isPlayerShow(show) {
+    //   if (show) {
+    //     // 歌词短期内不会变化 所以只拉取相似信息
+    //     this.updateSimi()
+    //     this.addResizeListener()
+    //     this.$nextTick(() => {
+    //       this.scrollToActiveLyric()
+    //     })
+    //   } else {
+    //     this.removeResizeListener()
+    //   }
+    // },
     currentSong(newSong, oldSong) {
       if (!newSong.id) {
         this.setPlayerShow(false)
@@ -378,6 +358,7 @@ export default {
     }
   },
   components: {
+      ChatBox,
     Comments
   }
 }

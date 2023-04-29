@@ -18,6 +18,7 @@
       <el-dropdown-menu>
         <el-dropdown-item v-show="this.userData.role===1" @click.native="toPersonalPage">Personal Page
         </el-dropdown-item>
+          <el-dropdown-item v-show="this.userData.role===1" @click.native="toChatPage">Chat</el-dropdown-item>
         <el-dropdown-item v-show="this.userData.role===2" @click.native="toStaffPage">Staff</el-dropdown-item>
         <el-dropdown-item @click.native="onLogout">Log Out</el-dropdown-item>
       </el-dropdown-menu>
@@ -228,6 +229,9 @@ export default {
     toPersonalPage() {
       this.$router.push('/user')
     },
+      toChatPage(){
+        this.$router.push('/chat')
+      },
     checkLogin() {
       const userCookie = this.$cookies.get('auth')
       console.log(userCookie)

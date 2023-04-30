@@ -7,15 +7,13 @@
                     <el-button @click="addFriend">Add</el-button>
                 </div>
             </div>
-            <div class="search_chat">
-                <div style="display: flex">
-                    <input placeholder="Add New Friend" type="text" v-model="friendId">
-                    <el-button @click="addFriend">Chat</el-button>
-                </div>
-            </div>
             <!--ChatList-->
 
-            <chat-list v-for="(item, index) in this.friendList" :key="index" :id="item"/>
+            <chat-list
+                v-for="(item, index) in this.friendList"
+                :key="index"
+                :id="item"
+            />
         </div>
 
 
@@ -82,6 +80,15 @@ export default {
         }
     },
     methods:{
+        onclickLZJ(){
+            this.$socket.emit(
+            'join',
+            {
+                username: "11111111111",
+                room: 'jocker'
+            }
+        )
+        },
         addFriend(){
             newRequest.post(
                 '/friend/addFriend',
@@ -111,10 +118,22 @@ export default {
                     console.log(this.friendList)
                 }
             })
+        },
+        checkAllChatroom(){
+            newRequest.post(
+                '/chat/check_all_chatroom',
+                {
+                    user_id: this.$cookies.get('auth').userid
+                }
+            ).then(res=>{
+                console.log(res)
+            })
         }
     },
+
     mounted() {
-        this.getFriends()
+        // this.getFriends()
+        this.checkAllChatroom()
     }
 }
 </script>

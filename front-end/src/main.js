@@ -10,6 +10,8 @@ import global from './utils/global'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueCookies from 'vue-cookies'
+import VueSocketIO from "vue-socket.io";
+import SocketIO from "socket.io-client";
 
 // axios
 import axios from "axios"
@@ -27,6 +29,16 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('font-awesome-layers', FontAwesomeLayers)
 Vue.component('font-awesome-layers-text',FontAwesomeLayersText)
 
+Vue.use(
+    new VueSocketIO({
+      debug: true,
+      connection: SocketIO("http://127.0.0.1:5004/", {transports: ['polling']}),
+      autoConnect: false,
+      extraHeaders: {
+          'Access-Control-Allow-Origin': '*'
+      }
+    })
+)
 Vue.use(ElementUI);
 Vue.use(VueCookies)
 Vue.config.productionTip = false

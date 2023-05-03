@@ -31,6 +31,8 @@
     "core-js": "^2.6.5",
     "echarts": "^5.4.2",
     "element-ui": "^2.15.13",
+    "rtc-audio-mixer": "^0.1.1",
+    "trtc-js-sdk": "latest",
     "good-storage": "^1.1.0",
     "lodash-es": "^4.17.15",
     "sass": "^1.56.0",

@@ -76,8 +76,8 @@ def handle_disconnect(data):
 def handle_message(data):
     print('sendMsg' + str(data))
     room = data['room']
-    data['message'] = data.get('message').replace('<', '&lt;').replace('>', '&gt;').replace(' ', '&nbsp;')
-    socketio.emit('send msg', data, to=room)
+    data['message'] = data['message'].replace('<', '&lt;').replace('>', '&gt;').replace(' ', '&nbsp;')
+    socketio.emit('send_msg', data, to=room)
 
 
 @socketio.on('join')

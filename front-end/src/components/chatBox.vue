@@ -3,26 +3,26 @@
         <!--chatBox-->
         <div>
             <div v-for="(item, index) in chatData" :key="index" class="chatBox">
-            <div v-if="item.actor === 'system'" >
-            <div class="message message-system">
-                <el-avatar src="https://ipa-012.ucd.ie/image/robot.jpg"/>
-                <p>{{ item.data }}
-                    <br>
-                </p>
-            </div>
-             {{item.time}}
+                <div v-if="item.actor === 'system'">
+                    <div class="message message-system">
+                        <el-avatar src="https://ipa-012.ucd.ie/image/robot.jpg"/>
+                        <p>{{ item.data }}
+                            <br>
+                        </p>
+                    </div>
+                    {{ item.time }}
                 </div>
-            <div v-if="item.actor === 'user'" >
-            <div class="message message-user">
-                <p>
-                    {{ item.data }}
-                    <br>
-                </p>
-                <el-avatar :src="userAvatarUrl"/>
+                <div v-if="item.actor === 'user'">
+                    <div class="message message-user">
+                        <p>
+                            {{ item.data }}
+                            <br>
+                        </p>
+                        <el-avatar :src="userAvatarUrl"/>
+                    </div>
+                    {{ item.time }}
+                </div>
             </div>
-            {{item.time}}
-            </div>
-        </div>
         </div>
         <!--chat input-->
         <div class="chatBox_input">
@@ -94,9 +94,9 @@ export default {
             // })
         }
     },
-    watch:{
-        musicName:{
-            handler(){
+    watch: {
+        musicName: {
+            handler() {
                 this.chatData = [{
                     actor: 'system',
                     data: 'hello!',

@@ -2,9 +2,9 @@
     <div v-if="comment" class="comment">
         <div :class="{ border }" class="content">
             <p class="comment-text">
-                <span class="username">
-                    {{ comment.author }}
-                </span>
+                    <span class="username" @click="dialogVisible=true">
+                        {{ comment.author }}:
+                    </span>
                 <span class="text">{{ comment.comment }}</span>
             </p>
             <div class="bottom">
@@ -15,6 +15,16 @@
                 </div>
             </div>
         </div>
+        <el-dialog
+            title="Hint"
+            :visible.sync="dialogVisible"
+            width="30%">
+            <span>Add this person as your friend?</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="addFriend">Sure</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -33,7 +43,7 @@ export default {
     props: ["comment", "border"],
     data() {
         return {
-            popoverVisible: false
+            dialogVisible: false
         }
     },
     methods: {
@@ -52,6 +62,32 @@ export default {
                     })
                     this.comment.likeCount += 1
                 }
+            })
+        },
+        addFriend() {
+            this.getIdByUsername()
+            console.log(this.comment.userid)
+            newRequest.post(
+                '/friend/addFriend',
+                {
+                    user_id: this.$cookies.get('auth').userid,
+                    friend_id: this.comment.userid
+                }
+            ).then(res => {
+                this.$message.success(res.msg)
+                this.dialogVisible = false
+            })
+        },
+        getIdByUsername(){
+            newRequest.post(
+                '/friend/getIdByUsername',
+                {
+                    username: this.comment.author
+                }
+            ).then(res=>{
+                this.comment.userid = res.data.user_id
+                console.log('1ejkafe')
+                console.log(this.comment.userid)
             })
         }
     }

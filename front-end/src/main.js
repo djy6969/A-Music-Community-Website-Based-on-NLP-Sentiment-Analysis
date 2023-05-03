@@ -12,6 +12,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VueCookies from 'vue-cookies'
 import VueSocketIO from "vue-socket.io";
 import SocketIO from "socket.io-client";
+import TRTC from 'trtc-js-sdk';
 
 // axios
 import axios from "axios"
@@ -51,8 +52,7 @@ Vue.use(dataV)
 
 // import echarts from "echarts"
 // Vue.prototype.$echarts = echarts
-
-
+TRTC.Logger.setLogLevel(TRTC.Logger.LogLevel.DEBUG);
 new Vue({
   router,
   store,

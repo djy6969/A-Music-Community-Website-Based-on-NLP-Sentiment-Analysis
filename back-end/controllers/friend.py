@@ -1,6 +1,7 @@
 from app import app, db
 from flask import Blueprint, request
 from common.models.Friend import TFriend
+from common.models.User import TUser
 from common.service import MessageHelper, UserHelper, CommonHelper
 from controllers import account
 
@@ -55,3 +56,8 @@ def sendMessage():
     # get user_id and friend_id
     user_id = request.json.get('user_id')
     friend_id = request.json.get('friend_id')
+
+@friend.route("/getIdByUsername", methods=['POST'])
+def getIdByUsername():
+    username = request.json.get('username')
+    return MessageHelper.ops_renderJSON(data={"user_id": TUser.query.filter_by(username=username).first().id})

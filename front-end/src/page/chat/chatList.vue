@@ -1,6 +1,6 @@
 <template>
     <div class="chatlist">
-        <div class="block active" @click="chatWithFriend">
+        <div class="block active" >
             <div class="imgbx">
                 <el-avatar :src="friendInfo.avatar"/>
             </div>
@@ -15,6 +15,7 @@
 
 <script>
 import {newRequest} from "@/utils";
+
 export default {
     name: "chatList",
     props: ["id"],
@@ -26,26 +27,6 @@ export default {
             }
         }
     },
-    sockets: {
-    //查看socket是否渲染成功
-    connect() {
-      console.log("链接成功");
-    },
-    //检测socket断开链接
-    disconnect() {
-      console.log("断开链接");
-    },
-    // 重新链接
-    reconnect() {
-      console.log("重新链接");
-    },
-    //客户端接收后台传输的socket事件
-    kline: function (msg) {
-      console.log(msg);
-      //然后记性你的一系列操作
-    },
-  },
-
     methods: {
         loadFriendInfo() {
             newRequest.post(
@@ -86,14 +67,12 @@ export default {
                         }
                     )
                     console.log('socket join')
-                }else {
+                    this.$emit('transfer', this.friendInfo.nickname)
+                } else {
                     this.$message.error('Something Wrong! Try Again!')
                 }
             })
         },
-        init(){
-
-        }
     },
     mounted() {
         this.loadFriendInfo()

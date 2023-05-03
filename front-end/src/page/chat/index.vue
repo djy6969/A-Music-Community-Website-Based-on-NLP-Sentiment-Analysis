@@ -10,20 +10,20 @@
             <!--ChatList-->
 
             <chat-list
-                v-for="(item, index) in this.friendList"
-                :key="index"
-                :id="item"
+                    v-for="(item, index) in this.friendList"
+                    :key="index"
+                    :id="item"
+                    @click.native="startChatroom(item)"
             />
         </div>
 
-
-        <div class="rightSide">
+        <div class="rightSide" style="width: 80%;">
             <div class="header">
                 <div class="imgText">
                     <div class="userimg">
-                        <img class="cover" src="img1.jpg">
+                        <el-avatar :src="friendData.avatarUrl"/>
                     </div>
-                    <h4>开心果<br><span>在线</span></h4>
+                    <h4>{{ this.friendData.friendName }}</h4>
                 </div>
                 <ul class="nav_icons">
                     <li><img src="消息.png"></li>
@@ -32,32 +32,26 @@
             </div>
             <!--chatbox-->
             <div class="chatBox">
-                <div class="message my_message">
-                    <p>你在干嘛呢？<br><span>10:15</span></p>
-                </div>
-                <div class="message frnd_message">
-                    <p>在写作业<br><span>10:15</span></p>
-                </div>
-                <div class="message frnd_message">
-                    <p>天气太热了天气太热了天气太热了天气太热了天气太热了天气太热了天气太热了天气太热了天气太热了天气太热了天气太热了天气太热了<br><span>10:15 </span>
-                    </p>
-                </div>
-                <div class="message my_message">
-                    <p>对啊 也不下雨<br><span>10:15</span></p>
-                </div>
-                <div class="message my_message">
-                    <p>希望以后凉快点<br><span>10:15</span></p>
+                <div v-for="(item, index) in chatData" :key="index">
+                    <div v-if="item.actor === 'user'" class="message my_message">
+                        <p>{{ item.content }}<br><span>{{ item.time }}</span></p>
+                    </div>
+                    <div v-if="item.actor === 'friend'" class="message frnd_message">
+                        <p>{{ item.content }}<br><span>{{ item.time }}</span></p>
+                    </div>
                 </div>
             </div>
 
             <!--chat input-->
             <div class="chatbox_input">
                 <div class="instrument">
+                    <el-button @click="leaveChatroom">Leave</el-button>
                     <img src="表情.png">
                     <img src="语音.png">
                 </div>
                 <div>
-                    <input type="text">
+                    <input v-model="sendData" type="text">
+                    <el-button @click="sendMessage">Send</el-button>
                 </div>
 
             </div>
@@ -73,31 +67,109 @@ import ChatList from "./chatList.vue";
 export default {
     name: "index",
     components: {ChatList},
-    data(){
-        return{
+    data() {
+        return {
             friendId: 0,
-            friendList: []
+            friendList: [],
+            friendData: {
+                friendName: 'None',
+                id: '',
+                avatarUrl: ''
+            },
+            chatData: [],
+            sendData: ''
         }
     },
-    methods:{
-        onclickLZJ(){
-            this.$socket.emit(
-            'join',
-            {
-                username: "11111111111",
-                room: 'jocker'
-            }
-        )
+    sockets: {
+        //查看socket是否渲染成功
+        connect() {
+            console.log("链接成功");
         },
-        addFriend(){
+        //检测socket断开链接
+        disconnect() {
+            console.log("断开链接");
+        },
+        // 重新链接
+        reconnect() {
+            console.log("重新链接");
+        },
+        //客户端接收后台传输的socket事件
+        kline: function (msg) {
+            console.log(msg);
+            //然后记性你的一系列操作
+        },
+        data(res){
+            console.log(res, '5555555555')
+        },
+        send_msg(data){
+            console.log(this.chatData)
+            this.chatData.push(
+                {
+                    actor: 'friend',
+                    content: data.message,
+                    time: this.getNowTime()
+                }
+            )
+        }
+    },
+    methods: {
+        getNowTime() {
+            let now = new Date(Date.now()),
+                y = now.getFullYear(),
+                m = now.getMonth() + 1,
+                d = now.getDate();
+            return y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0" + d : d) + " " + now.toTimeString().substr(0, 8);
+        },
+        startChatroom(id) {
+            newRequest.post(
+                '/account/get_user_info',
+                {
+                    user_id: id
+                }
+            ).then(res => {
+                this.friendData.id = id
+                this.friendData.friendName = res.data.nickname
+                this.friendData.avatarUrl = res.data.head_protrait
+                newRequest.post(
+                    '/chat/add_chatroom',
+                    {
+                        user_id: this.$cookies.get('auth').userid,
+                        friend_id: this.friendData.id
+                    }
+                ).then(res => {
+                    console.log(res)
+                    if (res.code === 200) {
+                        this.$message.success(res.msg)
+                        this.$cookies.set(
+                            'chatRoom',
+                            {
+                                room: res.data.chatroom_id,
+                                id: res.data.id
+                            }
+                        )
+                        this.$socket.emit(
+                            'join',
+                            {
+                                username: this.$cookies.get('auth').username,
+                                room: this.$cookies.get('chatRoom').room
+                            }
+                        )
+                        console.log('socket join')
+                    } else {
+                        this.$message.error('Something Wrong! Try Again!')
+                    }
+                })
+            })
+        },
+        addFriend() {
             newRequest.post(
                 '/friend/addFriend',
                 {
                     user_id: this.$cookies.get('auth').userid,
                     friend_id: this.friendId
                 }
-            ).then(res=>{
-                if (res.code === 200){
+            ).then(res => {
+                if (res.code === 200) {
                     this.$message({
                         message: 'Add new Friend Success!',
                         type: 'success'
@@ -106,33 +178,60 @@ export default {
                 }
             })
         },
-        getFriends(){
+        getFriends() {
             newRequest.post(
                 '/friend/getFriends',
                 {
                     user_id: this.$cookies.get('auth').userid,
                 }
-            ).then(res=>{
-                if (res.code === 200){
+            ).then(res => {
+                if (res.code === 200) {
                     this.friendList = res.data
                     console.log(this.friendList)
                 }
             })
         },
-        checkAllChatroom(){
+        checkAllChatroom() {
             newRequest.post(
                 '/chat/check_all_chatroom',
                 {
                     user_id: this.$cookies.get('auth').userid
                 }
-            ).then(res=>{
+            ).then(res => {
                 console.log(res)
             })
+        },
+        sendMessage() {
+            this.$socket.emit(
+                'send msg',
+                {
+                    room: this.$cookies.get('chatRoom').room,
+                    message: this.sendData
+                }, (res)=>{
+                console.log(res)
+            })
+            this.chatData.push(
+                {
+                    actor: 'user',
+                    content: this.sendData,
+                    time: this.getNowTime()
+                }
+            )
+            this.sendData = ''
+        },
+        leaveChatroom(){
+            this.$socket.emit(
+                'leave',
+                {
+                    username: this.$cookies.get('auth').username,
+                    room: this.$cookies.get('chatRoom').room
+                }
+            )
         }
     },
 
     mounted() {
-        // this.getFriends()
+        this.getFriends()
         this.checkAllChatroom()
     }
 }
@@ -140,45 +239,46 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com css2?family-Open+Sans:wght@300;400;00;600;700&display=swap');
-*
-{
-    margin: 0;padding: 0;
+
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
-    font-family: 'Open Sans' ,sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
-body
-{
+
+body {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(#009688 0%,#009688 130px,#d9dbd5 130px,#d9dbd5 100%)
+    background: linear-gradient(#009688 0%, #009688 130px, #d9dbd5 130px, #d9dbd5 100%)
 }
-.container
-{
+
+.container {
     position: relative;
     width: 1396px;
     max-width: 100%;
-    height: calc( 100vh - 40px);
-    background:#fff;
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.06),0 2px 5px 0 rgba(0,0,0,0.06);
+    height: calc(100vh - 40px);
+    background: #fff;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.06);
     display: flex;
 }
-.container .leftSide
-{
+
+.container .leftSide {
     position: relative;
-    flex:30%;
-    background:#fff;
+    flex: 30%;
+    background: #fff;
     border-right: 1px solid rgba(0, 0, 0, 0.2);
 }
-.container .rightside
-{
+
+.container .rightside {
     position: relative;
     flex: 70%;
-    background:#e5ddd5;
+    background: #e5ddd5;
 }
-.container .rightside::before
-{
+
+.container .rightside::before {
     content: '';
     position: absolute;
     top: 0;
@@ -188,8 +288,8 @@ body
 
     opacity: 0.06;
 }
-.header
-{
+
+.header {
     position: relative;
     width: 100%;
     height: 60px;
@@ -199,8 +299,8 @@ body
     align-items: center;
     padding: 0 15px;
 }
-.userimg
-{
+
+.userimg {
     position: relative;
     width: 40px;
     height: 40px;
@@ -208,8 +308,8 @@ body
     border-radius: 50%;
     cursor: pointer;
 }
-.cover
-{
+
+.cover {
     position: absolute;
     top: 0;
     left: 0;
@@ -217,12 +317,12 @@ body
     height: 100%;
     object-fit: cover;
 }
-.nav_icons
-{
+
+.nav_icons {
     display: flex;
 }
-.nav_icons li
-{
+
+.nav_icons li {
     display: flex;
     list-style: none;
     cursor: pointer;
@@ -230,8 +330,8 @@ body
     font-size: 1.5em;
     margin-left: 22px;
 }
-.search_chat
-{
+
+.search_chat {
     position: relative;
     width: 100%;
     height: 50px;
@@ -241,13 +341,13 @@ body
     align-items: center;
     padding: 0 15px;
 }
-.search_chat div
-{
+
+.search_chat div {
     width: 100%;
 }
-.search_chat div input
-{
-    width:100%;
+
+.search_chat div input {
+    width: 100%;
     outline: none;
     border: none;
     background: #fff;
@@ -257,12 +357,12 @@ body
     font-size: 14px;
     padding-left: 40px;
 }
-.search_chat div input::placeholder
-{
+
+.search_chat div input::placeholder {
     color: #bbb;
 }
-.search_chat div img
-{
+
+.search_chat div img {
     position: absolute;
     left: 30px;
     top: 14px;
@@ -270,22 +370,21 @@ body
 }
 
 
-.message_p
-{
+.message_p {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.message_p p
-{
+
+.message_p p {
     color: #aaa;
     display: -webkit-box;
     font-size: 0.9em;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.message_p b
-{
+
+.message_p b {
     background-color: red;
     color: #fff;
     min-width: 20px;
@@ -296,40 +395,40 @@ body
     align-items: center;
     font-size: 0.75em;
 }
-.imgText
-{
+
+.imgText {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.imgText h4
-{
+
+.imgText h4 {
     font-weight: 500;
     line-height: 1.2em;
     margin-left: 15px;
 }
-.imgText h4 span
-{
+
+.imgText h4 span {
     font-size: 0.8em;
     color: #555;
 }
-.chatBox
-{
+
+.chatBox {
     position: relative;
     width: 100%;
     padding: 50px;
     overflow-y: auto;
 }
-.message
-{
+
+.message {
     position: relative;
     display: flex;
     width: 100%;
     margin: 5px 0;
 }
-.message p
-{
+
+.message p {
     position: relative;
     right: 0;
     text-align: right;
@@ -339,48 +438,48 @@ body
     border-radius: 10px;
     font-size: 0.9em;
 }
-.message p::before
-{
+
+.message p::before {
     content: '';
     position: absolute;
     top: 0;
     right: -12px;
     width: 20px;
     height: 20px;
-    background: linear-gradient(135deg,#dcf8c6 0%,#dcf8c6 50%,transparent 50%,transparent);
+    background: linear-gradient(135deg, #dcf8c6 0%, #dcf8c6 50%, transparent 50%, transparent);
 }
-.message p span
-{
+
+.message p span {
     display: block;
     margin-top: 5px;
     font-size: 0.85em;
     opacity: 0.5;
 }
-.my_message
-{
+
+.my_message {
     justify-content: flex-end;
 }
-.frnd_message
-{
+
+.frnd_message {
     justify-content: flex-start;
 }
-.frnd_message p
-{
+
+.frnd_message p {
     background: #fff;
     text-align: left;
 }
-.message.frnd_message p::before
-{
+
+.message.frnd_message p::before {
     content: '';
     position: absolute;
     top: 0;
     left: -12px;
     width: 20px;
     height: 20px;
-    background: linear-gradient(225deg,#fff 0%,#fff 50%,transparent 50%,transparent);
+    background: linear-gradient(225deg, #fff 0%, #fff 50%, transparent 50%, transparent);
 }
-.chatbox_input
-{
+
+.chatbox_input {
     position: relative;
     width: 100%;
     height: 150px;
@@ -389,8 +488,8 @@ body
     justify-content: space-between;
     align-items: center;
 }
-.chatbox_input input
-{
+
+.chatbox_input input {
     position: relative;
     width: 90%;
 

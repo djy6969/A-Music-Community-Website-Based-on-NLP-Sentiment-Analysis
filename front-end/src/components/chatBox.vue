@@ -34,6 +34,8 @@
 
 <script>
 
+import {newRequest} from "@/utils";
+
 export default {
     name: "chatBox",
     props: {
@@ -74,24 +76,24 @@ export default {
                 data: this.inputData,
                 time: this.getNowTime()
             })
-            // newRequest.post(
-            //     '/chat/get_chat_response',
-            //     {
-            //         user_input: this.inputData,
-            //         song_name: this.name,
-            //         artist_name: this.artists
-            //     }
-            // ).then(res => {
-            //     if (res.code === 200) {
-            //         console.log(res)
-            //         this.inputData = ''
-            //     }
-            //     this.chatData.push({
-            //         actor: 'system',
-            //         data: res.data,
-            //         time: this.getNowTime()
-            //     })
-            // })
+            newRequest.post(
+                '/chat/get_chat_response',
+                {
+                    user_input: this.inputData,
+                    song_name: this.name,
+                    artist_name: this.artists
+                }
+            ).then(res => {
+                if (res.code === 200) {
+                    console.log(res)
+                    this.inputData = ''
+                }
+                this.chatData.push({
+                    actor: 'system',
+                    data: res.data,
+                    time: this.getNowTime()
+                })
+            })
         }
     },
     watch: {

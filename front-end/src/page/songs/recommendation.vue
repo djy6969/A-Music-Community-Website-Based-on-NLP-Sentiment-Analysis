@@ -26,10 +26,7 @@ export default {
       await this.getAllMusic()
     },
     async getAllMusic() {
-      newRequest.post('/music/getMusicRecommendation',
-          {
-            userId: this.checkLogin
-          }
+      newRequest.get('/visualization/rank_list',
       ).then((res) =>{
         const allSongs = Object.values(res.data)
         console.log(allSongs)

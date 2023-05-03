@@ -1,35 +1,95 @@
 <template>
-  <div class="comment" v-if="comment">
-    <div class="avatar">
-      <img v-lazy="$utils.genImgUrl(comment.user.avatarUrl, 80)" />
-    </div>
-    <div :class="{ border }" class="content">
-      <p class="comment-text">
-        <span class="username">{{ comment.user.nickname }}:</span>
-        <span class="text">{{ comment.content }}</span>
-      </p>
-      <div class="replied" v-if="comment.beReplied.length">
-        <p class="comment-text">
-          <span class="username"
-            >{{ comment.beReplied[0].user.nickname }}:</span
-          >
-          <span class="text">{{ comment.beReplied[0].content }}</span>
-        </p>
-      </div>
-      <div class="bottom">
-        <span class="date">{{ $utils.formatDate(comment.time) }}</span>
-        <div class="actions">
-          <Icon :size="12" type="good" />
-          {{ comment.likedCount }}
+    <div v-if="comment" class="comment">
+        <div :class="{ border }" class="content">
+            <p class="comment-text">
+                    <span class="username" @click="dialogVisible=true">
+                        {{ comment.author }}:
+                    </span>
+                <span class="text">{{ comment.comment }}</span>
+            </p>
+            <div class="bottom">
+                <span class="date">{{ $utils.formatDate(comment.publish_time) }}</span>
+                <div class="actions" @click="addLikeAccount">
+                    <Icon :size="12" type="good"/>
+                    {{ comment.likeCount }}
+                </div>
+            </div>
         </div>
-      </div>
+        <el-dialog
+            title="Hint"
+            :visible.sync="dialogVisible"
+            width="30%">
+            <span>Add this person as your friend?</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="addFriend">Sure</el-button>
+            </span>
+        </el-dialog>
     </div>
-  </div>
 </template>
 
 <script type="text/ecmascript-6">
+import * as $utils from "../utils";
+import Icon from "@/base/icon.vue";
+import {newRequest} from "@/utils";
+
 export default {
-  props: ["comment", "border"]
+    components: {Icon},
+    computed: {
+        $utils() {
+            return $utils
+        }
+    },
+    props: ["comment", "border"],
+    data() {
+        return {
+            dialogVisible: false
+        }
+    },
+    methods: {
+        addLikeAccount() {
+            newRequest.post(
+                '/comment/likeComment',
+                {
+                    commentId: this.comment.comment_id
+                }
+            ).then(res => {
+                console.log(res)
+                if (res.code === 200) {
+                    this.$message({
+                        message: 'Like Success!',
+                        type: "success"
+                    })
+                    this.comment.likeCount += 1
+                }
+            })
+        },
+        addFriend() {
+            this.getIdByUsername()
+            console.log(this.comment.userid)
+            newRequest.post(
+                '/friend/addFriend',
+                {
+                    user_id: this.$cookies.get('auth').userid,
+                    friend_id: this.comment.userid
+                }
+            ).then(res => {
+                this.$message.success(res.msg)
+                this.dialogVisible = false
+            })
+        },
+        getIdByUsername(){
+            newRequest.post(
+                '/friend/getIdByUsername',
+                {
+                    username: this.comment.author
+                }
+            ).then(res=>{
+                this.comment.userid = res.data.user_id
+                console.log(this.comment.userid)
+            })
+        }
+    }
 }
 </script>
 

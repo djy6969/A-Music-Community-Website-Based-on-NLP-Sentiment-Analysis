@@ -5,6 +5,7 @@ import storage from 'good-storage'
 const Discovery = () => import(/* webpackChunkName: "Discovery" */ '@/page/discovery')
 const PlaylistDetail = () => import(/* webpackChunkName: "PlaylistDetail" */ '@/page/playlist-detail')
 const UserFavorites = () => import('@/page/favorites')
+const Chatroom = () => import('@/page/chat')
 const Playlists = () => import(/* webpackChunkName: "Playlists" */ '@/page/playlists')
 const Songs = () => import(/* webpackChunkName: "Songs" */ '@/page/songs')
 const MusicRecommendation = () => import(/* webpackChunkName: "Songs" */ '@/page/songs/recommendation')
@@ -197,6 +198,11 @@ export default new Router({
     {
       path: '*', // 重定向页面地址
       redirect: '/'
+    },
+    {
+      path: '/chat',
+      name: 'Chat',
+      component: Chatroom
     }
   ],
 })

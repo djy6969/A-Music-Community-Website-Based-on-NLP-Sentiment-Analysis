@@ -89,8 +89,6 @@
       <div class="volume-item">
         <Volume :volume="volume" @volumeChange="onVolumeChange" />
       </div>
-      <!-- github -->
-      <el-button>Comment</el-button>
     </div>
     <div class="progress-bar-wrap">
       <ProgressBar
@@ -119,6 +117,9 @@ import {
 import Storage from "good-storage"
 import Share from "@/components/share"
 import {VOLUME_KEY, PLAY_MODE, playModeMap, isDef, newRequest} from "@/utils"
+import ProgressBar from "@/base/progress-bar.vue";
+import Volume from "@/base/volume.vue";
+import Icon from "@/base/icon.vue";
 
 const DEFAULT_VOLUME = 0.75
 export default {
@@ -385,7 +386,7 @@ export default {
     ]),
     ...mapGetters(["prevSong", "nextSong", "nextSongButton"])
   },
-  components: { Share }
+  components: {Icon, Volume, ProgressBar, Share }
 }
 </script>
 

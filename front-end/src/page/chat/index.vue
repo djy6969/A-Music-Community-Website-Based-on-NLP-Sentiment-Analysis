@@ -55,18 +55,30 @@
                 </div>
 
             </div>
+            <!--       listen together     -->
+            <listen-together/>
+            <invite
+                v-if="ifInvited"
+                :sdkAppId="Number(invitedData.sdkAppId)"
+                :inviteUserSig="invitedData.userSig"
+                :userId="invitedData.userId"
+                :roomId="invitedData.roomId"
+                :secretKey = invitedData.secretKey
+            />
         </div>
 
     </div>
 </template>
 
 <script>
-import {newRequest} from "../../utils";
+import {newRequest} from "@/utils";
 import ChatList from "./chatList.vue";
+import ListenTogether from "@/page/chat/listenTogether.vue";
+import Invite from "@/page/chat/Invite.vue";
 
 export default {
     name: "index",
-    components: {ChatList},
+    components: { Invite, ListenTogether, ChatList},
     data() {
         return {
             friendId: 0,
@@ -77,7 +89,15 @@ export default {
                 avatarUrl: ''
             },
             chatData: [],
-            sendData: ''
+            sendData: '',
+            ifInvited: false,
+            invitedData:{
+                sdkAppId: '',
+                userSig: '',
+                userId: '',
+                roomId: 0,
+                secretKey: ''
+            }
         }
     },
     sockets: {
@@ -104,15 +124,20 @@ export default {
         send_msg(data){
             console.log(this.chatData)
             if (data.username !== this.$cookies.get('auth').username){
-                this.chatData.push(
-                {
+                this.chatData.push({
                     actor: 'friend',
                     content: data.message,
                     time: this.getNowTime()
-                }
-            )
-            }
-
+                    })}},
+        invite(data){
+            console.log(data)
+            this.invitedData.sdkAppId = data.sdkAppId
+            this.invitedData.userSig = data.userSig
+            this.invitedData.userId = data.userId
+            this.invitedData.roomId = data.roomId
+            this.invitedData.secretKey = data.secretKey
+            this.ifInvited = true
+            console.log(this.invitedData)
         }
     },
     methods: {
@@ -233,7 +258,6 @@ export default {
             )
         }
     },
-
     mounted() {
         this.getFriends()
         this.checkAllChatroom()

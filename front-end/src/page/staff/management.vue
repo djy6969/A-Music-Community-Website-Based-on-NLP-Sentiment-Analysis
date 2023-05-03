@@ -250,7 +250,7 @@ export default {
           }
       ).then((res) =>{
         console.log(res.data)
-        this.dialogFormVisible = false
+        this.formCancel()
       })
 
     },

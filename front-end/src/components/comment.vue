@@ -86,7 +86,6 @@ export default {
                 }
             ).then(res=>{
                 this.comment.userid = res.data.user_id
-                console.log('1ejkafe')
                 console.log(this.comment.userid)
             })
         }

@@ -103,13 +103,16 @@ export default {
         },
         send_msg(data){
             console.log(this.chatData)
-            this.chatData.push(
+            if (data.username !== this.$cookies.get('auth').username){
+                this.chatData.push(
                 {
                     actor: 'friend',
                     content: data.message,
                     time: this.getNowTime()
                 }
             )
+            }
+
         }
     },
     methods: {
@@ -205,6 +208,7 @@ export default {
             this.$socket.emit(
                 'send msg',
                 {
+                    username: this.$cookies.get('auth').username,
                     room: this.$cookies.get('chatRoom').room,
                     message: this.sendData
                 }, (res)=>{

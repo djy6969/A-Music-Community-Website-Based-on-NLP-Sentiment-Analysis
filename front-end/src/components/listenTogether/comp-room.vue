@@ -6,68 +6,53 @@
 <template>
     <div class="rtc-container">
         <!-- 进房操作区域 -->
-        <p v-if="isHostMode" class="label">Operation</p>
         <div class="control-container">
             <div class="rtc-control-container">
                 <el-button
-                        class="button"
-                        type="primary"
-                        size="small" :disabled="isJoining || isJoined" @click="handleJoinRoom">Join Room
+                    class="button"
+                    type="primary"
+                    size="small" :disabled="isJoining || isJoined" @click="handleJoinRoom">Listen Together
                 </el-button>
-<!--                <el-button-->
-<!--                        v-if="isHostMode"-->
-<!--                        class="button"-->
-<!--                        type="primary"-->
-<!--                        size="small" :disabled="isPublishing || isPublished" @click="handlePublish">Publish-->
-<!--                </el-button>-->
-<!--                <el-button-->
-<!--                        v-if="isHostMode"-->
-<!--                        class="button"-->
-<!--                        type="primary" size="small" @click="handleUnpublish">Unpublish-->
-<!--                </el-button>-->
-<!--                <el-button-->
-<!--                        class="button"-->
-<!--                        type="primary" size="small" @click="handleLeave">Leave Room-->
-<!--                </el-button>-->
             </div>
             <div v-if="isHostMode" class="screen-share-control-container">
-                <el-button @click="pauseMusic">Pause Music</el-button>
-                <el-button @click="resumeMusic">Resume Music</el-button>
-                <el-button @click="playMusic">Play Music</el-button>
+                 <div class="search">
+                    <el-input
+                        @click.native="onClickInput"
+                        @keypress.native.enter="onEnterPress"
+                        placeholder="Search"
+                        prefix-icon="el-icon-search"
+                        ref="input"
+                        v-model.trim="searchKeyword"
+                    />
+                    <Toggle
+                        :reserveDoms="[$refs.input && $refs.input.$el]"
+                        :show.sync="searchPanelShow"
+                    >
+                        <!--  search recommendation and history   -->
+
+                    </Toggle>
+                </div>
+                <ul>
+                    <li>
+                        <el-button icon="el-icon-video-play" @click="playMusic">Play Music</el-button>
+                    </li>
+                    <li>
+                        <el-button icon="el-icon-video-pause" @click="pauseMusic">Pause Music</el-button>
+                    </li>
+                    <li>
+                        <el-button icon="el-icon-refresh" @click="resumeMusic">Resume Music</el-button>
+                    </li>
+                </ul>
             </div>
         </div>
-
-        <!-- 显示邀请链接 -->
-<!--        <div v-if="showInviteLink" class="invite-link-container">-->
-<!--            <span>-->
-<!--                Copy the link to invite friends to join the video call, one link can invite only one person,the link will be updated automatically after copying.-->
-<!--            </span>-->
-<!--            <el-input class="invite-input" v-model="inviteLink">-->
-<!--                <template slot="prepend">-->
-<!--                    <el-tooltip-->
-<!--                            :visibleArrow="false"-->
-<!--                            effect="dark"-->
-<!--                            content="Copied!"-->
-<!--                            placement="bottom"-->
-<!--                            :manual="true"-->
-<!--                            v-model="showCopiedTip">-->
-<!--            <span class="invite-btn" @click="handleCopyInviteLink">-->
-<!--              <svg-icon icon-name="copy"></svg-icon>-->
-<!--            </span>-->
-<!--                    </el-tooltip>-->
-<!--                </template>-->
-<!--            </el-input>-->
-<!--        </div>-->
-
-
 
         <!-- 远端流区域 -->
         <div class="remote-container">
             <div
-                    v-for="(item) in remoteStreamList"
-                    :key="item.getUserId()"
-                    :id="item.getUserId()"
-                    class="remote-stream-container">
+                v-for="(item) in remoteStreamList"
+                :key="item.getUserId()"
+                :id="item.getUserId()"
+                class="remote-stream-container">
             </div>
         </div>
     </div>
@@ -79,11 +64,14 @@ import shareRtc from './mixins/share-rtc.js';
 import * as LibGenerateTestUserSigFn from '@/utils/lib-generate-test-usersig.min.js';
 import AudioMixerPlugin from "rtc-audio-mixer";
 import {importHack} from './mixins/helper.js'
+import Toggle from "@/base/toggle.vue";
+import {newRequest} from "@/utils";
 
 
 let audioSourceA = AudioMixerPlugin.createAudioSource({url: 'https://ipa-012.ucd.ie/music/-wNSFmqhQsU.mp3'});
 export default {
     name: 'compRoom',
+    components: {Toggle},
     mixins: [rtc, shareRtc],
     props: {
         type: String,
@@ -97,10 +85,12 @@ export default {
     },
     data() {
         return {
+            searchPanelShow: false,
             logList: [],
             inviteLink: '',
             showCopiedTip: false,
-            audioSourceA: ''
+            audioSourceA: '',
+            searchContent: ''
         };
     },
     computed: {
@@ -120,7 +110,17 @@ export default {
         },
     },
     methods: {
-        pauseMusic(){
+        onEnterPress(){
+            newRequest.post(
+                '/search/searchMusic',
+                {
+                    searchContent: this.searchContent
+                }
+            ).then(res=>{
+                console.log(res)
+            })
+        },
+        pauseMusic() {
             audioSourceA.pause()
             this.$socket.emit(
                 'pause_music',
@@ -130,7 +130,7 @@ export default {
                 }
             )
         },
-        resumeMusic(){
+        resumeMusic() {
             audioSourceA.resume()
             this.$socket.emit(
                 'resume_music',
@@ -140,7 +140,7 @@ export default {
                 }
             )
         },
-        playMusic(){
+        playMusic() {
             audioSourceA.play()
             this.$socket.emit(
                 'play_music',
@@ -171,15 +171,6 @@ export default {
                     room: this.$cookies.get('chatRoom').room,
                 }
             )
-            // this.inviteLink = encodeURI(`${location.origin}${location.pathname}#/invite?sdkAppId=${sdkAppId}&userSig=${inviteUserSig}&roomId=${roomId}&userId=${inviteUserId}`);
-        },
-        handleCopyInviteLink() {
-            navigator.clipboard.writeText(this.inviteLink);
-            this.showCopiedTip = true;
-            setTimeout(() => {
-                this.showCopiedTip = false;
-            }, 1500);
-            this.generateInviteLink();
         },
 
         // 点击【Join Room】按钮

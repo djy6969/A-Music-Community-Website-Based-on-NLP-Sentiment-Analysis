@@ -54,7 +54,7 @@ room_user = {}
 #         return redirect(url_for('index'))
 
 # # 连接
-@socketio.on('connect')
+@socketio.on('connect', namespace='/chat')
 def handle_connect():
     username = 1
     # online_user.append(username)
@@ -72,7 +72,7 @@ def handle_disconnect(data):
     # socketio.emit('connect info', f'{username}  disconnect')
 
 
-@socketio.on('send msg')
+@socketio.on('send_msg')
 def handle_message(data):
     print('sendMsg' + str(data))
     room = data['room']
@@ -99,6 +99,7 @@ def resumeMusic(data):
     print(data)
     room = data['room']
     socketio.emit('resume_music', data, to=room)
+
 
 @socketio.on('invite')
 def invite(data):

@@ -4,7 +4,6 @@
     <div class="content" :class="'content-mobile'">
       <!-- quick demo 使用指引 -->
       <!-- sdkAppId、secretKey、userId、roomId 参数输入区域 -->
-      <p class="label">Params</p>
       <!-- 设备选择区域 -->
 <!--      <p class="label">Device Select</p>-->
 <!--      <div class="param-container" :class="$isMobile && 'param-container-mobile'">-->

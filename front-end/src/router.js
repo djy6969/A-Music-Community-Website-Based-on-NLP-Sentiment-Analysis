@@ -4,8 +4,8 @@ import storage from 'good-storage'
 
 const Discovery = () => import(/* webpackChunkName: "Discovery" */ '@/page/discovery')
 const PlaylistDetail = () => import(/* webpackChunkName: "PlaylistDetail" */ '@/page/playlist-detail')
-const UserFavorites = () => import('@/page/favorites')
-const Chatroom = () => import('@/page/chat')
+const UserFavorites = () => import(/* webpackChunkName: "UserFavorites" */ '@/page/favorites')
+const Chatroom = () => import(/* webpackChunkName: "Chatroom" */ '@/page/chat')
 const Playlists = () => import(/* webpackChunkName: "Playlists" */ '@/page/playlists')
 const Songs = () => import(/* webpackChunkName: "Songs" */ '@/page/songs')
 const MusicRecommendation = () => import(/* webpackChunkName: "Songs" */ '@/page/songs/recommendation')
@@ -15,9 +15,9 @@ const Search = () => import(/* webpackChunkName: "Search" */ '@/page/search')
 const SearchSongs = () => import(/* webpackChunkName: "SearchSongs" */ '@/page/search/songs')
 const SearchPlaylists = () => import(/* webpackChunkName: "SearchPlaylists" */ '@/page/search/playlists')
 const SearchMvs = () => import(/* webpackChunkName: "SearchMvs" */ '@/page/search/mvs')
-const Staff = () => import('@/page/staff/staff')
-const StaffAnalysis = () => import('@/page/staff/analysis')
-const StaffManagement = () => import('@/page/staff/management')
+const Staff = () => import(/* webpackChunkName: "Staff" */ '@/page/staff/staff')
+const StaffAnalysis = () => import(/* webpackChunkName: "StaffAnalysis" */ '@/page/staff/analysis')
+const StaffManagement = () => import(/* webpackChunkName: "StaffManagement" */ '@/page/staff/management')
 const Mvs = () => import(/* webpackChunkName: "Mvs" */ '@/page/mvs')
 const Mv = () => import(/* webpackChunkName: "Mv" */ '@/page/mv')
 
@@ -43,7 +43,7 @@ export const menuRoutes = [
     name: 'discovery',
     component: Discovery,
     meta: {
-      title: 'Find music',
+      title: 'Find Music',
       icon: 'music',
     },
   },
@@ -61,7 +61,7 @@ export const menuRoutes = [
     name: 'songs',
     component: Songs,
     meta: {
-      title: 'The newest music',
+      title: 'The Newest Music',
       icon: 'yinyue',
     },
   },
@@ -79,7 +79,7 @@ export const menuRoutes = [
     name: 'mvs',
     component: Mvs,
     meta: {
-      title: 'The newest MV',
+      title: 'The Newest MV',
       icon: 'mv',
     },
   },

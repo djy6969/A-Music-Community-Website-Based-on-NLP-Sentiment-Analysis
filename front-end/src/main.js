@@ -17,8 +17,8 @@ import TRTC from 'trtc-js-sdk';
 // axios
 import axios from "axios"
 axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'https://ipa-012.ucd.ie/api/'
-// axios.defaults.baseURL = 'https://127.0.0.1:5000/api/'
+// axios.defaults.baseURL = 'https://ipa-012.ucd.ie/api/'
+axios.defaults.baseURL = 'https://127.0.0.1:5000/api/'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'

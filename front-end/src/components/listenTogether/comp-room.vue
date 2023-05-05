@@ -62,13 +62,13 @@
 import rtc from './mixins/rtc.js';
 import shareRtc from './mixins/share-rtc.js';
 import * as LibGenerateTestUserSigFn from '@/utils/lib-generate-test-usersig.min.js';
-import AudioMixerPlugin from "rtc-audio-mixer";
+
 import {importHack} from './mixins/helper.js'
 import Toggle from "@/base/toggle.vue";
 import {newRequest} from "@/utils";
 
 
-let audioSourceA = AudioMixerPlugin.createAudioSource({url: 'https://ipa-012.ucd.ie/music/-wNSFmqhQsU.mp3'});
+// let audioSourceA = AudioMixerPlugin.createAudioSource({url: 'https://ipa-012.ucd.ie/music/-wNSFmqhQsU.mp3'});
 export default {
     name: 'compRoom',
     components: {Toggle},
@@ -121,7 +121,7 @@ export default {
             })
         },
         pauseMusic() {
-            audioSourceA.pause()
+            // audioSourceA.pause()
             this.$socket.emit(
                 'pause_music',
                 {
@@ -131,7 +131,7 @@ export default {
             )
         },
         resumeMusic() {
-            audioSourceA.resume()
+            // audioSourceA.resume()
             this.$socket.emit(
                 'resume_music',
                 {
@@ -141,7 +141,7 @@ export default {
             )
         },
         playMusic() {
-            audioSourceA.play()
+            // audioSourceA.play()
             this.$socket.emit(
                 'play_music',
                 {

@@ -69,8 +69,7 @@
 <script>
 import rtc from "@/components/listenTogether/mixins/rtc";
 import shareRtc from "@/components/listenTogether/mixins/share-rtc";
-import AudioMixerPlugin from "rtc-audio-mixer";
-let audioSourceA = AudioMixerPlugin.createAudioSource({url: 'https://ipa-012.ucd.ie/music/-wNSFmqhQsU.mp3'});
+// let audioSourceA = AudioMixerPlugin.createAudioSource({url: 'https://ipa-012.ucd.ie/music/-wNSFmqhQsU.mp3'});
 export default {
     name: 'Invite',
     mixins: [rtc, shareRtc],
@@ -101,13 +100,13 @@ export default {
     },
     sockets:{
         play_music(){
-            audioSourceA.play()
+            // audioSourceA.play()
         },
         pause_music(){
-          audioSourceA.pause()
+          // audioSourceA.pause()
         },
         resume_music(){
-            audioSourceA.resume()
+            // audioSourceA.resume()
         }
     },
     watch: {
@@ -120,13 +119,13 @@ export default {
     },
     methods: {
         pauseMusic(){
-            audioSourceA.pause()
+            // audioSourceA.pause()
         },
         resumeMusic(){
-            audioSourceA.resume()
+            // audioSourceA.resume()
         },
         playMusic(){
-            audioSourceA.play()
+            // audioSourceA.play()
         },
 
         // 点击【Join Room】按钮
@@ -142,9 +141,9 @@ export default {
             await this.initLocalStream();
             console.log('initLocalStream')
             // let originAudioTrack = this.localStream.getAudioTrack();
-            let mixedAudioTrack = AudioMixerPlugin.mix({sourceList: [audioSourceA]});
-            await this.localStream.replaceTrack(mixedAudioTrack)
-            audioSourceA.play()
+            // let mixedAudioTrack = AudioMixerPlugin.mix({sourceList: [audioSourceA]});
+            // await this.localStream.replaceTrack(mixedAudioTrack)
+            // audioSourceA.play()
             console.log('audioSourceA.play')
             this.addSuccessLog('mixed https://ipa-012.ucd.ie/music/-wNSFmqhQsU.mp3')
             await this.client.publish(this.localStream);

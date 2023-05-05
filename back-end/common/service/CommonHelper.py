@@ -43,4 +43,4 @@ def uploadServerPic(file, folder):
 # filename是music_id
 def uploadServerMusic(file, filename):
     sftp = paramiko.SFTPClient.from_transport(transport)
-    sftp.putfo(file, '/home/student/home/student/comp3032j/data/music/{}'.format(filename))
+    sftp.putfo(file, '/home/student/comp3032j/data/music/{}'.format(filename))

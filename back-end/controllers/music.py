@@ -81,15 +81,14 @@ def manage_music_usability():
 @music.route("/add_new_music", methods=['POST'])
 def add_new_music():
     # 获取参数
-    music_id = request.values['music_Id']
+
+    image = request.files.get('image')
+    music = request.files.get('music')
+    music_id = request.values['music_id']
     title = request.values['title']
-    description = request.values['description']
-    tags = request.values['tags']
     description = request.values['description']
     artist = request.values['artist']
     duration = request.values['duration']
-    image = request.files.get('image')
-    music = request.files.get('music')
 
     # 传音乐文件，取得音乐文件路径
     CommonHelper.uploadServerMusic(music, music_id + '.mp3')
@@ -103,7 +102,6 @@ def add_new_music():
     music.music_Id = music_id
     music.title = title
     music.description = description
-    music.tags = tags
     music.artist = artist
     music.duration = duration
     music.image_url = image_path

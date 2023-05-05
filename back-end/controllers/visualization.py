@@ -147,6 +147,7 @@ def get_score_by_time(comment_list, time_list):
             if time_list[i] <= comment.publish_time < time_list[i + 1]:
                 score += comment.nlp_point
         score_list.append(score)
+    score_list.append(get_all_score(comment_list))
     return score_list
 
 
@@ -302,7 +303,7 @@ def line_score():
     qscore_list = get_score_by_time(comment, time_list)
     view_count = music.view_count
     like_count = music.like_count
-    score_list = []
+    score_list = [0]
     for i in range(1, 11):
         view_temp = view_count * (i / 10)
         like_temp = like_count * (i / 10)
@@ -312,7 +313,7 @@ def line_score():
             qupdated = qupdated.publish_time
         else:
             qupdated = pub_time
-        qscore = qscore_list[i - 1]
+        qscore = qscore_list[i]
         qanswer = len(comment)
         qviews = view_temp
         ascore = like_temp
@@ -326,7 +327,7 @@ def line_score():
         score_list.append(score)
     label_list = []
     for t in time_list:
-        t = time.strftime("%Y-%m-%d %H:%M:%S")
+        t = t.strftime("%Y-%m-%d %H:%M:%S")
         t = t[:10]
         label_list.append(t)
     fianl_json = [
@@ -339,19 +340,19 @@ def line_score():
 @visualization.route('/line_sentiment', methods=['POST'])
 def line_sentiment():
     id = request.json.get('id')
-    pub_time = TComment.query.filter_by(music_Id=id).order_by(TComment.publish_time.desc()).first().publish_time
+    pub_time = TComment.query.filter_by(music_Id=id).order_by(TComment.publish_time).first().publish_time
     time_list = datetime_split(pub_time, datetime.datetime.now())
     pos_list, neu_list, neg_list = [], [], []
-    for i in range(0, 10):
-        pos_list.append(TComment.query.filter(TComment.music_Id == id, TComment.nlp_point == 1,
-                                              TComment.publish_time <= time_list[i]).count())
-        neu_list.append(TComment.query.filter(TComment.music_Id == id, TComment.nlp_point == 0,
-                                              TComment.publish_time <= time_list[i]).count())
-        neg_list.append(TComment.query.filter(TComment.music_Id == id, TComment.nlp_point == -1,
-                                              TComment.publish_time <= time_list[i]).count())
+    for i in range(0, 11):
+        pos_num = TComment.query.filter(TComment.music_Id == id, TComment.nlp_point == 1, TComment.publish_time <= time_list[i]).count()
+        neu_num = TComment.query.filter(TComment.music_Id == id, TComment.nlp_point == 0, TComment.publish_time <= time_list[i]).count()
+        neg_num = TComment.query.filter(TComment.music_Id == id, TComment.nlp_point == -1, TComment.publish_time <= time_list[i]).count()
+        pos_list.append(pos_num)
+        neu_list.append(neu_num)
+        neg_list.append(neg_num)
     label_list = []
     for t in time_list:
-        t = time.strftime("%Y-%m-%d %H:%M:%S")
+        t = t.strftime("%Y-%m-%d %H:%M:%S")
         t = t[:10]
         label_list.append(t)
     final_json = [

@@ -17,8 +17,8 @@ import TRTC from 'trtc-js-sdk';
 // axios
 import axios from "axios"
 axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'https://ipa-012.ucd.ie/api/'
-// axios.defaults.baseURL = 'https://127.0.0.1:5000/api/'
+// axios.defaults.baseURL = 'https://ipa-012.ucd.ie/api/'
+axios.defaults.baseURL = 'https://127.0.0.1:5000/api/'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -33,7 +33,7 @@ Vue.component('font-awesome-layers-text',FontAwesomeLayersText)
 Vue.use(
     new VueSocketIO({
       debug: true,
-      connection: SocketIO("https://ipa-012.ucd.ie/api/", {transports: ['polling']}),
+      connection: SocketIO("http://127.0.0.1:5004/", {transports: ['polling']}),
       autoConnect: false,
       extraHeaders: {
           'Access-Control-Allow-Origin': '*'

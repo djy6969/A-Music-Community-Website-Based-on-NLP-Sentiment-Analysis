@@ -1,28 +1,36 @@
 <template>
 
   <div class="container">
-    <el-tag type="success" effect="dark">For All Musics:</el-tag>
+    <el-tag type="success" effect="dark" style="height:40px;font-size:30px;padding:5px">For All Musics:</el-tag>
+
+    <div id="top-10-area">
+      <el-tag type="primary" effect="dark">Top 10 Most Popular Musics</el-tag>
+    </div>
 
     <dv-border-box-12 class="border-box" id="capsule-chart">
       <dv-capsule-chart class="charts" :config="top10Config" style="height:400px" />
     </dv-border-box-12>
+
+    <div>
+      <el-tag type="danger" effect="dark">Top 10 Least Popular Musics</el-tag>
+    </div>
 
     <dv-border-box-12 class="border-box" id="capsule-chart">
       <dv-capsule-chart class="charts" :config="bottom10Config" style="height:400px" />
     </dv-border-box-12>
 
     <dv-border-box-12 class="border-box">
-      <dv-charts :option="positiveAllConfig"  style="height:800px" />
+      <dv-charts :option="positiveAllConfig"  style="height:700px" />
     </dv-border-box-12>
 
     <dv-border-box-12 class="border-box">
-      <dv-charts :option="negativeAllConfig"  style="height:800px" />
+      <dv-charts :option="negativeAllConfig"  style="height:700px" />
     </dv-border-box-12>
 
-    <el-tag type="" effect="dark">For a Single Music:</el-tag>
+    <el-tag type="" effect="dark" id="single-tag">For a Single Music:</el-tag>
 
     <div id="select-area">
-      <el-select v-model="selectMusicValue" filterable placeholder="Please select a music" @change="selectMusicItem">
+      <el-select class="select-music" v-model="selectMusicValue" filterable placeholder="Please select a music" @change="selectMusicItem">
       <el-option
           v-for="item in selectMusicOptions"
           :key="item.value"
@@ -98,7 +106,8 @@ export default {
         console.log(res.data)
         this.top10Config = {
           data: res.data,
-          showValue: true
+          showValue: true,
+          unit: 'Score'
         }
       })
 
@@ -108,7 +117,8 @@ export default {
         console.log(res.data)
         this.bottom10Config = {
           data: res.data,
-          showValue: true
+          showValue: true,
+          unit: 'Score'
         }
       })
     },
@@ -309,36 +319,33 @@ export default {
 .container {
   padding: 12px;
 }
-.all-container{
-  margin-top:15px;
-  margin-bottom:15px;
-  display: flex;
-  flex-direction: row;
-  padding: 12px;
-}
-.single-container{
-  display: flex;
-  flex-direction: row;
-  background-color: #ffffff;
-  padding: 12px;
-}
-#capsule-chart{
+
+#capsule-chart {
   background-color: #020202;
 }
-#select-area{
+#select-area {
   margin-top:15px;
   margin-bottom:5px;
 }
-.left,.right{
-  width: 50%;
+
+#top-10-area {
+  margin-top:25px;
 }
-.box{
+
+#single-tag {
+  margin-top:45px;
+  height:40px;
+  font-size:30px;
+  padding:5px;
+}
+
+.box {
   display: flex;
   flex-direction: column;
 }
-.charts{
+.charts {
     width: 90%;
-    margin: 5%;
+    margin: 3%;
 }
 
 </style>

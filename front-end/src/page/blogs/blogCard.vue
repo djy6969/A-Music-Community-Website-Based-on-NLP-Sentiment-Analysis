@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import {newRequest} from "../../utils";
+import {newRequest} from "@/utils";
 
 export default {
   name: "blogCard",
@@ -72,7 +72,8 @@ export default {
         console.log(res.data)
         getBlogCommentsLoading.close()
         this.commentDialogVisible = true
-        this.commentData = res.data.data
+        this.commentData = res.data
+          console.log(this.commentData)
       })
     },
     addBlogComment(){

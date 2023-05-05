@@ -1,4 +1,4 @@
-from PIL import Image
+
 from flask import Blueprint,request
 from pyarrow import BufferReader
 

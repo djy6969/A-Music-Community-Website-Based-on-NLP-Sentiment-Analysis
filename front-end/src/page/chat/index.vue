@@ -15,6 +15,17 @@
                     :id="item"
                     @click.native="startChatroom(item)"
             />
+            <listen-together
+                v-if="!ifInvited"
+            />
+            <invite
+                v-if="ifInvited"
+                :sdkAppId="Number(invitedData.sdkAppId)"
+                :inviteUserSig="invitedData.userSig"
+                :userId="invitedData.userId"
+                :roomId="invitedData.roomId"
+                :secretKey = invitedData.secretKey
+            />
         </div>
 
         <div class="rightSide" style="width: 80%;">
@@ -25,10 +36,6 @@
                     </div>
                     <h4>{{ this.friendData.friendName }}</h4>
                 </div>
-                <ul class="nav_icons">
-                    <li><img src="消息.png"></li>
-                    <li><img src="更多.png"></li>
-                </ul>
             </div>
             <!--chatbox-->
             <div class="chatBox">
@@ -45,28 +52,34 @@
             <!--chat input-->
             <div class="chatbox_input">
                 <div class="instrument">
-                    <el-button @click="leaveChatroom">Leave</el-button>
-                    <img src="表情.png">
-                    <img src="语音.png">
+                    <el-button type="primary" @click="leaveChatroom">Leave</el-button>
                 </div>
-                <div>
+                <div style="display: flex">
                     <input v-model="sendData" type="text">
-                    <el-button @click="sendMessage">Send</el-button>
+                    <el-button
+                        class="button"
+                        @click="sendMessage"
+                        type="primary"
+                    >Send</el-button>
                 </div>
 
             </div>
+            <!--       listen together     -->
+
         </div>
 
     </div>
 </template>
 
 <script>
-import {newRequest} from "../../utils";
+import {newRequest} from "@/utils";
 import ChatList from "./chatList.vue";
+import ListenTogether from "@/page/chat/listenTogether.vue";
+import Invite from "@/page/chat/Invite.vue";
 
 export default {
     name: "index",
-    components: {ChatList},
+    components: { Invite, ListenTogether, ChatList},
     data() {
         return {
             friendId: 0,
@@ -77,7 +90,16 @@ export default {
                 avatarUrl: ''
             },
             chatData: [],
-            sendData: ''
+            sendData: '',
+            listenMode: '',
+            ifInvited: false,
+            invitedData:{
+                sdkAppId: '',
+                userSig: '',
+                userId: '',
+                roomId: 0,
+                secretKey: ''
+            }
         }
     },
     sockets: {
@@ -104,15 +126,20 @@ export default {
         send_msg(data){
             console.log(this.chatData)
             if (data.username !== this.$cookies.get('auth').username){
-                this.chatData.push(
-                {
+                this.chatData.push({
                     actor: 'friend',
                     content: data.message,
                     time: this.getNowTime()
-                }
-            )
-            }
-
+                    })}},
+        invite(data){
+            console.log(data)
+            this.invitedData.sdkAppId = data.sdkAppId
+            this.invitedData.userSig = data.userSig
+            this.invitedData.userId = data.userId
+            this.invitedData.roomId = data.roomId
+            this.invitedData.secretKey = data.secretKey
+            this.ifInvited = true
+            console.log(this.invitedData)
         }
     },
     methods: {
@@ -206,7 +233,7 @@ export default {
         },
         sendMessage() {
             this.$socket.emit(
-                'send msg',
+                'send_msg',
                 {
                     username: this.$cookies.get('auth').username,
                     room: this.$cookies.get('chatRoom').room,
@@ -233,7 +260,6 @@ export default {
             )
         }
     },
-
     mounted() {
         this.getFriends()
         this.checkAllChatroom()
@@ -294,7 +320,7 @@ body {
 }
 
 .header {
-    position: relative;
+    position: fixed;
     width: 100%;
     height: 60px;
     background: #ededed;
@@ -420,7 +446,8 @@ body {
 
 .chatBox {
     position: relative;
-    width: 100%;
+    width: 80%;
+    height: 80%;
     padding: 50px;
     overflow-y: auto;
 }
@@ -484,11 +511,12 @@ body {
 }
 
 .chatbox_input {
-    position: relative;
-    width: 100%;
-    height: 150px;
+    position: fixed;
+    width: 60%;
+    height: 15%;
     background: #f0f0f0;
     padding: 15px;
+    bottom: 5%;
     justify-content: space-between;
     align-items: center;
 }
@@ -496,7 +524,6 @@ body {
 .chatbox_input input {
     position: relative;
     width: 90%;
-
     margin: 0 20px;
     padding: 10px 20px;
     border: none;

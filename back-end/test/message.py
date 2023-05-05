@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import SocketIO, join_room, leave_room
 import sshtunnel
 from flask_sqlalchemy import SQLAlchemy
-from flask_cors import  CORS
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_pyfile("base_setting.py", silent=False)
@@ -33,16 +33,16 @@ class TChatroom(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     # foreignKey需要放到nullable之前
     user_id = db.Column(db.SmallInteger,
-                       db.ForeignKey(TUser.id, ondelete="CASCADE"), nullable=False)
-    friend_id = db.Column(db.SmallInteger,
                         db.ForeignKey(TUser.id, ondelete="CASCADE"), nullable=False)
+    friend_id = db.Column(db.SmallInteger,
+                          db.ForeignKey(TUser.id, ondelete="CASCADE"), nullable=False)
     room = db.Column(db.String(128, 'utf8_bin'), nullable=False, default='')
     create_time = db.Column(db.DateTime, server_default=db.FetchedValue())
 
 
-
 online_user = []
 room_user = {}
+
 
 # @app.route('/chat/message/')
 # def message():
@@ -54,7 +54,7 @@ room_user = {}
 #         return redirect(url_for('index'))
 
 # # 连接
-@socketio.on('connect')
+@socketio.on('connect', namespace='/chat')
 def handle_connect():
     username = 1
     # online_user.append(username)
@@ -72,12 +72,40 @@ def handle_disconnect(data):
     # socketio.emit('connect info', f'{username}  disconnect')
 
 
-@socketio.on('send msg')
+@socketio.on('send_msg')
 def handle_message(data):
     print('sendMsg' + str(data))
     room = data['room']
     data['message'] = data['message'].replace('<', '&lt;').replace('>', '&gt;').replace(' ', '&nbsp;')
     socketio.emit('send_msg', data, to=room)
+
+
+@socketio.on('play_music')
+def playMusic(data):
+    print(data)
+    room = data['room']
+    socketio.emit('play_music', data, to=room)
+
+
+@socketio.on('pause_music')
+def pauseMusic(data):
+    print(data)
+    room = data['room']
+    socketio.emit('pause_music', data, to=room)
+
+
+@socketio.on('resume_music')
+def resumeMusic(data):
+    print(data)
+    room = data['room']
+    socketio.emit('resume_music', data, to=room)
+
+
+@socketio.on('invite')
+def invite(data):
+    print(str(data))
+    room = data['room']
+    socketio.emit('invite', data, to=room)
 
 
 @socketio.on('join')

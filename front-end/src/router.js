@@ -195,6 +195,11 @@ export default new Router({
       name: 'user',
       component: User
     },
+    // {
+    //   path: '/invite',
+    //   name: 'Invite',
+    //   component:() => import('@/page/chat/Invite.vue')
+    // },
     {
       path: '*', // 重定向页面地址
       redirect: '/'

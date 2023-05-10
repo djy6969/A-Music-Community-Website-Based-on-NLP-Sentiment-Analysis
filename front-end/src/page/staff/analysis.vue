@@ -1,7 +1,11 @@
 <template>
 
   <div class="container">
-    <el-tag type="success" effect="dark" style="height:40px;font-size:30px;padding:5px">For All Musics:</el-tag>
+    <div>
+      <el-button type="primary" @click="updateScore">Update Music Score</el-button>
+    </div>
+
+    <el-tag type="success" effect="dark" style="height:40px;font-size:30px;padding:5px; margin-top:20px">For All Musics:</el-tag>
 
     <div id="top-10-area">
       <el-tag type="primary" effect="dark">Top 10 Most Popular Musics</el-tag>
@@ -309,6 +313,12 @@ export default {
         }
       })
 
+    },
+    updateScore() {
+      newRequest.get('/visualization/update_score',
+      ).then((res) =>{
+        console.log(res)
+      })
     }
   },
 }

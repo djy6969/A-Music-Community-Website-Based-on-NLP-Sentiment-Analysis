@@ -194,7 +194,8 @@ def rank_list():
 def update_score():
     music_lst = TMusic.query.all()
     for song in tqdm(music_lst):
-        song_score(song.music_Id, datetime.datetime.now())
+        if song.view_count > 0:
+            song_score(song.music_Id, datetime.datetime.now())
     return MessageHelper.ops_renderJSON(msg='Update Success')
 
 

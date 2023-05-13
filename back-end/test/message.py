@@ -6,8 +6,8 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_pyfile("base_setting.py", silent=False)
-# CORS(app, cors_allowed_origins="*")
-socketio = SocketIO(app, cors_allowed_origins='*')
+# CORS(app, supports_credentials=True, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins='*', async_mode='threading')
 socketio.init_app(app)
 
 db = SQLAlchemy(app)
@@ -79,6 +79,11 @@ def handle_message(data):
     data['message'] = data['message'].replace('<', '&lt;').replace('>', '&gt;').replace(' ', '&nbsp;')
     socketio.emit('send_msg', data, to=room)
 
+@socketio.on('update_music')
+def update_music(data):
+    print(data)
+    room = data['room']
+    socketio.emit('update_music', data, to=room)
 
 @socketio.on('play_music')
 def playMusic(data):
@@ -103,7 +108,7 @@ def resumeMusic(data):
 
 @socketio.on('invite')
 def invite(data):
-    print(str(data))
+    print(data)
     room = data['room']
     socketio.emit('invite', data, to=room)
 

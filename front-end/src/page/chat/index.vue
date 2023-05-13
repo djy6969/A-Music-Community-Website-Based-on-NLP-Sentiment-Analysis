@@ -3,28 +3,17 @@
         <div class="leftSide">
             <div class="search_chat">
                 <div style="display: flex">
-                    <input placeholder="Add New Friend" type="text" v-model="friendId">
+                    <input v-model="friendId" placeholder="Add New Friend" type="text">
                     <el-button @click="addFriend">Add</el-button>
                 </div>
             </div>
             <!--ChatList-->
 
             <chat-list
-                    v-for="(item, index) in this.friendList"
-                    :key="index"
-                    :id="item"
-                    @click.native="startChatroom(item)"
-            />
-            <listen-together
-                v-if="!ifInvited"
-            />
-            <invite
-                v-if="ifInvited"
-                :sdkAppId="Number(invitedData.sdkAppId)"
-                :inviteUserSig="invitedData.userSig"
-                :userId="invitedData.userId"
-                :roomId="invitedData.roomId"
-                :secretKey = invitedData.secretKey
+                v-for="(item, index) in this.friendList"
+                :id="item"
+                :key="index"
+                @click.native="startChatroom(item)"
             />
         </div>
 
@@ -53,21 +42,39 @@
             <div class="chatbox_input">
                 <div class="instrument">
                     <el-button type="primary" @click="leaveChatroom">Leave</el-button>
+                    <el-button type="primary" @click="onActiveListenTogether">Listen Together</el-button>
                 </div>
                 <div style="display: flex">
                     <input v-model="sendData" type="text">
                     <el-button
                         class="button"
-                        @click="sendMessage"
                         type="primary"
-                    >Send</el-button>
+                        @click="sendMessage"
+                    >Send
+                    </el-button>
                 </div>
 
             </div>
             <!--       listen together     -->
 
         </div>
-
+        <el-dialog
+            :visible.sync="listenData.dialogVisible"
+            title="Listen Together"
+        >
+            <comp-music-player/>
+            <listen-together
+                v-if="!ifInvited"
+            />
+            <invite
+                v-if="ifInvited"
+                :inviteUserSig="invitedData.userSig"
+                :roomId="invitedData.roomId"
+                :sdkAppId="Number(invitedData.sdkAppId)"
+                :secretKey=invitedData.secretKey
+                :userId="invitedData.userId"
+            />
+        </el-dialog>
     </div>
 </template>
 
@@ -76,10 +83,12 @@ import {newRequest} from "@/utils";
 import ChatList from "./chatList.vue";
 import ListenTogether from "@/page/chat/listenTogether.vue";
 import Invite from "@/page/chat/Invite.vue";
+import Toggle from "@/base/toggle.vue";
+import CompMusicPlayer from "@/page/chat/compMusicPlayer.vue";
 
 export default {
     name: "index",
-    components: { Invite, ListenTogether, ChatList},
+    components: {CompMusicPlayer, Toggle, Invite, ListenTogether, ChatList},
     data() {
         return {
             friendId: 0,
@@ -92,14 +101,19 @@ export default {
             chatData: [],
             sendData: '',
             listenMode: '',
+            ifHosted: false,
             ifInvited: false,
-            invitedData:{
+            invitedData: {
                 sdkAppId: '',
                 userSig: '',
                 userId: '',
                 roomId: 0,
                 secretKey: ''
-            }
+            },
+            listenData: {
+                dialogVisible: false
+            },
+
         }
     },
     sockets: {
@@ -120,29 +134,35 @@ export default {
             console.log(msg);
             //然后记性你的一系列操作
         },
-        data(res){
+        data(res) {
             console.log(res, '5555555555')
         },
-        send_msg(data){
+        send_msg(data) {
             console.log(this.chatData)
-            if (data.username !== this.$cookies.get('auth').username){
+            if (data.username !== this.$cookies.get('auth').username) {
                 this.chatData.push({
                     actor: 'friend',
                     content: data.message,
                     time: this.getNowTime()
-                    })}},
-        invite(data){
-            console.log(data)
-            this.invitedData.sdkAppId = data.sdkAppId
-            this.invitedData.userSig = data.userSig
-            this.invitedData.userId = data.userId
-            this.invitedData.roomId = data.roomId
-            this.invitedData.secretKey = data.secretKey
-            this.ifInvited = true
+                })
+            }
+        },
+        invite(data) {
+            if (this.$cookies.get('auth').userid !== data.uid) {
+                this.ifInvited = true
+                this.invitedData.sdkAppId = data.sdkAppId
+                this.invitedData.userSig = data.userSig
+                this.invitedData.userId = data.userId
+                this.invitedData.roomId = data.roomId
+                this.invitedData.secretKey = data.secretKey
+            }
             console.log(this.invitedData)
-        }
+        },
     },
     methods: {
+        onActiveListenTogether() {
+            this.listenData.dialogVisible = true
+        },
         getNowTime() {
             let now = new Date(Date.now()),
                 y = now.getFullYear(),
@@ -238,9 +258,9 @@ export default {
                     username: this.$cookies.get('auth').username,
                     room: this.$cookies.get('chatRoom').room,
                     message: this.sendData
-                }, (res)=>{
-                console.log(res)
-            })
+                }, (res) => {
+                    console.log(res)
+                })
             this.chatData.push(
                 {
                     actor: 'user',
@@ -250,7 +270,7 @@ export default {
             )
             this.sendData = ''
         },
-        leaveChatroom(){
+        leaveChatroom() {
             this.$socket.emit(
                 'leave',
                 {
@@ -258,7 +278,8 @@ export default {
                     room: this.$cookies.get('chatRoom').room
                 }
             )
-        }
+        },
+
     },
     mounted() {
         this.getFriends()

@@ -15,9 +15,11 @@ blog = Blueprint('blog', __name__)
 # @auth.login_required()
 # need get user_id, text, pictureNum and pictureList from the front-end
 def post_blog():
-    user_id = request.values['user_id']
-    text = request.values['text']
-    picNum = request.values['picNumber']
+    user_id = request.values.get('user_id')
+    print(user_id)
+    text = request.values.get('text')
+    print(text)
+    picNum = request.values.get('picNumber')
     print(picNum)
     images = []
     for i in range(int(picNum)):
@@ -25,7 +27,7 @@ def post_blog():
         image = request.files.get(name)
         pic_name = CommonHelper.uploadServerPic(image, user_id)
         print(pic_name)
-        images.append("https://137.43.49.28/image/" + pic_name)
+        images.append("https://ipa-012.ucd.ie/image/" + pic_name)
     blog = TBlog()
     blog.user_id = user_id
     blog.blog_content = text
@@ -69,8 +71,8 @@ def get_usr_blog():
     blogs_data_info = TBlog.query.filter_by(user_id=userid).order_by(TBlog.publish_time.desc()).all()
     blogs_info = []
     for blog_data_info in blogs_data_info:
-        user = TUser.query.filter_by(id=blog_data_info.userid).first()
-        blog_info = {'id': blog_data_info.id, 'user_id': blog_data_info.userid, 'username': user.username,
+        user = TUser.query.filter_by(id=blog_data_info.user_id).first()
+        blog_info = {'id': blog_data_info.id, 'user_id': blog_data_info.user_id, 'username': user.username,
                      'blog_content': blog_data_info.blog_content,
                      'publish_time': blog_data_info.publish_time, 'picList': blog_data_info.piclist, 'status': blog_data_info.state}
         blogs_info.append(blog_info)

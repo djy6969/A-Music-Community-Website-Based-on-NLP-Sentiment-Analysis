@@ -12,7 +12,7 @@
                         class="title"
                         ref="commentTitle"
                 >
-                    最新评论
+                    Comments
                     <span class="count">({{ commentsSumNumber }})</span>
                 </p>
                 <Comment
@@ -35,7 +35,7 @@
             <el-input v-model="commentData"/>
             <el-button @click="addCommentData">Add</el-button>
         </div>
-        <empty v-if="!loading && !shouldHotCommentShow && !shouldCommentShow">还没有评论哦~</empty>
+        <empty v-if="!loading && !shouldHotCommentShow && !shouldCommentShow">Do not have any comment now~</empty>
     </div>
 </template>
 
@@ -44,6 +44,7 @@
 import {newRequest} from "@/utils"
 import Comment from "./comment"
 import * as $utils from "@/utils";
+import Empty from "@/base/empty.vue";
 
 const SONG_TYPE = "song"
 
@@ -131,6 +132,7 @@ export default {
         }
     },
     components: {
+        Empty,
         Comment
     },
     mounted() {

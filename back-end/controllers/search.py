@@ -22,8 +22,19 @@ def searchMusic():
         # relative path of music in project
         music_file_path = 'http://ipa-012.ucd.ie/music/' + music_file
 
-        music_i_info = {'seq': i + 1, 'id': music_id, 'img': music_info.image_url, "url": music_file_path, 'name': music_info.title,
-                        'albumId': '', 'albumName': '', 'artists': music_info.artist, 'duration': music_info.duration,
-                        'durationSecond': CommonHelper.convertMusicTime(music_info.duration), 'mvId': 1}
+        music_i_info = {
+            'seq': i + 1,
+            'id': music_id,
+            'img': music_info.image_url,
+            "url": music_file_path,
+            'name': music_info.title,
+            'albumId': '',
+            'albumName': '',
+            'artists': music_info.artist,
+            'duration': music_info.duration,
+            'durationSecond': CommonHelper.convertMusicTime(music_info.duration),
+            'mvId': 1
+        }
         musics[music_id] = music_i_info
+        print(musics)
     return MessageHelper.ops_renderJSON(data= musics)

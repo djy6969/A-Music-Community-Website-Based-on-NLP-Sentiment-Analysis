@@ -125,11 +125,10 @@ export default {
             let avatarForm = new FormData()
             avatarForm.append('head', file.raw)
             avatarForm.append('user_id', this.$cookies.get('auth').userid)
+            console.log(this.$cookies.get('auth').userid)
             newRequest.post(
                 '/account/upload_head_portrait',
-                {
-                    avatarForm
-                }
+                avatarForm
             ).then(res => {
                 this.personInformationForm.avatar = res.data
                 changeUserAvatarLoading.close()

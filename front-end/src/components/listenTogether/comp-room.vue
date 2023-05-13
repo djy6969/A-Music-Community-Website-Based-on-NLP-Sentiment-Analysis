@@ -11,38 +11,10 @@
                 <el-button
                     class="button"
                     type="primary"
-                    size="small" :disabled="isJoining || isJoined" @click="handleJoinRoom">Listen Together
+                    size="small"
+                    :disabled="isJoining || isJoined" 
+                    @click="handleJoinRoom">Voice Together
                 </el-button>
-            </div>
-            <div v-if="isHostMode" class="screen-share-control-container">
-                 <div class="search">
-                    <el-input
-                        @click.native="onClickInput"
-                        @keypress.native.enter="onEnterPress"
-                        placeholder="Search"
-                        prefix-icon="el-icon-search"
-                        ref="input"
-                        v-model.trim="searchKeyword"
-                    />
-                    <Toggle
-                        :reserveDoms="[$refs.input && $refs.input.$el]"
-                        :show.sync="searchPanelShow"
-                    >
-                        <!--  search recommendation and history   -->
-
-                    </Toggle>
-                </div>
-                <ul>
-                    <li>
-                        <el-button icon="el-icon-video-play" @click="playMusic">Play Music</el-button>
-                    </li>
-                    <li>
-                        <el-button icon="el-icon-video-pause" @click="pauseMusic">Pause Music</el-button>
-                    </li>
-                    <li>
-                        <el-button icon="el-icon-refresh" @click="resumeMusic">Resume Music</el-button>
-                    </li>
-                </ul>
             </div>
         </div>
 
@@ -62,13 +34,12 @@
 import rtc from './mixins/rtc.js';
 import shareRtc from './mixins/share-rtc.js';
 import * as LibGenerateTestUserSigFn from '@/utils/lib-generate-test-usersig.min.js';
-import AudioMixerPlugin from "rtc-audio-mixer";
+// import AudioMixerPlugin from "rtc-audio-mixer";
 import {importHack} from './mixins/helper.js'
 import Toggle from "@/base/toggle.vue";
 import {newRequest} from "@/utils";
 
-
-let audioSourceA = AudioMixerPlugin.createAudioSource({url: 'https://ipa-012.ucd.ie/music/-wNSFmqhQsU.mp3'});
+// let audioSourceA = AudioMixerPlugin.createAudioSource({url: 'https://ipa-012.ucd.ie/music/-wNSFmqhQsU.mp3'});
 export default {
     name: 'compRoom',
     components: {Toggle},
@@ -85,12 +56,10 @@ export default {
     },
     data() {
         return {
-            searchPanelShow: false,
             logList: [],
             inviteLink: '',
             showCopiedTip: false,
             audioSourceA: '',
-            searchContent: ''
         };
     },
     computed: {
@@ -109,47 +78,10 @@ export default {
             this.switchDevice('audio', val);
         },
     },
+    sockets:{
+
+    },
     methods: {
-        onEnterPress(){
-            newRequest.post(
-                '/search/searchMusic',
-                {
-                    searchContent: this.searchContent
-                }
-            ).then(res=>{
-                console.log(res)
-            })
-        },
-        pauseMusic() {
-            audioSourceA.pause()
-            this.$socket.emit(
-                'pause_music',
-                {
-                    room: this.$cookies.get('chatRoom').room,
-                    musicState: 'pause'
-                }
-            )
-        },
-        resumeMusic() {
-            audioSourceA.resume()
-            this.$socket.emit(
-                'resume_music',
-                {
-                    room: this.$cookies.get('chatRoom').room,
-                    musicState: 'resume'
-                }
-            )
-        },
-        playMusic() {
-            audioSourceA.play()
-            this.$socket.emit(
-                'play_music',
-                {
-                    room: this.$cookies.get('chatRoom').room,
-                    musicState: 'play'
-                }
-            )
-        },
         generateInviteLink() {
             if (!this.isHostMode) {
                 return;
@@ -169,6 +101,7 @@ export default {
                     userId: inviteUserId,
                     roomId: roomId,
                     room: this.$cookies.get('chatRoom').room,
+                    uid: this.$cookies.get('auth').userid
                 }
             )
         },
@@ -198,8 +131,8 @@ export default {
             await this.initLocalStream();
 
             // let originAudioTrack = this.localStream.getAudioTrack();
-            let mixedAudioTrack = AudioMixerPlugin.mix({sourceList: [audioSourceA]});
-            await this.localStream.replaceTrack(mixedAudioTrack)
+            // let mixedAudioTrack = AudioMixerPlugin.mix({sourceList: [audioSourceA]});
+            // await this.localStream.replaceTrack(mixedAudioTrack)
             this.addSuccessLog('mixed https://ipa-012.ucd.ie/music/-wNSFmqhQsU.mp3')
             await this.client.publish(this.localStream);
             this.isPublishing = false;

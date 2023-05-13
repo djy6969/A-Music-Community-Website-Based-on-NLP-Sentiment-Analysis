@@ -15,7 +15,6 @@
                 action="/music/add_new_music"
                 :file-list="fileList"
                 :auto-upload="false"
-                :http-request="uploadMusic"
                 :on-change="handleChange"
                 :on-preview="handlePreview"
                 :on-remove="handleRemove"
@@ -65,7 +64,7 @@
         </el-form>
 
         <div slot="footer" class="dialog-footer">
-          <el-button @click="formCancel">Cancel</el-button>
+          <el-button @click="formClear">Cancel</el-button>
           <el-button type="primary" @click="formSubmit">Submit</el-button>
         </div>
       </el-dialog>
@@ -250,11 +249,11 @@ export default {
           }
       ).then((res) =>{
         console.log(res.data)
-        this.formCancel()
+        this.formClear()
       })
 
     },
-    formCancel() {
+    formClear() {
       this.dialogFormVisible = false
       this.form = {
         name: '',

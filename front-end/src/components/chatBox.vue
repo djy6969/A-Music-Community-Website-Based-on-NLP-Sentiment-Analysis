@@ -5,22 +5,22 @@
             <div v-for="(item, index) in chatData" :key="index" class="chatBox">
                 <div v-if="item.actor === 'system'">
                     <div class="message message-system">
-                        <el-avatar src="https://ipa-012.ucd.ie/image/robot.jpg"/>
-                        <p>{{ item.data }}
+                        <el-avatar src="https://ipa-012.ucd.ie/image/friendly-chatbot.jpg"/>
+                        <p style="text-align: justify">{{ item.data }}
                             <br>
                         </p>
                     </div>
-                    {{ item.time }}
+<!--                    {{ item.time }}-->
                 </div>
                 <div v-if="item.actor === 'user'">
                     <div class="message message-user">
-                        <p>
+                        <p style="text-align: justify">
                             {{ item.data }}
                             <br>
                         </p>
                         <el-avatar :src="userAvatarUrl"/>
                     </div>
-                    {{ item.time }}
+<!--/*                    <p style="justify-content: flex-end">{{ item.time }}</p>*/-->
                 </div>
             </div>
         </div>
@@ -56,7 +56,7 @@ export default {
             chatData: [
                 {
                     actor: 'system',
-                    data: 'hello!',
+                    data: 'Hello! I\'m ChatAI 😊. You can ask me any questions about this song such as: Tell me about the singer of this song.',
                     time: this.getNowTime()
                 },
             ]
@@ -101,7 +101,7 @@ export default {
             handler() {
                 this.chatData = [{
                     actor: 'system',
-                    data: 'hello!',
+                    data: 'Hello! I\'m ChatAI 😊. You can ask me any questions about this song such as: Tell me about the singer of this song.',
                     time: this.getNowTime()
                 },]
             },
@@ -120,13 +120,13 @@ export default {
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.06);
     display: flex;
     flex-direction: column;
-    overflow: auto;
+    //overflow: auto;
 }
 
 .chatBox {
     position: relative;
     width: 100%;
-    padding: 50px;
+    padding: 10px;
 }
 
 
@@ -134,6 +134,7 @@ export default {
     position: absolute;
     bottom: 0;
     width: 100%;
+    height: 10%;
     background: #f0f0f0;
     justify-content: space-between;
     align-items: center;
@@ -144,9 +145,8 @@ export default {
 .message {
     position: relative;
     display: flex;
-    width: 100%;
-    margin: 5px 0;
-    overflow: hidden;
+    //width: 100%;
+    //margin: 5px 0;
 }
 
 .message-system {
@@ -155,7 +155,8 @@ export default {
 }
 
 .message-user {
-    float: right;
+    justify-content: flex-end;
+    //float: right;
 }
 
 .message p {

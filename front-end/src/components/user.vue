@@ -19,7 +19,6 @@
         <el-dropdown-item v-show="this.userData.role===1" @click.native="toPersonalPage">Personal Page
         </el-dropdown-item>
           <el-dropdown-item v-show="this.userData.role===1" @click.native="toChatPage">Chat</el-dropdown-item>
-        <el-dropdown-item v-show="this.userData.role===2" @click.native="toStaffPage">Staff</el-dropdown-item>
         <el-dropdown-item @click.native="onLogout">Log Out</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>

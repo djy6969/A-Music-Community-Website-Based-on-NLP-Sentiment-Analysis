@@ -97,8 +97,7 @@ export default {
       blogData.append('picNumber', this.addBlogForm.picFileNumber)
       newRequest.post(
         '/blog/post_blog',
-          blogData,
-        { "Content-Type": "multipart/form-data" }
+          blogData
       ).then(res=>{
         this.$message({
           showClose:true,

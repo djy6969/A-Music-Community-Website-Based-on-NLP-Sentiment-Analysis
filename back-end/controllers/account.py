@@ -137,10 +137,12 @@ def logout():
 # update head portrait image still use this api
 @account.route("/upload_head_portrait", methods=["POST"])
 def upload_head_protrait():
-    user_id = request.values['user_id']
+    user_id = request.values.get('user_id')
+    print(user_id)
     image = request.files.get('head')
+    print(image)
     user = TUser.query.filter_by(id=user_id).first()
-    user.head = "https://ipa-012.ucd.ie/image/" + CommonHelper.uploadServerPic(user_id, image)
+    user.head = "https://ipa-012.ucd.ie/image/" + CommonHelper.uploadServerPic(image, user_id)
     db.session.commit()
     return MessageHelper.ops_renderJSON(msg="upload successfully")
 
@@ -149,6 +151,7 @@ def upload_head_protrait():
 @account.route("/get_user_info", methods=["POST"])
 def get_user_info():
     user_id = request.json.get('user_id')
+    print(user_id)
     user = TUser.query.filter_by(id=user_id).first()
     # email, tel, nickname, head
     user_info = {

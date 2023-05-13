@@ -2,8 +2,7 @@
     <div class="invite-container">
         <div class="content">
             <div class="invite-tips">
-                You've been invited to a video call
-                sdkAppId: {{this.sdkAppId}}
+                You've been invited to a audio call
             </div>
             <!-- rtc 房间 -->
             <div class="rtc-container">
@@ -13,14 +12,12 @@
                 <el-button
                         class="button"
                         type="primary"
-                        size="small" :disabled="isJoining || isJoined" @click="handleJoinRoom">Join Room
+                        size="small" :disabled="isJoining || isJoined" @click="handleJoinRoom">Join
                 </el-button>
-
                 <el-button
                         class="button"
                         type="primary" size="small" @click="handleLeave">Leave Room
                 </el-button>
-                <el-button @click="playMusic">Play</el-button>
             </div>
         </div>
 
@@ -69,8 +66,8 @@
 <script>
 import rtc from "@/components/listenTogether/mixins/rtc";
 import shareRtc from "@/components/listenTogether/mixins/share-rtc";
-import AudioMixerPlugin from "rtc-audio-mixer";
-let audioSourceA = AudioMixerPlugin.createAudioSource({url: 'https://ipa-012.ucd.ie/music/-wNSFmqhQsU.mp3'});
+// import AudioMixerPlugin from "rtc-audio-mixer";
+// let audioSourceA = AudioMixerPlugin.createAudioSource({url: 'https://ipa-012.ucd.ie/music/-wNSFmqhQsU.mp3'});
 export default {
     name: 'Invite',
     mixins: [rtc, shareRtc],
@@ -87,6 +84,10 @@ export default {
     data() {
         return {
             userSig: '309cda7170d7b1b37b2cc7ae78798511a1f786ec8cc8ea349e4eb50bdfaa23d5',
+            audio:{
+                url: 'https://ipa-012.ucd.ie/music/04cHqPMD4So.mp3',
+            }
+
         };
     },
     computed: {
@@ -99,17 +100,6 @@ export default {
     },
     components: {
     },
-    sockets:{
-        play_music(){
-            audioSourceA.play()
-        },
-        pause_music(){
-          audioSourceA.pause()
-        },
-        resume_music(){
-            audioSourceA.resume()
-        }
-    },
     watch: {
         cameraId(val) {
             this.switchDevice('video', val);
@@ -120,13 +110,16 @@ export default {
     },
     methods: {
         pauseMusic(){
-            audioSourceA.pause()
-        },
-        resumeMusic(){
-            audioSourceA.resume()
-        },
-        playMusic(){
-            audioSourceA.play()
+            const musicPlayer = document.getElementById('comp-player1');
+            musicPlayer.pause()
+            // audioSourceA.pause()
+            this.$socket.emit(
+                'pause_music',
+                {
+                    room: this.$cookies.get('chatRoom').room,
+                    musicState: 'pause'
+                }
+            )
         },
 
         // 点击【Join Room】按钮
@@ -142,9 +135,9 @@ export default {
             await this.initLocalStream();
             console.log('initLocalStream')
             // let originAudioTrack = this.localStream.getAudioTrack();
-            let mixedAudioTrack = AudioMixerPlugin.mix({sourceList: [audioSourceA]});
-            await this.localStream.replaceTrack(mixedAudioTrack)
-            audioSourceA.play()
+            // let mixedAudioTrack = AudioMixerPlugin.mix({sourceList: [audioSourceA]});
+            // await this.localStream.replaceTrack(mixedAudioTrack)
+            // audioSourceA.play()
             console.log('audioSourceA.play')
             this.addSuccessLog('mixed https://ipa-012.ucd.ie/music/-wNSFmqhQsU.mp3')
             await this.client.publish(this.localStream);

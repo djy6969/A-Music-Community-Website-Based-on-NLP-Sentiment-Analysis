@@ -202,7 +202,7 @@ export default {
         }
       })
 
-      // line chart for single song: hot
+      // line chart for single song: popularity
       newRequest.post('/visualization/line_score',
           {
             id: value

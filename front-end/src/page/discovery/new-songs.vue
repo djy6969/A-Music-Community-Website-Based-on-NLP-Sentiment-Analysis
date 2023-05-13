@@ -108,16 +108,16 @@ export default {
       clearInterval(this.ifRestartCurrentSong())
       this.setIfRestart(0)
 
-      // 这里因为getSongOrder是从1开始显示, 所以当做数组下标需要减一
-      const nomalizedSongIndex = this.getSongOrder(listIndex, index) - 1
-      const nomalizedSong = this.normalizedSongs[nomalizedSongIndex]
-      this.startSong(nomalizedSong)
+      // Here, getSongOrder starts at 1, so we need to subtract one from the array index
+      const normalizedSongIndex = this.getSongOrder(listIndex, index) - 1
+      const normalizedSong = this.normalizedSongs[normalizedSongIndex]
+      this.startSong(normalizedSong)
       this.setPlaylist(this.normalizedSongs)
 
       // if not start playing, repeat
       this.setIfRestart(setInterval(() => {
         if (this.currentSongTime() === 0 ) {
-          this.startSong(nomalizedSong)
+          this.startSong(normalizedSong)
         } else {
           clearInterval(this.ifRestartCurrentSong())
           this.setIfRestart(0)

@@ -1,9 +1,9 @@
-// mv详情页面
+// MV details page
 <template>
   <div class="mv" v-if="$utils.isDef(mvDetail.id)">
     <div class="mv-content">
       <div class="left">
-        <p class="title">mv详情</p>
+        <p class="title">MV Details</p>
 
         <div class="player">
           <VideoPlayer
@@ -24,11 +24,11 @@
 
         <div class="desc">
           <span class="date"
-            >发布：{{
+            >Posted on:{{
               $utils.formatDate(mvDetail.publishTime, "yyyy-MM-dd")
             }}</span
           >
-          <span class="count">播放：{{ mvDetail.playCount }}次</span>
+          <span class="count">Plays:{{ mvDetail.playCount }}</span>
         </div>
 
         <div class="comments">
@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="right">
-        <p class="title">相关推荐</p>
+        <p class="title">Recommendation</p>
         <div class="simi-mvs">
           <Card
             :desc="`by ${simiMv.artistName}`"

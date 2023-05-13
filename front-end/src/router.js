@@ -79,7 +79,7 @@ export const menuRoutes = [
     name: 'mvs',
     component: Mvs,
     meta: {
-      title: 'The Newest MV',
+      title: 'Music Video',
       icon: 'mv',
     },
   },

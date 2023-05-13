@@ -26,8 +26,8 @@ import {FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText} from '@fortaw
 import dataV from '@jiaminghi/data-view'
 
 axios.defaults.withCredentials = true
-// axios.defaults.baseURL = 'https://ipa-012.ucd.ie/api/'
-axios.defaults.baseURL = 'https://127.0.0.1:5000/api/'
+axios.defaults.baseURL = 'https://ipa-012.ucd.ie/api/'
+// axios.defaults.baseURL = 'https://127.0.0.1:5000/api/'
 
 library.add(fas, far, fab)
 Vue.component('font-awesome-icon', FontAwesomeIcon)

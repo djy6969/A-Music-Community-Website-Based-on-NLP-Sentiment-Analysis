@@ -250,6 +250,8 @@ export default {
       ).then((res) =>{
         console.log(res.data)
         this.formClear()
+        // update music list
+        this.staffGetAllMusic()
       })
 
     },

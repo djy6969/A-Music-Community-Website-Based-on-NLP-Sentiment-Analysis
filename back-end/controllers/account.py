@@ -143,6 +143,8 @@ def upload_head_protrait():
     user.head = url
     db.session.commit()
     return MessageHelper.ops_renderJSON(data={'url': url}, msg="upload successfully")
+    return MessageHelper.ops_renderJSON(data={'url': url}, msg="upload successfully")
+
 # get user id from the front-end
 # return the user information
 @account.route("/get_user_info", methods=["POST"])

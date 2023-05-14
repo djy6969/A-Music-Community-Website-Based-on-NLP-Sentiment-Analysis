@@ -98,6 +98,7 @@ export default {
                     this.onPageChange()
                     this.commentData = ''
                 }
+                this.commentData = ''
             })
         },
         getCommentPageNumber() {

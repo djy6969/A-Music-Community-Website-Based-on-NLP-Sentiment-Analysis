@@ -93,6 +93,7 @@ export default {
                     data: res.data,
                     time: this.getNowTime()
                 })
+              this.inputData = ''
             })
         }
     },

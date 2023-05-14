@@ -39,6 +39,7 @@
           </el-form-item>
           <el-form-item label="Duration" :label-width="formLabelWidth">
             <el-input v-model="form.duration" autocomplete="off"></el-input>
+            <p>Duration Format: xx:xx</p>
           </el-form-item>
 
           <el-form-item>

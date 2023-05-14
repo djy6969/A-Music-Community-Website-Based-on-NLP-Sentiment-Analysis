@@ -123,8 +123,10 @@ export default {
     methods: {
         nlpCreation(){
             if (this.nlpCreate === false){
-                newRequest.post('/nlp_creation')
-                this.nlpCreate = true
+                newRequest.get('/nlp_creation'
+                ).then(res =>{
+                  this.nlpCreate = true
+                })
             }
         },
         loginRequest() {

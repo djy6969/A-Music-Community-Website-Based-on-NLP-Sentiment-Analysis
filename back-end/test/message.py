@@ -53,8 +53,8 @@ room_user = {}
 #     else:
 #         return redirect(url_for('index'))
 
-# # 连接
-@socketio.on('connect', namespace='/chat')
+
+@socketio.on('connect')
 def handle_connect():
     username = 1
     # online_user.append(username)
@@ -62,6 +62,8 @@ def handle_connect():
     # print(username)
     # print(online_user)
     # socketio.emit('connect info', f'{username}  connect')
+    # socketio.emit('connect', {'sd'})
+
 
 
 # 断开连接

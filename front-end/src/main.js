@@ -26,8 +26,6 @@ import {FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText} from '@fortaw
 import dataV from '@jiaminghi/data-view'
 
 axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'https://ipa-012.ucd.ie/api/'
-// axios.defaults.baseURL = 'https://127.0.0.1:5000/api/'
 
 library.add(fas, far, fab)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
@@ -38,8 +36,8 @@ Vue.use(
     new VueSocketIO({
         debug: true,
         connection: SocketIO.connect(
-            // "http://127.0.0.1:5004/"
-             "https://ipa-012.ucd.ie/"
+            "http://127.0.0.1:5004/"
+             // "https://ipa-012.ucd.ie/"
             // ,{transports: ['polling']}
         ),
         // connection: SocketIO("https://ipa-012.ucd.ie/", {transports: ['polling']}),

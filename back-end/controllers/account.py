@@ -7,12 +7,10 @@ from common.service import MessageHelper, UserHelper, CommonHelper
 account = Blueprint('account', __name__)
 
 '''
-前后端使用axios通信，传递json
-前端传递消息包含username, password
-后端给前端传递cookie
+the front-end back-end use axios to transform json data
 '''
 
-# 注册账号
+# register an account
 @account.route("/register", methods=['POST', 'GET'])
 def register():
     username = request.json.get('username')
@@ -37,23 +35,23 @@ def register():
     # password2 = request.values['password2']
 
     if username is None or len(username) < 3:
-        return MessageHelper.ops_renderErrJSON(msg='请输入正确格式的用户名~')
+        return MessageHelper.ops_renderErrJSON(msg='input right format username~')
 
     if password is None or len(password) < 6:
-        return MessageHelper.ops_renderErrJSON(msg='请输入正确格式的密码，且长度不小于六个字符~')
+        return MessageHelper.ops_renderErrJSON(msg='input right format password~')
 
     if password2 is None or len(password2) < 6 or password != password2:
-        return MessageHelper.ops_renderErrJSON(msg='请输入正确格式的确认密码~')
+        return MessageHelper.ops_renderErrJSON(msg='input right format confirm password~')
 
     if len(tel) != 11:
-        return MessageHelper.ops_renderErrJSON(msg='请输入正确格式的电话号码（11位）~')
+        return MessageHelper.ops_renderErrJSON(msg='input right format telephone~')
 
     if nickname is None:
-        return MessageHelper.ops_renderErrJSON(msg="请输入一个昵称！")
+        return MessageHelper.ops_renderErrJSON(msg="input a nickname")
 
     user_info = TUser.query.filter_by(username=username).first()
-    if user_info:
-        return MessageHelper.ops_renderErrJSON(msg="您输入的用户名已存在，请换一个")
+    if user_info is not None:
+        return MessageHelper.ops_renderErrJSON(msg="username already exists.")
 
     # try:
         # system generated password encryption string
@@ -65,6 +63,7 @@ def register():
     user.email = email
     user.tel = tel
     user.nickname = nickname
+    # default head portrait
     user.head = 'https://ipa-012.ucd.ie/image/default.png'
     user.role = 1
     # info = {
@@ -81,10 +80,10 @@ def register():
     #     db.session.rollback()
     #     return MessageHelper.ops_renderErrJSON(msg="注册信息储存出现问题，请联系管理员解决。")
 
-    return MessageHelper.ops_renderJSON(msg='注册成功')
+    return MessageHelper.ops_renderJSON(msg='registration success.')
 
 
-# 用户登录
+# user login
 @account.route("/login", methods=['get', 'post'])
 def login():
     username = request.json.get('username')
@@ -94,10 +93,10 @@ def login():
     print(username)
 
     if username is None or len(username) < 3:
-        return MessageHelper.ops_renderErrJSON(msg="请输入正确格式的用户名")
+        return MessageHelper.ops_renderErrJSON(msg="input right format username~")
 
     if password is None or len(password) < 6:
-        return MessageHelper.ops_renderErrJSON(msg="请输入正确格式的登陆密码")
+        return MessageHelper.ops_renderErrJSON(msg="input right format password~")
 
     # user_info = {"id": "1", "username": "liuzijian", "password": "123456",
     #              "password_salt": "lzj"}
@@ -106,12 +105,12 @@ def login():
     except Exception as e:
         return MessageHelper.ops_renderErrJSON(msg="")
     if user_info is None:
-        return MessageHelper.ops_renderErrJSON("请输入正确的登录用户名和密码")
+        return MessageHelper.ops_renderErrJSON("input right format username and password~")
 
     if user_info.password != UserHelper.genePwd(password, user_info.password_salt):
-        return MessageHelper.ops_renderErrJSON("请输入正确的登录用户名和密码")
-    # cookie身份识别
-    response = make_response(MessageHelper.ops_renderJSON(msg="登录成功！", data={'id': user_info.id, 'url': user_info.head, 'role': user_info.role}))
+        return MessageHelper.ops_renderErrJSON("input correct username and password")
+    # cookie authentication
+    response = make_response(MessageHelper.ops_renderJSON(msg="login success！", data={'id': user_info.id, 'url': user_info.head, 'role': user_info.role}))
     try:
         print("%s#%s#%s" % (UserHelper.geneAuthCode(user_info), user_info.id, user_info.role))
             # user last number is 1, staff is 2
@@ -120,15 +119,15 @@ def login():
                     max_age = 60 * 60 * 24 * 7, samesite = 'None')
         # , secure = True
     except Exception as e:
-        return MessageHelper.ops_renderErrJSON(msg="flask 版本过低，请升级flask版本")
+        return MessageHelper.ops_renderErrJSON(msg="flask version too low，please use a new version of browser.")
 
     return response
 
 
-# 用户退出
+# user logout
 @account.route('/logout', methods=["GET"])
 def logout():
-    response = make_response(MessageHelper.ops_renderJSON(msg="退出成功"))
+    response = make_response(MessageHelper.ops_renderJSON(msg="logout success"))
     response.delete_cookie(app.config['AUTH_COOKIE_NAME'])
     return response
 
@@ -138,20 +137,17 @@ def logout():
 @account.route("/upload_head_portrait", methods=["POST"])
 def upload_head_protrait():
     user_id = request.values.get('user_id')
-    print(user_id)
     image = request.files.get('head')
-    print(image)
     user = TUser.query.filter_by(id=user_id).first()
-    user.head = "https://ipa-012.ucd.ie/image/" + CommonHelper.uploadServerPic(image, user_id)
+    url = "https://ipa-012.ucd.ie/image/" + CommonHelper.uploadServerPic(image, user_id)
+    user.head = url
     db.session.commit()
-    return MessageHelper.ops_renderJSON(msg="upload successfully")
-
+    return MessageHelper.ops_renderJSON(data={'url': url}, msg="upload successfully")
 # get user id from the front-end
 # return the user information
 @account.route("/get_user_info", methods=["POST"])
 def get_user_info():
     user_id = request.json.get('user_id')
-    print(user_id)
     user = TUser.query.filter_by(id=user_id).first()
     # email, tel, nickname, head
     user_info = {

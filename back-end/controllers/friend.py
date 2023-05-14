@@ -9,11 +9,16 @@ friend = Blueprint("friend", __name__)
 
 # add friends methods
 @friend.route("/addFriend", methods=['Post'])
-def addFreind():
+def addFriend():
     # get user_id and friend_id
     user_id = request.json.get('user_id')
+    print(user_id)
     friend_id = request.json.get('friend_id')
+    print(friend_id)
     # add a new friend
+    if TFriend.query.filter_by(user_id=user_id, friend_id=friend_id).first() is not None:
+        # code = -1
+        return MessageHelper.ops_renderErrJSON(msg="add new friend failed")
     friend = TFriend()
     friend.user_id = user_id
     friend.friend_id = friend_id

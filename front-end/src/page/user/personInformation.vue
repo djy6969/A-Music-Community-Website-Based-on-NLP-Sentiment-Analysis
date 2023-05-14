@@ -3,18 +3,9 @@
         <el-row type="flex">
             <el-col :span="8" style="height: 100%">
                 <el-image
-                        v-if="this.personInformationForm.avatar !== 'https://ipa-012.ucd.ie/image/default.png'"
                         :src="personInformationForm.avatar"
+                        @click="dialogVisible=true"
                 />
-                <el-upload
-                        v-if="this.personInformationForm.avatar === 'https://ipa-012.ucd.ie/image/default.png'"
-                        :on-change="changeUserAvatar"
-                        :show-file-list="false"
-                        action="#"
-                        style="height: 100%;"
-                >
-                    <i class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
             </el-col>
             <el-col :span="16" style="height: 100%">
                 <el-card class="box-card">
@@ -53,6 +44,19 @@
                 <el-button type="primary" @click="updateNewPersonalData">Sure</el-button>
             </div>
         </el-dialog>
+         <el-dialog
+            title="Listen "
+            :visible.sync="dialogVisible"
+        >
+                    <el-upload
+                        :on-change="changeUserAvatar"
+                        :show-file-list="false"
+                        action="#"
+                        style="height: 100%;"
+                    >
+                        <i class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                </el-dialog>
     </div>
 </template>
 
@@ -64,6 +68,7 @@ export default {
     components: {},
     data() {
         return {
+            dialogVisible: false,
             dialogData: {
                 showDialog: false,
                 changeTarget: '',
@@ -115,6 +120,9 @@ export default {
                 getPersonalDataLoading.close()
             })
         },
+        updateUserAvatar(){
+            this.dialogVisible = true
+        },
         changeUserAvatar(file) {
             const changeUserAvatarLoading = this.$loading({
                 lock: true,
@@ -130,8 +138,20 @@ export default {
                 '/account/upload_head_portrait',
                 avatarForm
             ).then(res => {
+                console.log(res.data)
                 this.personInformationForm.avatar = res.data
+                let username = this.$cookies.get('auth').username
+                let userid = this.$cookies.get('auth').userid
+                let role = this.$cookies.get('auth').role
+                this.$cookies.set('auth',
+                    {
+                        username: username,
+                        userid: userid,
+                        avatarUrl: res.data,
+                        role: role
+                    })
                 changeUserAvatarLoading.close()
+                location.reload()
             })
         }
     },

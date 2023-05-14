@@ -3,7 +3,7 @@
         <div class="leftSide">
             <div class="search_chat">
                 <div style="display: flex">
-                    <input v-model="friendId" placeholder="Add New Friend" type="text">
+                    <input v-model="friendName" placeholder="Add New Friend" type="text">
                     <el-button @click="addFriend">Add</el-button>
                 </div>
             </div>
@@ -92,6 +92,7 @@ export default {
     data() {
         return {
             friendId: 0,
+            friendName: '',
             friendList: [],
             friendData: {
                 friendName: 'None',
@@ -119,15 +120,15 @@ export default {
     sockets: {
         //查看socket是否渲染成功
         connect() {
-            console.log("链接成功");
+            console.log("connect success!");
         },
         //检测socket断开链接
         disconnect() {
-            console.log("断开链接");
+            console.log("dis connection");
         },
         // 重新链接
         reconnect() {
-            console.log("重新链接");
+            console.log("re connection");
         },
         //客户端接收后台传输的socket事件
         kline: function (msg) {
@@ -138,11 +139,12 @@ export default {
             console.log(res, '5555555555')
         },
         send_msg(data) {
-            console.log(this.chatData)
+            console.log(data.message)
+            console.log(data.message)
             if (data.username !== this.$cookies.get('auth').username) {
                 this.chatData.push({
                     actor: 'friend',
-                    content: data.message,
+                    content: data.message.replace(/&nbsp;/g, ' '),
                     time: this.getNowTime()
                 })
             }
@@ -213,19 +215,33 @@ export default {
         },
         addFriend() {
             newRequest.post(
-                '/friend/addFriend',
+                '/friend/getIdByUsername',
                 {
-                    user_id: this.$cookies.get('auth').userid,
-                    friend_id: this.friendId
+                    username: this.friendName
                 }
             ).then(res => {
-                if (res.code === 200) {
-                    this.$message({
-                        message: 'Add new Friend Success!',
-                        type: 'success'
-                    })
-                    this.friendId = 0
-                }
+                this.friendId = res.data.user_id
+                newRequest.post(
+                    '/friend/addFriend',
+                    {
+                        user_id: this.$cookies.get('auth').userid,
+                        friend_id: this.friendId
+                    }
+                ).then(res => {
+                    if (res.code === 200) {
+                        this.$message({
+                            message: 'Add new Friend Success!',
+                            type: 'success'
+                        })
+                        this.friendName = ''
+                        location.reload()
+                    } else if (res.code === -1) {
+                        this.$message({
+                            message: res.msg,
+                            type: 'error'
+                        })
+                    }
+                })
             })
         },
         getFriends() {

@@ -1,26 +1,26 @@
 import axios from 'axios'
 import { Loading } from 'element-ui'
-import { confirm } from '@/base/confirm'
+// import { confirm } from '@/base/confirm'
 import store from '@/store'
 
 // const BASE_URL = 'https://mu-api.yuk0.com/'
-const BASE_URL = 'https://netease-cloud-music-api-lake-eta.vercel.app/'
+// const BASE_URL = 'https://netease-cloud-music-api-lake-eta.vercel.app/'
 // 不带全局loading的请求实例
-export const requestWithoutLoading = createBaseInstance()
+// export const requestWithoutLoading = createBaseInstance()
 // 带全局loading的请求实例
 // 传入函数是因为需要在处理请求结果handleResponse之前处理loading
 // 所以要在内部插入loading拦截器的处理逻辑
-export const request = createBaseInstance()
-mixinLoading(request.interceptors)
+// export const request = createBaseInstance()
+// mixinLoading(request.interceptors)
 // 通用的axios实例
-function createBaseInstance() {
-  const instance = axios.create({
-    baseURL: BASE_URL,
-  })
-
-  instance.interceptors.response.use(handleResponse)
-  return instance
-}
+// function createBaseInstance() {
+//   const instance = axios.create({
+//     baseURL: BASE_URL,
+//   })
+//
+//   instance.interceptors.response.use(handleResponse)
+//   return instance
+// }
 
 // 封装 baseURL
 export const newRequest = createNewInstance()
@@ -36,10 +36,10 @@ function createNewInstance() {
   return instance
 }
 
-function handleError(e) {
-  confirm(e.message, 'Something went wrong')
-  throw e
-}
+// function handleError(e) {
+//   confirm(e.message, 'Something went wrong')
+//   throw e
+// }
 
 function handleResponse(response) {
   return response.data

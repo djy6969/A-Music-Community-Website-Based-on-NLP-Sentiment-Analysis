@@ -45,6 +45,7 @@ import {newRequest} from "@/utils"
 import Comment from "./comment"
 import * as $utils from "@/utils";
 import Empty from "@/base/empty.vue";
+import Loading from "@/base/loading.vue";
 
 const SONG_TYPE = "song"
 
@@ -59,6 +60,13 @@ export default {
             type: String,
             default: SONG_TYPE
         }
+    },
+    watch:{
+      id:function () {
+        this.getCommentPageNumber()
+        this.onPageChange()
+          this.commentData = ''
+      }  
     },
     data() {
         return {
@@ -88,6 +96,7 @@ export default {
                     this.loading = false
                     this.getCommentPageNumber()
                     this.onPageChange()
+                    this.commentData = ''
                 }
             })
         },
@@ -132,6 +141,7 @@ export default {
         }
     },
     components: {
+        Loading,
         Empty,
         Comment
     },

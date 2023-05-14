@@ -31,9 +31,9 @@
           <span class="count">Plays:{{ mvDetail.playCount }}</span>
         </div>
 
-        <div class="comments">
-          <Comments :id="id" type="mv" />
-        </div>
+<!--        <div class="comments">-->
+<!--          <Comments :id="id" type="mv" />-->
+<!--        </div>-->
       </div>
       <div class="right">
         <p class="title">Recommendation</p>

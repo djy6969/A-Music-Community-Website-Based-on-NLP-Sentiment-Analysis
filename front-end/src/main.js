@@ -35,9 +35,9 @@ Vue.component('font-awesome-layers-text', FontAwesomeLayersText)
 Vue.use(
     new VueSocketIO({
         debug: true,
-        connection: SocketIO.connect(
+        connection: SocketIO(
             "http://127.0.0.1:5004/"
-             // "https://ipa-012.ucd.ie/"
+            //  "http://ipa-012.ucd.ie/"
             // ,{transports: ['polling']}
         ),
         // connection: SocketIO("https://ipa-012.ucd.ie/", {transports: ['polling']}),

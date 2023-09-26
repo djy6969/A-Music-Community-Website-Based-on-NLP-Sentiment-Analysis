@@ -57,3 +57,80 @@ Furthermore, the platform will collect user feedback on the company’s songs, i
 and posts, as a basis for adjusting the company’s song sales strategy. This will help Daring better
 understand users’ needs, so the company can apply music products and services that better cater
 to users’ preferences and increase user satisfaction, thereby enhancing Daring’s commercial merits.
+
+## NLP Model
+Our NLP model is based on the highly regarded RoBERTa pre-trained model,
+which can be found in [9], which is an advanced variant of the widely used BERT architecture.
+Pre-training involves training a neural network model on a large and diverse corpus of text to learn
+general language patterns and relationships so that it can then be fine-tuned for specific tasks.
+
+Fine-tuning is the process of further training a pre-trained model on a task-specific
+dataset to adapt it to the specific task at hand. For our model, we performed fine-tuning on the
+DMC dataset, which is a multilingual dataset comprising Chinese, English, and Japanese text. By
+fine-tuning the model on this dataset, we were able to ensure that the model was well-suited for
+handling these specific languages and could effectively classify text in these languages according
+to their sentiments.
+
+To accelerate our training process, we utilized a cloud server, which
+provides us with access to powerful computing resources that allow us to train our model more
+quickly and efficiently than we would be able to use local hardware. This cloud server enabled
+us to complete our training in a timely manner and obtain the best possible results for our NLP
+model.
+
+To find our model, you can visit /back-end/common/nlp/best_model,
+where stores the trained weights and model files. For using this model to predict an input comment,
+go to /backend/common/nlp/predict_cloud.py, where you can modify the ’main’ function to get
+sentiment analysis result of a single comment. You can also use ’predict’ function as an API
+of predicting multiple comments. Moreover, you can find a result in /nlp_code/result.txt which
+stores our best model result on test dataset.
+
+## NLP Implementation Module
+
+This module is developed for the staff of the website, allowing the staff to view the analysis results
+of the music resources statistics, as well as manually update the analysis results.
+
+### Front-end
+The front-end of this module is mainly developed in front-end/src/page/staff/management.vue.
+Update Music Score This feature is able to update the music statistics used for analysis.
+Statistics for All Music It presents the statistics for the 10 most popular songs and the 10 least
+popular songs and music proportions in positive comments or negative comments.
+Statistics for a Single Music It presents the statistics for a single song, including the percent￾ages of comments on this song, the popularity of this song at different times, and the number of
+different comments on this song at different times.
+
+### Back-end
+After training our NLP model, we utilized it to predict comments and generate sentiment analysis
+results represented as integers: 1 for positive, 0 for neutral, and -1 for negative. These results were
+saved to the database for efficient retrieval. Additionally, we developed two distinct algorithms for
+evaluating music and blog trends, considering their respective parameters.
+For the music trends algorithm, we incorporated metrics such as views and likes in the numerator,
+and the difference between positive and negative comments to gauge user sentiment. The denom￾inator considered factors like music publish time and the latest comment publish time, ensuring
+that new songs could achieve higher trend scores.
+Score =
+(log10(V iews) × 4 + Comments ×
+NLPpos−NLPneg
+5 + Likes)
+(1 + P ublishT ime
+2 +
+LatestCommentT ime
+2
+)
+1.5
+Regarding the blog trends algorithm, we introduced a function that multiplied the blog publish
+time (T) by a sentiment direction determinant. Applying a logarithmic operation helped smoothen
+the difference between positive and negative comments.
+Score = log10 |NLPpos − NLPneg| +
+f(x) × T
+45000
+f(x) =
+
+
+
+−1 NLPpos < NLPneg
+1 NLPpos > NLPneg
+0 NLPpos = NLPneg
+Furthermore, we leveraged the music trends results to construct a data visualization module. Back￾end functions were designed to transfer data as JSON to the front end. Meanwhile, the music trends ranking function is also used for music recommendations for users
+Lastly, we employed the OpenAI API to develop a chatbot capable of answering user queries about
+music. To tailor the generated responses, we configured the prompt by retrieving music information from the database and filtering out unrelated questions.
+You can find the trends algorithm and data visualization functions in /back-end/controllers/visualization.py.
+NLP prediction function is in /back-end/common/nlp/predict_cloud.py. ChatAI function is in
+/back-end/controllers/chat.py.

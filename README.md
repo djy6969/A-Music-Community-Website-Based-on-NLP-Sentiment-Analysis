@@ -94,7 +94,7 @@ The front-end of this module is mainly developed in front-end/src/page/staff/man
 Update Music Score This feature is able to update the music statistics used for analysis.
 Statistics for All Music It presents the statistics for the 10 most popular songs and the 10 least
 popular songs and music proportions in positive comments or negative comments.
-Statistics for a Single Music It presents the statistics for a single song, including the percent￾ages of comments on this song, the popularity of this song at different times, and the number of
+Statistics for a Single Music It presents the statistics for a single song, including the percentages of comments on this song, the popularity of this song at different times, and the number of
 different comments on this song at different times.
 
 ### Back-end
@@ -104,7 +104,7 @@ saved to the database for efficient retrieval. Additionally, we developed two di
 evaluating music and blog trends, considering their respective parameters.
 
 For the music trends algorithm, we incorporated metrics such as views and likes in the numerator,
-and the difference between positive and negative comments to gauge user sentiment. The denom￾inator considered factors like music publish time and the latest comment publish time, ensuring
+and the difference between positive and negative comments to gauge user sentiment. The denominator considered factors like music publish time and the latest comment publish time, ensuring
 that new songs could achieve higher trend scores.
 ![这是图片](/1.png "Magic Gardens")
 Regarding the blog trends algorithm, we introduced a function that multiplied the blog publish

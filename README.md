@@ -1,6 +1,6 @@
 # A-Music-Community-Website-Based-on-NLP-Sentiment-Analysis
 
-Abstract
+## Abstract
 This project aims to solve the lack of social media features on current music platforms, the
 expensive and slow manual collection of user feedback, and the reluctance of users to provide
 feedback. The method used was to combine a music player with a social media platform to create
@@ -20,7 +20,7 @@ enhance user engagement and improve commercial success in the music industry.
 Project area: Natural language Processing (NLP); Software Engineering; Web Application Development;
 Keywords: Music community; Data Visualization; NLP Sentiment analysis; Flask; Vue
 
-Introduction
+## Introduction
 User feedback is crucial for internet businesses. However, the traditional way of collecting user
 feedback is not comprehensive enough and users are not proactive in giving feedback. With the
 continuous development of NLP technology, large language models have gained the ability to
@@ -46,7 +46,7 @@ customers, the original way of handling consumer feedback emails manually couldn
 analyze the user’s requirements. The company required a more efficient and precise way to obtain
 users’ preferences to make a future marketing strategy.
 
-DMC (Daring Music Community), our music social platform, aims to solve the aforementioned issues by creating an online music community platform that provides users with more comprehensive
+DMC (Daring Music Community), our music social platform, aims to solve the aforementioned issues by creating an online music community platform that provides users with more comprehensive
 music services. In addition to allowing users to access the latest music resources and information,
 the platform provides rich communication features, such as music discussion forums, posting, and
 listening together functions. These features help users better explore music, and discover new

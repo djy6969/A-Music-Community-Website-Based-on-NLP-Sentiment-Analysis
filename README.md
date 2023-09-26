@@ -102,6 +102,7 @@ After training our NLP model, we utilized it to predict comments and generate se
 results represented as integers: 1 for positive, 0 for neutral, and -1 for negative. These results were
 saved to the database for efficient retrieval. Additionally, we developed two distinct algorithms for
 evaluating music and blog trends, considering their respective parameters.
+
 For the music trends algorithm, we incorporated metrics such as views and likes in the numerator,
 and the difference between positive and negative comments to gauge user sentiment. The denom￾inator considered factors like music publish time and the latest comment publish time, ensuring
 that new songs could achieve higher trend scores.
@@ -111,8 +112,10 @@ time (T) by a sentiment direction determinant. Applying a logarithmic operation 
 the difference between positive and negative comments.
 ![这是图片](/2.png "Magic Gardens")
 Furthermore, we leveraged the music trends results to construct a data visualization module. Backend functions were designed to transfer data as JSON to the front end. Meanwhile, the music trends ranking function is also used for music recommendations for users
+
 Lastly, we employed the OpenAI API to develop a chatbot capable of answering user queries about
 music. To tailor the generated responses, we configured the prompt by retrieving music information from the database and filtering out unrelated questions.
+
 You can find the trends algorithm and data visualization functions in /back-end/controllers/visualization.py.
 NLP prediction function is in /back-end/common/nlp/predict_cloud.py. ChatAI function is in
 /back-end/controllers/chat.py.

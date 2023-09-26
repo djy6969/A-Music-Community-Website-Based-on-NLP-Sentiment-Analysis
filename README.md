@@ -105,11 +105,11 @@ evaluating music and blog trends, considering their respective parameters.
 For the music trends algorithm, we incorporated metrics such as views and likes in the numerator,
 and the difference between positive and negative comments to gauge user sentiment. The denom￾inator considered factors like music publish time and the latest comment publish time, ensuring
 that new songs could achieve higher trend scores.
-![这是图片](/1.jpg "Magic Gardens")
+![这是图片](/1.png "Magic Gardens")
 Regarding the blog trends algorithm, we introduced a function that multiplied the blog publish
 time (T) by a sentiment direction determinant. Applying a logarithmic operation helped smoothen
 the difference between positive and negative comments.
-![这是图片](/2.jpg "Magic Gardens")
+![这是图片](/2.png "Magic Gardens")
 Furthermore, we leveraged the music trends results to construct a data visualization module. Backend functions were designed to transfer data as JSON to the front end. Meanwhile, the music trends ranking function is also used for music recommendations for users
 Lastly, we employed the OpenAI API to develop a chatbot capable of answering user queries about
 music. To tailor the generated responses, we configured the prompt by retrieving music information from the database and filtering out unrelated questions.
